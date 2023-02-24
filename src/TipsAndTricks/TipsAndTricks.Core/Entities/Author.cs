@@ -1,7 +1,7 @@
 ﻿using TipsAndTricks.Core.Contracts;
 
 namespace TipsAndTricks.Core.Entities {
-    internal class Author : IEntity {
+    public class Author : IEntity {
         public int Id { get; set; }
         public string FullName { get; set; }
         public string UrlSlug { get; set; }
