@@ -1,5 +1,5 @@
 ﻿namespace TipsAndTricks.Core.Contracts {
-    public interface IEntity {
+    interface IEntity {
         int Id { get; set; }
     }
 }

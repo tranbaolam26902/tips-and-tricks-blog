@@ -9,8 +9,8 @@
   <ItemGroup>
     <Folder Include="Constants\" />
     <Folder Include="Collections\" />
-    <Folder Include="Settings\" />
     <Folder Include="DTO\" />
+    <Folder Include="Settings\" />
   </ItemGroup>
 
 </Project>
