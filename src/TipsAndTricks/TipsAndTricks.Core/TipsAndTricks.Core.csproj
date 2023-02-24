@@ -7,12 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
     <Folder Include="Constants\" />
     <Folder Include="Collections\" />
-    <Folder Include="Settings\" />
-    <Folder Include="Entities\" />
     <Folder Include="DTO\" />
+    <Folder Include="Settings\" />
   </ItemGroup>
 
 </Project>
