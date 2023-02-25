@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Data.Contexts;
 
@@ -43,6 +44,25 @@ namespace TipsAndTricks.Services.Blogs {
         public async Task<bool> IsPostPlugExistedAsync(int postId, string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Post>()
                 .AnyAsync(x => x.Id != postId && x.UrlSlug == slug, cancellationToken);
+        }
+
+        public async Task<IList<CategoryItem>> GetCategoriesAsync(bool showOnMenu = false, CancellationToken cancellationToken = default) {
+            IQueryable<Category> categories = _context.Set<Category>();
+
+            if (showOnMenu)
+                categories = categories.Where(x => x.ShowOnMenu);
+
+            return await categories
+                .OrderBy(x => x.Name)
+                .Select(x => new CategoryItem() {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+                    ShowOnMenu = x.ShowOnMenu,
+                    PostCount = x.Posts.Count(p => p.Published)
+                })
+                .ToListAsync(cancellationToken);
         }
     }
 }
