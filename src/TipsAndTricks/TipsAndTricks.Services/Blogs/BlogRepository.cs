@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TipsAndTricks.Core.Contracts;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Data.Contexts;
+using TipsAndTricks.Services.Extensions;
 
 namespace TipsAndTricks.Services.Blogs {
     public class BlogRepository : IBlogRepository {
@@ -63,6 +65,19 @@ namespace TipsAndTricks.Services.Blogs {
                     PostCount = x.Posts.Count(p => p.Published)
                 })
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IPagedList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            var tagQuery = _context.Set<Tag>()
+                .Select(x => new TagItem() {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+                    PostCount = x.Posts.Count(p => p.Published)
+                });
+
+            return await tagQuery.ToPagedListAsync(pagingParams, cancellationToken);
         }
     }
 }
