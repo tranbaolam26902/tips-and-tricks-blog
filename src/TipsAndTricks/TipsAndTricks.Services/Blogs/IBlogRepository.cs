@@ -1,4 +1,5 @@
-﻿using TipsAndTricks.Core.DTO;
+﻿using TipsAndTricks.Core.Contracts;
+using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
 
 namespace TipsAndTricks.Services.Blogs {
@@ -8,5 +9,6 @@ namespace TipsAndTricks.Services.Blogs {
         Task<bool> IsPostPlugExistedAsync(int postId, string slug, CancellationToken cancellationToken = default);
         Task IncreaseViewCountAsync(int postId, CancellationToken cancellationToken = default);
         Task<IList<CategoryItem>> GetCategoriesAsync(bool showOnMenu = false, CancellationToken cancellationToken = default);
+        Task<IPagedList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default);
     }
 }
