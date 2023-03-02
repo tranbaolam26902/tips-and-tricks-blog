@@ -43,7 +43,7 @@ namespace TipsAndTricks.Services.Blogs {
                 .ExecuteUpdateAsync(p => p.SetProperty(x => x.ViewCount, x => x.ViewCount + 1), cancellationToken);
         }
 
-        public async Task<bool> IsPostPlugExistedAsync(int postId, string slug, CancellationToken cancellationToken = default) {
+        public async Task<bool> IsPostSlugExistedAsync(int postId, string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Post>()
                 .AnyAsync(x => x.Id != postId && x.UrlSlug == slug, cancellationToken);
         }
@@ -79,5 +79,136 @@ namespace TipsAndTricks.Services.Blogs {
 
             return await tagQuery.ToPagedListAsync(pagingParams, cancellationToken);
         }
+
+        /// <summary>
+        /// 1a. Get Tag by Slug
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Tag> GetTagBySlugAsync(string slug, CancellationToken cancellationToken = default) {
+            IQueryable<Tag> tags = _context.Set<Tag>();
+
+            return await tags
+                .FirstOrDefaultAsync(x => x.UrlSlug.ToLower().Contains(slug.ToLower()), cancellationToken);
+        }
+
+        /// <summary>
+        /// 1c. Get Tags
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IList<TagItem>> GetTagsAsync(CancellationToken cancellationToken = default) {
+            return await _context.Set<Tag>()
+                .Select(x => new TagItem() {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    UrlSlug = x.UrlSlug,
+                    PostCount = x.Posts.Count(p => p.Published)
+                })
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// 1d. Delete Tag by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteTagByNameAsync(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Tag>()
+                .Where(x => x.Id == id)
+                .ExecuteDeleteAsync(cancellationToken) > 0;
+        }
+
+        /// <summary>
+        /// 1e. Get Category by Slug
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Category> GetCategoryBySlugAsync(string slug, CancellationToken cancellationToken = default) {
+            IQueryable<Category> categories = _context.Set<Category>();
+
+            return await categories
+                .FirstOrDefaultAsync(x => x.UrlSlug.ToLower().Contains(slug.ToLower()), cancellationToken);
+        }
+
+        /// <summary>
+        /// 1f. Get Category by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Category> GetCategoryByIdAsync(int id, CancellationToken cancellationToken = default) {
+            IQueryable<Category> categories = _context.Set<Category>();
+
+            return await categories
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
+
+        /// <summary>
+        /// 1g. Edit Category
+        /// </summary>
+        /// <param name="newCategory"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Category> EditCategoryAsync(Category newCategory, CancellationToken cancellationToken = default) {
+            var category = await _context.Set<Category>().AnyAsync(x => x.Id == newCategory.Id, cancellationToken);
+            if (category)
+                _context.Entry(newCategory).State = EntityState.Modified;
+            else
+                _context.Categories.Add(newCategory);
+            await _context.SaveChangesAsync(cancellationToken);
+            return newCategory;
+        }
+
+        /// <summary>
+        /// 1h. Delete Category by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteCategoryByIdAsync(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Category>()
+                .Where(x => x.Id == id)
+                .ExecuteDeleteAsync(cancellationToken) > 0;
+        }
+
+        /// <summary>
+        /// 1i. Check whether Category's Slug is existed
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> IsCategorySlugExistedAsync(string slug, CancellationToken cancellationToken = default) {
+            return await _context.Set<Category>()
+                .AnyAsync(x => x.UrlSlug.CompareTo(slug) == 0, cancellationToken);
+        }
+
+        /// <summary>
+        /// 1j. Paginate Categories
+        /// </summary>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            var categoryQuery = _context.Set<Category>()
+                .Select(x => new CategoryItem() {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+                    PostCount = x.Posts.Count(p => p.Published)
+                });
+
+            return await categoryQuery.ToPagedListAsync(pagingParams, cancellationToken);
+        }
+
+        //public async Task<IList<PostItem>> GetPostsByNumberOfMonths(int numberOfMonths, CancellationToken cancellationToken = default) {
+        //    return await _context.Set<Post>()
+        //        .Where(x => x.PostedDate > DateTime.Now.AddMonths(numberOfMonths))
+        //}
     }
 }
