@@ -4,61 +4,60 @@ using TipsAndTricks.Services.Blogs;
 var context = new BlogDbContext();
 IBlogRepository blogRepository = new BlogRepository(context);
 
-// 1a. Get Tag by Slug
-//var tag = await blogRepository.GetTagBySlugAsync("cc");
-//Console.WriteLine("{0, -5}{1, -10}{2, 20}{3, 20}", "ID", "Name", "Description", "Slug");
-//Console.WriteLine("{0, -5}{1, -10}{2, 20}{3, 20}", tag?.Id, tag?.Name, tag?.Description, tag?.UrlSlug);
+#region 1.
+#region 1a. Get Tag by Slug
+//var tag = await blogRepository.GetTagBySlugAsync("neural-network");
+//ConsoleLogExtensions.PrintTag(tag);
+#endregion
 
-// 1c. Get Tags
+#region 1c. Get Tags
 //var tags = await blogRepository.GetTagsAsync();
-//Console.WriteLine("{0, -5}{1, -30}{2, -30}{3, -25}{4, 10}", "ID", "Name", "Description", "Slug", "Posts");
-//foreach (var tag in tags) {
-//    Console.WriteLine("{0, -5}{1, -30}{2, -30}{3, -25}{4, 10}", tag.Id, tag.Name, tag.Description, tag.UrlSlug, tag.PostCount);
-//}
+//ConsoleLogExtensions.PrintTags(tags);
+#endregion
 
-// 1d. Delete Tag by Id
-bool isSuccess = await blogRepository.DeleteTagByNameAsync(2);
-Console.WriteLine(isSuccess);
+#region 1d. Delete Tag by Id
+//bool isSuccess = await blogRepository.DeleteTagByIdAsync(2);
+//Console.WriteLine(isSuccess);
+#endregion
 
-// 1e. Get Category by Slug
-//var category = await blogRepository.GetCategoryBySlugAsync("architecturek");
-//Console.WriteLine("{0, -5}{1, -10}{2, 20}{3, 20}", "ID", "Name", "Description", "Slug");
-//Console.WriteLine("{0, -5}{1, -10}{2, 20}{3, 20}", category?.Id, category?.Name, category?.Description, category?.UrlSlug);
+#region 1e. Get Category by Slug
+//var category = await blogRepository.GetCategoryBySlugAsync("architecture");
+//ConsoleLogExtensions.PrintCategory(category);
+#endregion
 
-// 1f. Get Category by Id
+#region 1f. Get Category by Id
 //var category = await blogRepository.GetCategoryByIdAsync(4);
-//Console.WriteLine("{0, -5}{1, -10}{2, 28}{3, 20}", "ID", "Name", "Description", "Slug");
-//Console.WriteLine("{0, -5}{1, -10}{2, 28}{3, 20}", category?.Id, category?.Name, category?.Description, category?.UrlSlug);
+//ConsoleLogExtensions.PrintCategory(category);
+#endregion
 
-// 1g. Edit Category
+#region 1g. Edit Category
 //var newCategory = new Category() {
-//    Id = 1,
-//    Name = "New Category (edited)",
-//    UrlSlug = "new-category-edited",
-//    Description = "New Category Description (edited)",
+//    Id = 16, // Comment this line to add new Category
+//    Name = "New Category",
+//    Description = "New Category (edited)",
+//    UrlSlug = "new-category"
 //};
-
 //var check = await blogRepository.EditCategoryAsync(newCategory);
-//Console.WriteLine("{0, -5}{1, -10}{2, 28}{3, 20}", "ID", "Name", "Description", "Slug");
-//Console.WriteLine("{0, -5}{1, -10}{2, 28}{3, 20}", check?.Id, check?.Name, check?.Description, check?.UrlSlug);
-
-//Console.WriteLine();
-//Console.WriteLine();
 //var categories = await blogRepository.GetCategoriesAsync();
-//Console.WriteLine("{0, -5}{1, -20}{2, 40}{3, 20}", "ID", "Name", "Description", "Slug");
-//foreach (var category in categories) {
-//    Console.WriteLine("{0, -5}{1, -20}{2, 40}{3, 20}", category?.Id, category?.Name, category?.Description, category?.UrlSlug);
-//}
+//ConsoleLogExtensions.PrintCategory(check);
+//Console.WriteLine();
+//Console.WriteLine();
+//ConsoleLogExtensions.PrintCategories(categories);
+#endregion
 
-// 1h. Delete Category by Id
+#region 1h. Delete Category by Id
 //var isSuccess = await blogRepository.DeleteCategoryByIdAsync(16);
 //Console.WriteLine(isSuccess);
+//var categories = await blogRepository.GetCategoriesAsync();
+//ConsoleLogExtensions.PrintCategories(categories);
+#endregion
 
-// 1i. Check whether Category's Slug is existed
+#region 1i. Check whether Category's Slug is existed
 //var isExisted = await blogRepository.IsCategorySlugExistedAsync("oop");
 //Console.WriteLine(isExisted);
+#endregion
 
-// 1j. Paginate Categories
+#region 1j. Paginate Categories
 //var pagingParams = new PagingParams {
 //    PageNumber = 1,
 //    PageSize = 5,
@@ -70,4 +69,89 @@ Console.WriteLine(isSuccess);
 //foreach (var category in categories) {
 //    Console.WriteLine("{0, -5}{1, -30}{2, 40}{3, 20}{4, 15}", category?.Id, category?.Name, category?.Description, category?.UrlSlug, category?.PostCount);
 //}
+#endregion
 
+#region 1l. Get Post by Id
+//var post = await blogRepository.GetPostByIdAsync(4);
+//ConsoleLogExtensions.PrintPost(post);
+#endregion
+
+#region 1m. Edit Post
+//var newPost = new Post() {
+//    Id = 11, // Comment this line to add new Post
+//    Title = "New Post (edited)",
+//    ShortDescription = "New Post Short Description. (edited)",
+//    Description = "New Post Description. Lorem ipsum dolor sit amet.",
+//    Meta = "new-post",
+//    UrlSlug = "new-post",
+//    Published = true,
+//    PostedDate = DateTime.Now,
+//    ModifiedDate = null,
+//    ViewCount = 1,
+//    AuthorId = 3,
+//    CategoryId = 4,
+//};
+//await blogRepository.EditPostAsync(newPost);
+//var posts = await blogRepository.GetPostsAsync();
+//ConsoleLogExtensions.PrintPosts(posts);
+#endregion
+
+#region 1n. Change Post's Published status
+//await blogRepository.ChangePostPublishedStatusAsync(6, false);
+//var post = await blogRepository.GetPostByIdAsync(6);
+//ConsoleLogExtensions.PrintPost(post);
+#endregion
+
+#region 1o. Get random Posts
+//var posts = await blogRepository.GetRandomPostsAsync(4);
+//ConsoleLogExtensions.PrintPosts(posts);
+#endregion
+
+#region 1q. Find Posts by Queries
+//var postQuery = new PostQuery() {
+//    CategoryId = 10,
+//    AuthorId = 1
+//};
+//var posts = await blogRepository.GetPostsByQuery(postQuery);
+//ConsoleLogExtensions.PrintPosts(posts);
+#endregion
+
+#region 1r. Count number of Posts by Queries
+//var postQuery = new PostQuery() {
+//    CategoryId = 10,
+//    AuthorId = 1
+//};
+//var numberOfPosts = await blogRepository.CountPostsByQueryAsync(postQuery);
+//Console.WriteLine("Total posts: {0}", numberOfPosts);
+#endregion
+
+#region 1s. Paginate Posts found by queries
+//var postQuery = new PostQuery() {
+//    CategoryId = 10,
+//    AuthorId = 1,
+//    PostedYear = 2022,
+//};
+//var pagingParams = new PagingParams {
+//    PageNumber = 1,
+//    PageSize = 10,
+//    SortColumn = "Id"
+//};
+//var posts = await blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+//foreach (var post in posts) {
+//    Console.WriteLine("Id: {0}", post.Id);
+//    Console.WriteLine("Title: {0}", post.Title);
+//    Console.WriteLine("Short description: {0}", post.ShortDescription);
+//    Console.WriteLine("Description: {0}", post.Description);
+//    Console.WriteLine("Meta: {0}", post.Meta);
+//    Console.WriteLine("Url slug: {0}", post.UrlSlug);
+//    Console.WriteLine("Image url: {0}", post.ImageUrl);
+//    Console.WriteLine("View: {0}", post.ViewCount);
+//    Console.WriteLine("Published: {0}", post.Published);
+//    Console.WriteLine("Posted date: {0:dd/MM/yyyy}", post.PostedDate);
+//    Console.WriteLine("Modified date: {0:dd/MM/yyyy}", post.ModifiedDate);
+//    Console.WriteLine("Author: {0}", post.Author.FullName);
+//    Console.WriteLine("Category: {0}", post.Category.Name);
+//    Console.WriteLine("----------------------------------------");
+//}
+#endregion
+#endregion

@@ -19,6 +19,113 @@ namespace TipsAndTricks.Data.Seeders {
             var posts = AddPosts(authors, categories, tags);
         }
 
+        private IList<Author> AddAuthors() {
+            var authors = new List<Author>() {
+                new() {
+                    FullName = "Jason Mouth",
+                    UrlSlug = "json-mouth",
+                    Email = "json@gmail.com",
+                    JoinedDate = new DateTime(2022, 10, 21)
+                },
+                new() {
+                    FullName = "Jessica Wonder",
+                    UrlSlug = "jessica-wonder",
+                    Email = "jessica665@motip.com",
+                    JoinedDate = new DateTime(2020, 4, 19)
+                },
+                new() {
+                    FullName = "Leanne Graham",
+                    UrlSlug = "leanne-graham",
+                    Email = "leanne@gmail.com",
+                    JoinedDate = new DateTime(2022, 12, 1)
+                },
+                new() {
+                    FullName = "Ervin Howell",
+                    UrlSlug = "ervin-howell",
+                    Email = "ervin@gmail.com",
+                    JoinedDate = new DateTime(2023, 1, 22)
+                },
+                new() {
+                    FullName = "Clementine Bauch",
+                    UrlSlug = "clementine-bauch",
+                    Email = "clementine@gmail.com",
+                    JoinedDate = new DateTime(2022, 11, 23)
+                },
+                new() {
+                    FullName = "Patricia Lebsack",
+                    UrlSlug = "patricia-lebsack",
+                    Email = "patricia@gmail.com",
+                    JoinedDate = new DateTime(2021, 7, 8)
+                },
+                new() {
+                    FullName = "Chelsey Dietrich",
+                    UrlSlug = "chelsey-dietrich",
+                    Email = "chelsey@gmail.com",
+                    JoinedDate = new DateTime(2022, 3, 14)
+                }
+            };
+
+            _dbContext.Authors.AddRange(authors);
+            _dbContext.SaveChanges();
+
+            return authors;
+        }
+
+        private IList<Category> AddCategories() {
+            var categories = new List<Category>() {
+                new() {Name = ".NET Core", Description = ".NET Core", UrlSlug = "net-core"},
+                new() {Name = "Architecture", Description = "Architecture", UrlSlug = "architecture"},
+                new() {Name = "Messaging", Description = "Messaging", UrlSlug = "messaging"},
+                new() {Name = "OOP", Description = "Object-Oriented Program", UrlSlug = "oop"},
+                new() {Name = "Design Patterns", Description = "Design Patterns", UrlSlug = "design-patterns"},
+                new() {Name = "React", Description = "React", UrlSlug = "react"},
+                new() {Name = "Angular", Description = "Angular", UrlSlug = "angular"},
+                new() {Name = "Vue.js", Description = "Vue.js", UrlSlug = "vue-js"},
+                new() {Name = "Next.js", Description = "Next.js", UrlSlug = "next-js"},
+                new() {Name = "Node.js", Description = "Node.js", UrlSlug = "node-js"},
+                new() {Name = "Golang", Description = "Golang", UrlSlug = "golang"},
+                new() {Name = "Three.js", Description = "Three.js", UrlSlug = "three-js"},
+                new() {Name = "PHP", Description = "PHP", UrlSlug = "php"},
+                new() {Name = "Laravel", Description = "Laravel", UrlSlug = "laravel"},
+                new() {Name = "Svelte", Description = "Svelte", UrlSlug = "svelte"}
+            };
+
+            _dbContext.Categories.AddRange(categories);
+            _dbContext.SaveChanges();
+
+            return categories;
+        }
+
+        private IList<Tag> AddTags() {
+            var tags = new List<Tag>() {
+                new() {Name = "Google", Description = "Google", UrlSlug = "google"},
+                new() {Name = "ASP.NET MVC", Description = "ASP.NET MVC", UrlSlug = "asp-net-mvc"},
+                new() {Name = "Razor Page", Description = "Razor Page", UrlSlug = "razor-page"},
+                new() {Name = "Blazor", Description = "Blazor", UrlSlug = "blazor"},
+                new() {Name = "Deep Learning", Description = "Deep Learning", UrlSlug = "deep-learning"},
+                new() {Name = "Neural Network", Description = "Neural Network", UrlSlug = "neural-network"},
+                new() {Name = "Front-End Applications", Description = "Front-End Applications", UrlSlug = "font-end-application"},
+                new() {Name = "Visual Studio", Description = "Visual Studio", UrlSlug = "visual-studio"},
+                new() {Name = "SQL Server", Description = "SQL Server", UrlSlug = "sql-server"},
+                new() {Name = "Git", Description = "Git", UrlSlug = "git"},
+                new() {Name = "Entity Framework Core", Description = "EF Core", UrlSlug = "entity-framework-core"},
+                new() {Name = ".NET Framework", Description = ".NET Framework", UrlSlug = "net-framework"},
+                new() {Name = "ASP.NET Core", Description = "ASP.NET Core", UrlSlug = "aspnet-core"},
+                new() {Name = "Postman", Description = "Postman", UrlSlug = "postman"},
+                new() {Name = "ChatGPT", Description = "Chat GPT", UrlSlug = "chat-gpt"},
+                new() {Name = "Data cleansing", Description = "Data cleaning", UrlSlug = "data-cleansing"},
+                new() {Name = "Fetch API", Description = "Fetch API", UrlSlug = "fetch-api"},
+                new() {Name = "Microsoft", Description = "Microsoft", UrlSlug = "microsoft"},
+                new() {Name = "Microservices", Description = "Microservices", UrlSlug = "microservices"},
+                new() {Name = "Web API Security", Description = "Web API Security", UrlSlug = "web-api-security"}
+            };
+
+            _dbContext.Tags.AddRange(tags);
+            _dbContext.SaveChanges();
+
+            return tags;
+        }
+
         private IList<Post> AddPosts(IList<Author> authors, IList<Category> categories, IList<Tag> tags) {
             var posts = new List<Post>() {
                 new() {
@@ -216,113 +323,6 @@ namespace TipsAndTricks.Data.Seeders {
             _dbContext.SaveChanges();
 
             return posts;
-        }
-
-        private IList<Tag> AddTags() {
-            var tags = new List<Tag>() {
-                new() {Name = "Google", Description = "Google", UrlSlug = "google"},
-                new() {Name = "ASP.NET MVC", Description = "ASP.NET MVC", UrlSlug = "asp-net-mvc"},
-                new() {Name = "Razor Page", Description = "Razor Page", UrlSlug = "razor-page"},
-                new() {Name = "Blazor", Description = "Blazor", UrlSlug = "blazor"},
-                new() {Name = "Deep Learning", Description = "Deep Learning", UrlSlug = "deep-learning"},
-                new() {Name = "Neural Network", Description = "Neural Network", UrlSlug = "neural-network"},
-                new() {Name = "Front-End Applications", Description = "Front-End Applications", UrlSlug = "font-end-application"},
-                new() {Name = "Visual Studio", Description = "Visual Studio", UrlSlug = "visual-studio"},
-                new() {Name = "SQL Server", Description = "SQL Server", UrlSlug = "sql-server"},
-                new() {Name = "Git", Description = "Git", UrlSlug = "git"},
-                new() {Name = "Entity Framework Core", Description = "EF Core", UrlSlug = "entity-framework-core"},
-                new() {Name = ".NET Framework", Description = ".NET Framework", UrlSlug = "net-framework"},
-                new() {Name = "ASP.NET Core", Description = "ASP.NET Core", UrlSlug = "aspnet-core"},
-                new() {Name = "Postman", Description = "Postman", UrlSlug = "postman"},
-                new() {Name = "ChatGPT", Description = "Chat GPT", UrlSlug = "chat-gpt"},
-                new() {Name = "Data cleansing", Description = "Data cleaning", UrlSlug = "data-cleansing"},
-                new() {Name = "Fetch API", Description = "Fetch API", UrlSlug = "fetch-api"},
-                new() {Name = "Microsoft", Description = "Microsoft", UrlSlug = "microsoft"},
-                new() {Name = "Microservices", Description = "Microservices", UrlSlug = "microservices"},
-                new() {Name = "Web API Security", Description = "Web API Security", UrlSlug = "web-api-security"}
-            };
-
-            _dbContext.Tags.AddRange(tags);
-            _dbContext.SaveChanges();
-
-            return tags;
-        }
-
-        private IList<Category> AddCategories() {
-            var categories = new List<Category>() {
-                new() {Name = ".NET Core", Description = ".NET Core", UrlSlug = "net-core"},
-                new() {Name = "Architecture", Description = "Architecture", UrlSlug = "architecture"},
-                new() {Name = "Messaging", Description = "Messaging", UrlSlug = "messaging"},
-                new() {Name = "OOP", Description = "Object-Oriented Program", UrlSlug = "oop"},
-                new() {Name = "Design Patterns", Description = "Design Patterns", UrlSlug = "design-patterns"},
-                new() {Name = "React", Description = "React", UrlSlug = "react"},
-                new() {Name = "Angular", Description = "Angular", UrlSlug = "angular"},
-                new() {Name = "Vue.js", Description = "Vue.js", UrlSlug = "vue-js"},
-                new() {Name = "Next.js", Description = "Next.js", UrlSlug = "next-js"},
-                new() {Name = "Node.js", Description = "Node.js", UrlSlug = "node-js"},
-                new() {Name = "Golang", Description = "Golang", UrlSlug = "golang"},
-                new() {Name = "Three.js", Description = "Three.js", UrlSlug = "three-js"},
-                new() {Name = "PHP", Description = "PHP", UrlSlug = "php"},
-                new() {Name = "Laravel", Description = "Laravel", UrlSlug = "laravel"},
-                new() {Name = "Svelte", Description = "Svelte", UrlSlug = "svelte"}
-            };
-
-            _dbContext.Categories.AddRange(categories);
-            _dbContext.SaveChanges();
-
-            return categories;
-        }
-
-        private IList<Author> AddAuthors() {
-            var authors = new List<Author>() {
-                new() {
-                    FullName = "Jason Mouth",
-                    UrlSlug = "json-mouth",
-                    Email = "json@gmail.com",
-                    JoinedDate = new DateTime(2022, 10, 21)
-                },
-                new() {
-                    FullName = "Jessica Wonder",
-                    UrlSlug = "jessica-wonder",
-                    Email = "jessica665@motip.com",
-                    JoinedDate = new DateTime(2020, 4, 19)
-                },
-                new() {
-                    FullName = "Leanne Graham",
-                    UrlSlug = "leanne-graham",
-                    Email = "leanne@gmail.com",
-                    JoinedDate = new DateTime(2022, 12, 1)
-                },
-                new() {
-                    FullName = "Ervin Howell",
-                    UrlSlug = "ervin-howell",
-                    Email = "ervin@gmail.com",
-                    JoinedDate = new DateTime(2023, 1, 22)
-                },
-                new() {
-                    FullName = "Clementine Bauch",
-                    UrlSlug = "clementine-bauch",
-                    Email = "clementine@gmail.com",
-                    JoinedDate = new DateTime(2022, 11, 23)
-                },
-                new() {
-                    FullName = "Patricia Lebsack",
-                    UrlSlug = "patricia-lebsack",
-                    Email = "patricia@gmail.com",
-                    JoinedDate = new DateTime(2021, 7, 8)
-                },
-                new() {
-                    FullName = "Chelsey Dietrich",
-                    UrlSlug = "chelsey-dietrich",
-                    Email = "chelsey@gmail.com",
-                    JoinedDate = new DateTime(2022, 3, 14)
-                }
-            };
-
-            _dbContext.Authors.AddRange(authors);
-            _dbContext.SaveChanges();
-
-            return authors;
         }
     }
 }
