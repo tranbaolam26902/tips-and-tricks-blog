@@ -87,7 +87,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> DeleteTagByNameAsync(int id, CancellationToken cancellationToken = default);
+        Task<bool> DeleteTagByIdAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Paginate Tags

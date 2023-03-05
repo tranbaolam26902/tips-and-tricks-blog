@@ -20,7 +20,7 @@ IBlogRepository blogRepository = new BlogRepository(context);
 #endregion
 
 #region 1d. Delete Tag by Id
-//bool isSuccess = await blogRepository.DeleteTagByNameAsync(2);
+//bool isSuccess = await blogRepository.DeleteTagByIdAsync(2);
 //Console.WriteLine(isSuccess);
 #endregion
 

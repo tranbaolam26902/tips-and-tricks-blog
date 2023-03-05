@@ -151,7 +151,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteTagByNameAsync(int id, CancellationToken cancellationToken = default) {
+        public async Task<bool> DeleteTagByIdAsync(int id, CancellationToken cancellationToken = default) {
             return await _context.Set<Tag>()
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync(cancellationToken) > 0;
@@ -230,7 +230,7 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
-        /// Increase Post's view by 1
+        /// Increase Post's View by 1
         /// </summary>
         /// <param name="postId"></param>
         /// <param name="cancellationToken"></param>
@@ -242,7 +242,7 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
-        ///  Check whether Post's Slug is existed
+        /// Check whether Post's Slug is existed
         /// </summary>
         /// <param name="postId"></param>
         /// <param name="slug"></param>
