@@ -2,5 +2,6 @@
     public class PostItem {
         public bool Published { get; set; }
         public DateTime PostedDate { get; set; }
+        public int PostCount { get; set; }
     }
 }

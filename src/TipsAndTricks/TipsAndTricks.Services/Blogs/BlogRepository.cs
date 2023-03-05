@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TipsAndTricks.Core.Contracts;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
@@ -14,6 +15,17 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         #region Author methods
+        /// <summary>
+        /// Get Author by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Author> GetAuthorByIdAsync(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Author>()
+                .Include(p => p.Posts)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
         #endregion
 
         #region Category methods
@@ -49,9 +61,8 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Category> GetCategoryByIdAsync(int id, CancellationToken cancellationToken = default) {
-            IQueryable<Category> categories = _context.Set<Category>();
-
-            return await categories
+            return await _context.Set<Category>()
+                .Include(p => p.Posts)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
@@ -62,9 +73,8 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Category> GetCategoryBySlugAsync(string slug, CancellationToken cancellationToken = default) {
-            IQueryable<Category> categories = _context.Set<Category>();
-
-            return await categories
+            return await _context.Set<Category>()
+                .Include(p => p.Posts)
                 .FirstOrDefaultAsync(x => x.UrlSlug.ToLower().Contains(slug.ToLower()), cancellationToken);
         }
 
@@ -81,17 +91,19 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
-        /// 1g. Edit Category
+        /// 1g. Edit Category if existed, otherwise insert a new one
         /// </summary>
         /// <param name="newCategory"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Category> EditCategoryAsync(Category newCategory, CancellationToken cancellationToken = default) {
-            var category = await _context.Set<Category>().AnyAsync(x => x.Id == newCategory.Id, cancellationToken);
+            var category = await _context.Set<Category>()
+                .Include(p => p.Posts)
+                .AnyAsync(x => x.Id == newCategory.Id, cancellationToken);
             if (category)
                 _context.Entry(newCategory).State = EntityState.Modified;
             else
-                _context.Categories.Add(newCategory);
+                await _context.Categories.AddAsync(newCategory, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return newCategory;
         }
@@ -142,7 +154,31 @@ namespace TipsAndTricks.Services.Blogs {
                     UrlSlug = x.UrlSlug,
                     PostCount = x.Posts.Count(p => p.Published)
                 })
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Get Tag by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Tag> GetTagByIdAsync(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Tag>()
+                .Include(p => p.Posts)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
+
+        /// <summary>
+        /// 1a. Get Tag by Slug
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Tag> GetTagBySlugAsync(string slug, CancellationToken cancellationToken = default) {
+            return await _context.Set<Tag>()
+                .Include(p => p.Posts)
+                .FirstOrDefaultAsync(x => x.UrlSlug.ToLower().Contains(slug.ToLower()), cancellationToken);
         }
 
         /// <summary>
@@ -155,19 +191,6 @@ namespace TipsAndTricks.Services.Blogs {
             return await _context.Set<Tag>()
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync(cancellationToken) > 0;
-        }
-
-        /// <summary>
-        /// 1a. Get Tag by Slug
-        /// </summary>
-        /// <param name="slug"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<Tag> GetTagBySlugAsync(string slug, CancellationToken cancellationToken = default) {
-            IQueryable<Tag> tags = _context.Set<Tag>();
-
-            return await tags
-                .FirstOrDefaultAsync(x => x.UrlSlug.ToLower().Contains(slug.ToLower()), cancellationToken);
         }
 
         /// <summary>
@@ -194,6 +217,62 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Get Posts
         /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IList<Post>> GetPostsAsync(CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .Where(x => x.Published)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Get popular Posts
+        /// </summary>
+        /// <param name="numPosts"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IList<Post>> GetPopularArticlesAsync(int numPosts, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Include(x => x.Author)
+                .Include(x => x.Category)
+                .OrderByDescending(p => p.ViewCount)
+                .Take(numPosts)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Get random Posts
+        /// </summary>
+        /// <param name="numberOfPosts"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IList<Post>> GetRandomPostsAsync(int numberOfPosts, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .OrderBy(x => Guid.NewGuid())
+                .Take(numberOfPosts)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 1k. Get Post by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Post> GetPostByIdAsync(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        }
+
+        /// <summary>
+        /// Get Post by Year, Month Published and Slug
+        /// </summary>
         /// <param name="year"></param>
         /// <param name="month"></param>
         /// <param name="slug"></param>
@@ -215,18 +294,34 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
-        /// Get popular Posts
+        /// 1m. Edit Post if existed, otherwise insert a new one
         /// </summary>
-        /// <param name="numPosts"></param>
+        /// <param name="newPost"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<IList<Post>> GetPopularArticlesAsync(int numPosts, CancellationToken cancellationToken = default) {
-            return await _context.Set<Post>()
-                .Include(x => x.Author)
-                .Include(x => x.Category)
-                .OrderByDescending(p => p.ViewCount)
-                .Take(numPosts)
-                .ToListAsync(cancellationToken);
+        public async Task<Post> EditPostAsync(Post newPost, CancellationToken cancellationToken = default) {
+            var post = await _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .AnyAsync(x => x.Id == newPost.Id, cancellationToken);
+            if (post)
+                _context.Entry(newPost).State = EntityState.Modified;
+            else
+                await _context.AddAsync(newPost, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            return newPost;
+        }
+
+        /// <summary>
+        /// 1n. Change Post's Published status
+        /// </summary>
+        /// <param name="id">Post Id</param>
+        /// <param name="status">Published</param>
+        /// <returns></returns>
+        public async Task ChangePostPublishedStatusAsync(int id, bool status) {
+            await _context.Set<Post>()
+                .Where(x => x.Id == id)
+                .ExecuteUpdateAsync(p => p.SetProperty(x => x.Published, status));
         }
 
         /// <summary>
@@ -251,6 +346,55 @@ namespace TipsAndTricks.Services.Blogs {
         public async Task<bool> IsPostSlugExistedAsync(int postId, string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Post>()
                 .AnyAsync(x => x.Id != postId && x.UrlSlug == slug, cancellationToken);
+        }
+
+        /// <summary>
+        /// 1q. Find all Posts by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IList<Post>> GetPostsByQuery(IPostQuery query, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .Where(x => x.AuthorId == query.AuthorId ||
+                            x.CategoryId == query.CategoryId ||
+                            (!query.CategorySlug.IsNullOrEmpty() && x.Category.UrlSlug.Contains(query.CategorySlug)) ||
+                            x.PostedDate.Year == query.PostedYear ||
+                            x.PostedDate.Month == query.PostedMonth)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 1r. Count number of Posts by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<int> CountPostsByQueryAsync(IPostQuery query, CancellationToken cancellationToken = default) {
+            var posts = await GetPostsByQuery(query);
+            return posts.Count();
+        }
+
+        /// <summary>
+        /// 1s. Paginate Posts found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IPagedList<Post>> GetPagedPostsByQueryAsync(IPostQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            var categoryQuery = _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .Where(x => x.AuthorId == query.AuthorId ||
+                            x.CategoryId == query.CategoryId ||
+                            (!query.CategorySlug.IsNullOrEmpty() && x.Category.UrlSlug.Contains(query.CategorySlug)) ||
+                            x.PostedDate.Year == query.PostedYear ||
+                            x.PostedDate.Month == query.PostedMonth);
+
+            return await categoryQuery.ToPagedListAsync(pagingParams, cancellationToken);
         }
         #endregion
     }

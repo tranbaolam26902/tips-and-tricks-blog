@@ -5,6 +5,13 @@ using TipsAndTricks.Core.Entities;
 namespace TipsAndTricks.Services.Blogs {
     public interface IBlogRepository {
         #region Author methods
+        /// <summary>
+        /// Get Author by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<Author> GetAuthorByIdAsync(int id, CancellationToken cancellationToken = default);
         #endregion
 
         #region Category methods
@@ -41,7 +48,7 @@ namespace TipsAndTricks.Services.Blogs {
         Task<bool> DeleteCategoryByIdAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 1g. Edit Category
+        /// 1g. Edit Category if existed, otherwise insert a new one
         /// </summary>
         /// <param name="newCategory"></param>
         /// <param name="cancellationToken"></param>
@@ -74,6 +81,14 @@ namespace TipsAndTricks.Services.Blogs {
         Task<IList<TagItem>> GetTagsAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Get Tag by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<Tag> GetTagByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 1a. Get Tag by Slug
         /// </summary>
         /// <param name="slug"></param>
@@ -102,12 +117,9 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Get Posts
         /// </summary>
-        /// <param name="year"></param>
-        /// <param name="month"></param>
-        /// <param name="slug"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Post> GetPostAsync(int year, int month, string slug, CancellationToken cancellationToken = default);
+        Task<IList<Post>> GetPostsAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get popular Posts
@@ -116,6 +128,56 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IList<Post>> GetPopularArticlesAsync(int numPosts, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get random Posts
+        /// </summary>
+        /// <param name="numberOfPosts"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IList<Post>> GetRandomPostsAsync(int numberOfPosts, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 1k. Get Post by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<Post> GetPostByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get Post by Year, Month Published and Slug
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="slug"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<Post> GetPostAsync(int year, int month, string slug, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 1m. Edit Post if existed, otherwise insert a new one
+        /// </summary>
+        /// <param name="newPost"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<Post> EditPostAsync(Post newPost, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 1n. Change Post's Published status
+        /// </summary>
+        /// <param name="id">Post Id</param>
+        /// <param name="state">Published</param>
+        /// <returns></returns>
+        Task ChangePostPublishedStatusAsync(int id, bool status);
+
+        /// <summary>
+        /// Increase Post's view by 1
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task IncreaseViewCountAsync(int postId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Check whether Post's Slug is existed
@@ -127,12 +189,29 @@ namespace TipsAndTricks.Services.Blogs {
         Task<bool> IsPostSlugExistedAsync(int postId, string slug, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Increase Post's view by 1
+        /// 1q. Find all Posts by queries
         /// </summary>
-        /// <param name="postId"></param>
+        /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task IncreaseViewCountAsync(int postId, CancellationToken cancellationToken = default);
+        Task<IList<Post>> GetPostsByQuery(IPostQuery query, CancellationToken cancellationToken = default);
         #endregion
+
+        /// <summary>
+        /// 1r. Count number of Posts by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="count"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> CountPostsByQueryAsync(IPostQuery query, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 1s. Paginate Posts found by queries
+        /// </summary>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IPagedList<Post>> GetPagedPostsByQueryAsync(IPostQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
     }
 }
