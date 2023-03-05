@@ -4,33 +4,39 @@ using TipsAndTricks.Services.Blogs;
 var context = new BlogDbContext();
 IBlogRepository blogRepository = new BlogRepository(context);
 
-// 1a. Get Tag by Slug
+#region 1.
+#region 1a. Get Tag by Slug
 //var tag = await blogRepository.GetTagBySlugAsync("cc");
 //Console.WriteLine("{0, -5}{1, -10}{2, 20}{3, 20}", "ID", "Name", "Description", "Slug");
 //Console.WriteLine("{0, -5}{1, -10}{2, 20}{3, 20}", tag?.Id, tag?.Name, tag?.Description, tag?.UrlSlug);
+#endregion
 
-// 1c. Get Tags
+#region 1c. Get Tags
 //var tags = await blogRepository.GetTagsAsync();
 //Console.WriteLine("{0, -5}{1, -30}{2, -30}{3, -25}{4, 10}", "ID", "Name", "Description", "Slug", "Posts");
 //foreach (var tag in tags) {
 //    Console.WriteLine("{0, -5}{1, -30}{2, -30}{3, -25}{4, 10}", tag.Id, tag.Name, tag.Description, tag.UrlSlug, tag.PostCount);
 //}
+#endregion
 
-// 1d. Delete Tag by Id
-bool isSuccess = await blogRepository.DeleteTagByNameAsync(2);
-Console.WriteLine(isSuccess);
+#region 1d. Delete Tag by Id
+//bool isSuccess = await blogRepository.DeleteTagByNameAsync(2);
+//Console.WriteLine(isSuccess);
+#endregion
 
-// 1e. Get Category by Slug
+#region 1e. Get Category by Slug
 //var category = await blogRepository.GetCategoryBySlugAsync("architecturek");
 //Console.WriteLine("{0, -5}{1, -10}{2, 20}{3, 20}", "ID", "Name", "Description", "Slug");
 //Console.WriteLine("{0, -5}{1, -10}{2, 20}{3, 20}", category?.Id, category?.Name, category?.Description, category?.UrlSlug);
+#endregion
 
-// 1f. Get Category by Id
+#region 1f. Get Category by Id
 //var category = await blogRepository.GetCategoryByIdAsync(4);
 //Console.WriteLine("{0, -5}{1, -10}{2, 28}{3, 20}", "ID", "Name", "Description", "Slug");
 //Console.WriteLine("{0, -5}{1, -10}{2, 28}{3, 20}", category?.Id, category?.Name, category?.Description, category?.UrlSlug);
+#endregion
 
-// 1g. Edit Category
+#region 1g. Edit Category
 //var newCategory = new Category() {
 //    Id = 1,
 //    Name = "New Category (edited)",
@@ -49,16 +55,19 @@ Console.WriteLine(isSuccess);
 //foreach (var category in categories) {
 //    Console.WriteLine("{0, -5}{1, -20}{2, 40}{3, 20}", category?.Id, category?.Name, category?.Description, category?.UrlSlug);
 //}
+#endregion
 
-// 1h. Delete Category by Id
+#region 1h. Delete Category by Id
 //var isSuccess = await blogRepository.DeleteCategoryByIdAsync(16);
 //Console.WriteLine(isSuccess);
+#endregion
 
-// 1i. Check whether Category's Slug is existed
+#region 1i. Check whether Category's Slug is existed
 //var isExisted = await blogRepository.IsCategorySlugExistedAsync("oop");
 //Console.WriteLine(isExisted);
+#endregion
 
-// 1j. Paginate Categories
+#region 1j. Paginate Categories
 //var pagingParams = new PagingParams {
 //    PageNumber = 1,
 //    PageSize = 5,
@@ -70,4 +79,5 @@ Console.WriteLine(isSuccess);
 //foreach (var category in categories) {
 //    Console.WriteLine("{0, -5}{1, -30}{2, 40}{3, 20}{4, 15}", category?.Id, category?.Name, category?.Description, category?.UrlSlug, category?.PostCount);
 //}
-
+#endregion
+#endregion
