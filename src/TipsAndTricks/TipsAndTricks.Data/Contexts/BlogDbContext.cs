@@ -9,6 +9,7 @@ namespace TipsAndTricks.Data.Contexts {
         public DbSet<Post> Posts { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Subscriber> Subscribers { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseSqlServer(@"Server=DESKTOP-52H2UAJ;Database=TipsAndTricksBlog;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True");

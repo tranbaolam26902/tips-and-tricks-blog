@@ -10,6 +10,9 @@ var context = new BlogDbContext();
 // 3.
 //ISubscriberRepository subscriberRepository = new SubscriberRepository(context);
 
+// 4.
+//ICommentRepository commentRepository = new CommentRepository(context);
+
 #region 1.
 #region 1a. Get Tag by Slug
 //var tag = await blogRepository.GetTagBySlugAsync("neural-network");
@@ -267,4 +270,14 @@ var context = new BlogDbContext();
 //    Console.WriteLine("----------------------------------------");
 //}
 #endregion
+#endregion
+
+#region 4.
+////var isSuccess = await commentRepository.SendCommentAsync("Lam", "2011401@dlu.edu.vn", "Lorem ipsum dolor sit amet.", 1);
+////Console.WriteLine("Send comment status: {0}", isSuccess);
+////var isApproved = await commentRepository.ApproveCommentAsync(2);
+////Console.WriteLine("Approval status: {0}", isApproved);
+//var postComments = await commentRepository.GetPostCommentsAsync(1);
+//Console.WriteLine("Post 1's comments:");
+//ConsoleLogExtensions.PrintComments(postComments);
 #endregion
