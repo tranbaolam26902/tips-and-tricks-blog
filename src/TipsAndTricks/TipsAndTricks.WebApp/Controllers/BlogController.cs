@@ -1,11 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TipsAndTricks.Services.Blogs;
 
 namespace TipsAndTricks.WebApp.Controllers {
     public class BlogController : Controller {
-        public IActionResult Index() {
-            ViewBag.CurrentTime = DateTime.Now.ToString("HH:mm:ss");
+        private readonly IBlogRepository _blogRepository;
 
-            return View();
+        public BlogController(IBlogRepository blogRepository) {
+            _blogRepository = blogRepository;
+        }
+
+        public async Task<IActionResult> Index() {
+            var postsList = await _blogRepository.GetPostsAsync();
+            ViewBag.PostsList = postsList;
+
+            return View(postsList);
         }
 
         public IActionResult About() => View();

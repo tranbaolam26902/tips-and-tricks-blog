@@ -11,6 +11,10 @@ namespace TipsAndTricks.Data.Contexts {
         public DbSet<Subscriber> Subscribers { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
+        public BlogDbContext() {
+
+        }
+
         public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options) {
 
         }

@@ -1,8 +1,10 @@
 ﻿using TipsAndTricks.Data.Contexts;
+using TipsAndTricks.Services.Blogs;
+using TipsAndTricks.Services.Extensions;
 
 var context = new BlogDbContext();
 // 1.
-//IBlogRepository blogRepository = new BlogRepository(context);
+IBlogRepository blogRepository = new BlogRepository(context);
 
 // 2.
 //IAuthorRepository authorRepository = new AuthorRepository(context);
@@ -101,8 +103,8 @@ var context = new BlogDbContext();
 //    CategoryId = 4,
 //};
 //await blogRepository.EditPostAsync(newPost);
-//var posts = await blogRepository.GetPostsAsync();
-//ConsoleLogExtensions.PrintPosts(posts);
+var posts = await blogRepository.GetPostsAsync();
+ConsoleLogExtensions.PrintPosts(posts);
 #endregion
 
 #region 1n. Change Post's Published status

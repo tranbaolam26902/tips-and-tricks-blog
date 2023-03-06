@@ -5,5 +5,6 @@
         public string CategorySlug { get; set; }
         public int PostedYear { get; set; }
         public int PostedMonth { get; set; }
+        public bool PublishedOnly { get; set; }
     }
 }
