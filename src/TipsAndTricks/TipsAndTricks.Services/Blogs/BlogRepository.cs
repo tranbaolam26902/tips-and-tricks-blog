@@ -385,9 +385,14 @@ namespace TipsAndTricks.Services.Blogs {
                 .Where(x => x.AuthorId == query.AuthorId ||
                             x.CategoryId == query.CategoryId ||
                             (!query.CategorySlug.IsNullOrEmpty() && x.Category.UrlSlug.Contains(query.CategorySlug)) ||
+                            (!query.AuthorSlug.IsNullOrEmpty() && x.Author.UrlSlug.Contains(query.AuthorSlug)) ||
+                            (!query.TagSlug.IsNullOrEmpty() && x.Tags.Any(t => t.UrlSlug.Contains(query.TagSlug))) ||
                             x.PostedDate.Year == query.PostedYear ||
                             x.PostedDate.Month == query.PostedMonth ||
-                            x.Published == query.PublishedOnly);
+                            x.Published == query.PublishedOnly ||
+                            (!query.Keyword.IsNullOrEmpty() && x.Title.ToLower().Contains(query.Keyword.ToLower())) ||
+                            (!query.Keyword.IsNullOrEmpty() && x.ShortDescription.ToLower().Contains(query.Keyword.ToLower())) ||
+                            (!query.Keyword.IsNullOrEmpty() && x.Description.ToLower().Contains(query.Keyword.ToLower())));
 
             return await categoryQuery.ToPagedListAsync(pagingParams, cancellationToken);
         }

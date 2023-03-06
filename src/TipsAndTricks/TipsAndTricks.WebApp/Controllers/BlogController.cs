@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TipsAndTricks.Services;
 using TipsAndTricks.Services.Blogs;
-using TipsAndTricks.WinApp;
 
 namespace TipsAndTricks.WebApp.Controllers {
     public class BlogController : Controller {
@@ -12,10 +12,10 @@ namespace TipsAndTricks.WebApp.Controllers {
 
         public async Task<IActionResult> Index(
             [FromQuery(Name = "p")] int pageNumber = 1,
-            [FromQuery(Name = "ps")] int pageSize = 10) {
+            [FromQuery(Name = "ps")] int pageSize = 5) {
             var pagingParams = new PagingParams() {
                 PageNumber = 1,
-                PageSize = 10,
+                PageSize = 5,
             };
             var postQuery = new PostQuery() {
                 PublishedOnly = true
