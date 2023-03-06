@@ -4,16 +4,6 @@ using TipsAndTricks.Core.Entities;
 
 namespace TipsAndTricks.Services.Blogs {
     public interface IBlogRepository {
-        #region Author methods
-        /// <summary>
-        /// Get Author by Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public Task<Author> GetAuthorByIdAsync(int id, CancellationToken cancellationToken = default);
-        #endregion
-
         #region Category methods
         /// <summary>
         /// Get Categories
