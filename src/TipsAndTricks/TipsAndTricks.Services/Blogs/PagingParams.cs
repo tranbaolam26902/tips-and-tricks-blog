@@ -1,6 +1,6 @@
 ﻿using TipsAndTricks.Core.Contracts;
 
-namespace TipsAndTricks.WinApp {
+namespace TipsAndTricks.Services {
     public class PagingParams : IPagingParams {
         public int PageSize { get; set; } = 10;
         public int PageNumber { get; set; } = 1;

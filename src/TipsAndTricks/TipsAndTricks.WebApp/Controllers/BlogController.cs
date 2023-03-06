@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TipsAndTricks.Services;
 using TipsAndTricks.Services.Blogs;
 
 namespace TipsAndTricks.WebApp.Controllers {
@@ -9,9 +10,18 @@ namespace TipsAndTricks.WebApp.Controllers {
             _blogRepository = blogRepository;
         }
 
-        public async Task<IActionResult> Index() {
-            var postsList = await _blogRepository.GetPostsAsync();
-            ViewBag.PostsList = postsList;
+        public async Task<IActionResult> Index(
+            [FromQuery(Name = "p")] int pageNumber = 1,
+            [FromQuery(Name = "ps")] int pageSize = 5) {
+            var pagingParams = new PagingParams() {
+                PageNumber = 1,
+                PageSize = 5,
+            };
+            var postQuery = new PostQuery() {
+                PublishedOnly = true
+            };
+            var postsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+            ViewBag.PostQuery = postQuery;
 
             return View(postsList);
         }
