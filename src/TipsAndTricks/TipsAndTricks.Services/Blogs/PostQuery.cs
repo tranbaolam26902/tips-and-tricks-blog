@@ -7,5 +7,6 @@ namespace TipsAndTricks.WinApp {
         public string CategorySlug { get; set; } = "";
         public int PostedYear { get; set; } = -1;
         public int PostedMonth { get; set; } = -1;
+        public bool PublishedOnly { get; set; }
     }
 }

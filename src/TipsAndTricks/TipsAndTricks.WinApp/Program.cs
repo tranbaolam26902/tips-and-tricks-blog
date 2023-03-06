@@ -1,4 +1,4 @@
-﻿//using TipsAndTricks.Core.Entities;
+//using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Data.Contexts;
 using TipsAndTricks.Services.Blogs;
 //using TipsAndTricks.Services.Extensions;
@@ -105,8 +105,8 @@ ICommentRepository commentRepository = new CommentRepository(context);
 //    CategoryId = 4,
 //};
 //await blogRepository.EditPostAsync(newPost);
-//var posts = await blogRepository.GetPostsAsync();
-//ConsoleLogExtensions.PrintPosts(posts);
+var posts = await blogRepository.GetPostsAsync();
+ConsoleLogExtensions.PrintPosts(posts);
 #endregion
 
 #region 1n. Change Post's Published status
