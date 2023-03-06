@@ -132,6 +132,23 @@ namespace TipsAndTricks.Services.Extensions {
         }
 
         /// <summary>
+        /// Print Comment's information
+        /// </summary>
+        /// <param name="comment"></param>
+        public static void PrintComment(Comment comment) {
+            if (comment == null) {
+                Console.WriteLine("Item is null!");
+                return;
+            }
+            Console.WriteLine("Id: {0}", comment.Id);
+            Console.WriteLine("Name: {0}", comment.Name);
+            Console.WriteLine("Email: {0}", comment.Email);
+            Console.WriteLine("Description: {0}", comment.Description);
+            Console.WriteLine("Posted date: {0:dd/MM/yyyy}", comment.PostedDate);
+            Console.WriteLine("Approval: {0}", comment.IsApproved);
+        }
+
+        /// <summary>
         /// Print list of Authors
         /// </summary>
         /// <param name="authors">List Authors</param>
@@ -204,6 +221,17 @@ namespace TipsAndTricks.Services.Extensions {
         public static void PrintSubscribers(IList<Subscriber> subscribers) {
             foreach (var subscriber in subscribers) {
                 PrintSubscriber(subscriber);
+                Console.WriteLine("----------------------------------------");
+            }
+        }
+
+        /// <summary>
+        /// Print list of Posts
+        /// </summary>
+        /// <param name="comments"></param>
+        public static void PrintComments(IList<Comment> comments) {
+            foreach (var comment in comments) {
+                PrintComment(comment);
                 Console.WriteLine("----------------------------------------");
             }
         }
