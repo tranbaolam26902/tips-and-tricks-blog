@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["PageTitle"] = "Trang chủ";
+}
+
+<div class="p-4">
+    @foreach (var postItem in ViewBag.PostsList) {
+        <partial name="_PostList" model="postItem" />
+    }
+</div>

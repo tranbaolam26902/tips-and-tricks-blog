@@ -1,5 +1,5 @@
 ﻿namespace TipsAndTricks.Data.Seeders {
-    interface IDataSeeder {
+    public interface IDataSeeder {
         void Initialize();
     }
 }

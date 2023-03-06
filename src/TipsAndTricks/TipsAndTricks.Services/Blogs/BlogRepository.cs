@@ -209,6 +209,7 @@ namespace TipsAndTricks.Services.Blogs {
             return await _context.Set<Post>()
                 .Include(a => a.Author)
                 .Include(c => c.Category)
+                .Include(t => t.Tags)
                 .Where(x => x.Published)
                 .ToListAsync(cancellationToken);
         }
