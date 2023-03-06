@@ -386,7 +386,8 @@ namespace TipsAndTricks.Services.Blogs {
                             x.CategoryId == query.CategoryId ||
                             (!query.CategorySlug.IsNullOrEmpty() && x.Category.UrlSlug.Contains(query.CategorySlug)) ||
                             x.PostedDate.Year == query.PostedYear ||
-                            x.PostedDate.Month == query.PostedMonth);
+                            x.PostedDate.Month == query.PostedMonth ||
+                            x.Published == query.PublishedOnly);
 
             return await categoryQuery.ToPagedListAsync(pagingParams, cancellationToken);
         }
