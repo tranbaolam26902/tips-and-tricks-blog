@@ -11,7 +11,6 @@ namespace TipsAndTricks.WebApp.Controllers {
 
         public async Task<IActionResult> Index() {
             var postsList = await _blogRepository.GetPostsAsync();
-            ViewBag.PostsList = postsList;
 
             return View(postsList);
         }

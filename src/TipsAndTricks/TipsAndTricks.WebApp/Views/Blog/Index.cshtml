@@ -3,7 +3,7 @@
 }
 
 <div class="p-4">
-    @foreach (var postItem in ViewBag.PostsList) {
-        <partial name="_PostList" model="postItem" />
+    @foreach (var postItem in Model) {
+        <partial name="_PostItem" model="postItem" />
     }
 </div>
