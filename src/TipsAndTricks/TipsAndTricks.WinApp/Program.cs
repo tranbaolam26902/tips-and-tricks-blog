@@ -2,7 +2,11 @@
 using TipsAndTricks.Services.Blogs;
 
 var context = new BlogDbContext();
-IBlogRepository blogRepository = new BlogRepository(context);
+// 1.
+//IBlogRepository blogRepository = new BlogRepository(context);
+
+// 2.
+IAuthorRepository authorRepository = new AuthorRepository(context);
 
 #region 1.
 #region 1a. Get Tag by Slug
@@ -153,5 +157,51 @@ IBlogRepository blogRepository = new BlogRepository(context);
 //    Console.WriteLine("Category: {0}", post.Category.Name);
 //    Console.WriteLine("----------------------------------------");
 //}
+#endregion
+#endregion
+
+#region 2.
+#region 2b. Get Author by Id
+//var author = await authorRepository.GetAuthorByIdAsync(4);
+//ConsoleLogExtensions.PrintAuthor(author);
+#endregion
+
+#region 2b. Get Author by Id
+//var author = await authorRepository.GetAuthorBySlugAsync("leanne-graham");
+//ConsoleLogExtensions.PrintAuthor(author);
+#endregion
+
+#region 2d. Paginate Authors
+//var pagingParams = new PagingParams {
+//    PageNumber = 1,
+//    PageSize = 10,
+//    SortColumn = "Id"
+//};
+//var authors = await authorRepository.GetPagedAuthorsAsync(pagingParams);
+//foreach (var author in authors) {
+//    Console.WriteLine("Id: {0}", author.Id);
+//    Console.WriteLine("Name: {0}", author.FullName);
+//    Console.WriteLine("Url slug: {0}", author.UrlSlug);
+//    Console.WriteLine("Email: {0}", author.Email);
+//    Console.WriteLine("Total posts: {0}", author.PostCount);
+//    Console.WriteLine("----------------------------------------");
+//}
+#endregion
+
+#region 2e. Edit Author
+//var newAuthor = new Author() {
+//    Id = 8, // Comment this line to add new Author
+//    FullName = "Tran Bao Lam (edited)",
+//    UrlSlug = "tran-bao-lam",
+//    Email = "2011401@dlu.edu.vn",
+//    JoinedDate = DateTime.Now
+//};
+//var isSuccess = await authorRepository.EditAuthorAsync(newAuthor);
+//ConsoleLogExtensions.PrintAuthor(isSuccess);
+#endregion
+
+#region 2f. Get Authors has most Articles
+//var authors = await authorRepository.GetAuthorsHasMostArticles(1);
+//ConsoleLogExtensions.PrintAuthors(authors);
 #endregion
 #endregion

@@ -19,7 +19,8 @@ namespace TipsAndTricks.Services.Extensions {
             Console.WriteLine("Joined date: {0:dd/MM/yyyy}", author.JoinedDate);
             Console.WriteLine("Email: {0}", author.Email);
             Console.WriteLine("Notes: {0}", author.Notes);
-            Console.WriteLine("Total posts: {0}", author.Posts.Count());
+            if (author.Posts != null)
+                Console.WriteLine("Total posts: {0}", author.Posts.Count());
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace TipsAndTricks.Services.Extensions {
         /// <summary>
         /// Print Category information
         /// </summary>
-        /// <param name="category">Category</param>
+        /// <param name="category">CategoryItem</param>
         public static void PrintCategory(CategoryItem category) {
             if (category == null) {
                 Console.WriteLine("Item is null!");
@@ -75,7 +76,7 @@ namespace TipsAndTricks.Services.Extensions {
         /// <summary>
         /// Print Tag information
         /// </summary>
-        /// <param name="tag">Tag</param>
+        /// <param name="tag">TagItem</param>
         public static void PrintTag(TagItem tag) {
             if (tag == null) {
                 Console.WriteLine("Item is null!");
@@ -137,7 +138,7 @@ namespace TipsAndTricks.Services.Extensions {
         /// <summary>
         /// Print list of Categories
         /// </summary>
-        /// <param name="authors">List Categories</param>
+        /// <param name="authors">List CategoryItems</param>
         public static void PrintCategories(IList<CategoryItem> categories) {
             foreach (var category in categories) {
                 PrintCategory(category);
@@ -159,7 +160,7 @@ namespace TipsAndTricks.Services.Extensions {
         /// <summary>
         /// Print list of Tags
         /// </summary>
-        /// <param name="tags">List Tags</param>
+        /// <param name="tags">List TagItems</param>
         public static void PrintTags(IList<TagItem> tags) {
             foreach (var tag in tags) {
                 PrintTag(tag);
