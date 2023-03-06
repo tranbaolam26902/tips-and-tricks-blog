@@ -37,7 +37,8 @@ namespace TipsAndTricks.Services.Extensions {
             Console.WriteLine("Url slug: {0}", category.UrlSlug);
             Console.WriteLine("Description: {0}", category.Description);
             Console.WriteLine("Show on menu: {0}", category.ShowOnMenu);
-            Console.WriteLine("Total posts: {0}", category.Posts.Count());
+            if (category.Posts != null)
+                Console.WriteLine("Total posts: {0}", category.Posts.Count());
         }
 
         /// <summary>
@@ -70,7 +71,8 @@ namespace TipsAndTricks.Services.Extensions {
             Console.WriteLine("Name: {0}", tag.Name);
             Console.WriteLine("Url slug: {0}", tag.UrlSlug);
             Console.WriteLine("Description: {0}", tag.Description);
-            Console.WriteLine("Total posts: {0}", tag.Posts.Count());
+            if (tag.Posts != null)
+                Console.WriteLine("Total posts: {0}", tag.Posts.Count());
         }
 
         /// <summary>
@@ -111,6 +113,10 @@ namespace TipsAndTricks.Services.Extensions {
             Console.WriteLine("Modified date: {0:dd/MM/yyyy}", post.ModifiedDate);
             Console.WriteLine("Author: {0}", post.Author.FullName);
             Console.WriteLine("Category: {0}", post.Category.Name);
+            Console.WriteLine("Tags:");
+            foreach (var tag in post.Tags) {
+                Console.WriteLine("\t" + tag.Name);
+            }
         }
 
         /// <summary>

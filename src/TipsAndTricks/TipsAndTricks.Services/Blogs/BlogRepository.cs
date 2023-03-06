@@ -209,6 +209,7 @@ namespace TipsAndTricks.Services.Blogs {
             return await _context.Set<Post>()
                 .Include(a => a.Author)
                 .Include(c => c.Category)
+                .Include(t => t.Tags)
                 .Where(x => x.Published)
                 .ToListAsync(cancellationToken);
         }
@@ -223,6 +224,7 @@ namespace TipsAndTricks.Services.Blogs {
             return await _context.Set<Post>()
                 .Include(x => x.Author)
                 .Include(x => x.Category)
+                .Include(t => t.Tags)
                 .OrderByDescending(p => p.ViewCount)
                 .Take(numPosts)
                 .ToListAsync(cancellationToken);
@@ -238,6 +240,7 @@ namespace TipsAndTricks.Services.Blogs {
             return await _context.Set<Post>()
                 .Include(a => a.Author)
                 .Include(c => c.Category)
+                .Include(t => t.Tags)
                 .OrderBy(x => Guid.NewGuid())
                 .Take(numberOfPosts)
                 .ToListAsync(cancellationToken);
@@ -253,6 +256,7 @@ namespace TipsAndTricks.Services.Blogs {
             return await _context.Set<Post>()
                 .Include(a => a.Author)
                 .Include(c => c.Category)
+                .Include(t => t.Tags)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
@@ -267,7 +271,8 @@ namespace TipsAndTricks.Services.Blogs {
         public async Task<Post> GetPostAsync(int year, int month, string slug, CancellationToken cancellationToken = default) {
             IQueryable<Post> postsQuery = _context.Set<Post>()
                 .Include(x => x.Category)
-                .Include(x => x.Author);
+                .Include(x => x.Author)
+                .Include(t => t.Tags);
 
             if (year > 0)
                 postsQuery = postsQuery.Where(x => x.PostedDate.Year == year);
@@ -289,6 +294,7 @@ namespace TipsAndTricks.Services.Blogs {
             var post = await _context.Set<Post>()
                 .Include(a => a.Author)
                 .Include(c => c.Category)
+                .Include(t => t.Tags)
                 .AnyAsync(x => x.Id == newPost.Id, cancellationToken);
             if (post)
                 _context.Entry(newPost).State = EntityState.Modified;
@@ -344,6 +350,7 @@ namespace TipsAndTricks.Services.Blogs {
             return await _context.Set<Post>()
                 .Include(a => a.Author)
                 .Include(c => c.Category)
+                .Include(t => t.Tags)
                 .Where(x => x.AuthorId == query.AuthorId ||
                             x.CategoryId == query.CategoryId ||
                             (!query.CategorySlug.IsNullOrEmpty() && x.Category.UrlSlug.Contains(query.CategorySlug)) ||
@@ -374,6 +381,7 @@ namespace TipsAndTricks.Services.Blogs {
             var categoryQuery = _context.Set<Post>()
                 .Include(a => a.Author)
                 .Include(c => c.Category)
+                .Include(t => t.Tags)
                 .Where(x => x.AuthorId == query.AuthorId ||
                             x.CategoryId == query.CategoryId ||
                             (!query.CategorySlug.IsNullOrEmpty() && x.Category.UrlSlug.Contains(query.CategorySlug)) ||

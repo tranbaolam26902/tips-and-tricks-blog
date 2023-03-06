@@ -1,17 +1,21 @@
-﻿using TipsAndTricks.Data.Contexts;
+﻿//using TipsAndTricks.Core.Entities;
+using TipsAndTricks.Data.Contexts;
+using TipsAndTricks.Services.Blogs;
+//using TipsAndTricks.Services.Extensions;
+//using TipsAndTricks.WinApp;
 
 var context = new BlogDbContext();
 // 1.
-//IBlogRepository blogRepository = new BlogRepository(context);
+IBlogRepository blogRepository = new BlogRepository(context);
 
 // 2.
-//IAuthorRepository authorRepository = new AuthorRepository(context);
+IAuthorRepository authorRepository = new AuthorRepository(context);
 
 // 3.
-//ISubscriberRepository subscriberRepository = new SubscriberRepository(context);
+ISubscriberRepository subscriberRepository = new SubscriberRepository(context);
 
 // 4.
-//ICommentRepository commentRepository = new CommentRepository(context);
+ICommentRepository commentRepository = new CommentRepository(context);
 
 #region 1.
 #region 1a. Get Tag by Slug
@@ -41,7 +45,7 @@ var context = new BlogDbContext();
 
 #region 1g. Edit Category
 //var newCategory = new Category() {
-//    Id = 16, // Comment this line to add new Category
+//    Id = 16, // Comment this line to add new Category for the first time
 //    Name = "New Category",
 //    Description = "New Category (edited)",
 //    UrlSlug = "new-category"
@@ -55,7 +59,7 @@ var context = new BlogDbContext();
 #endregion
 
 #region 1h. Delete Category by Id
-//var isSuccess = await blogRepository.DeleteCategoryByIdAsync(16);
+//var isSuccess = await blogRepository.DeleteCategoryByIdAsync(18);
 //Console.WriteLine(isSuccess);
 //var categories = await blogRepository.GetCategoriesAsync();
 //ConsoleLogExtensions.PrintCategories(categories);
@@ -76,7 +80,7 @@ var context = new BlogDbContext();
 //var categories = await blogRepository.GetPagedCategoriesAsync(pagingParams);
 //Console.WriteLine("{0, -5}{1, -30}{2, 40}{3, 20}{4, 15}", "ID", "Name", "Description", "Slug", "Posts");
 //foreach (var category in categories) {
-//    Console.WriteLine("{0, -5}{1, -30}{2, 40}{3, 20}{4, 15}", category?.Id, category?.Name, category?.Description, category?.UrlSlug, category?.PostCount);
+//    Console.WriteLine("{0, -5}{1, -30}{2, 40}{3, 20}{4, 15}", category.Id, category.Name, category.Description, category.UrlSlug, category.PostCount);
 //}
 #endregion
 
@@ -87,7 +91,7 @@ var context = new BlogDbContext();
 
 #region 1m. Edit Post
 //var newPost = new Post() {
-//    Id = 11, // Comment this line to add new Post
+//    Id = 11, // Comment this line to add new Post for the first time
 //    Title = "New Post (edited)",
 //    ShortDescription = "New Post Short Description. (edited)",
 //    Description = "New Post Description. Lorem ipsum dolor sit amet.",
@@ -160,6 +164,10 @@ var context = new BlogDbContext();
 //    Console.WriteLine("Modified date: {0:dd/MM/yyyy}", post.ModifiedDate);
 //    Console.WriteLine("Author: {0}", post.Author.FullName);
 //    Console.WriteLine("Category: {0}", post.Category.Name);
+//    Console.WriteLine("Tags:");
+//    foreach (var tag in post.Tags) {
+//        Console.WriteLine("\t" + tag.Name);
+//    }
 //    Console.WriteLine("----------------------------------------");
 //}
 #endregion
@@ -171,9 +179,9 @@ var context = new BlogDbContext();
 //ConsoleLogExtensions.PrintAuthor(author);
 #endregion
 
-#region 2b. Get Author by Id
-//var author = await authorRepository.GetAuthorBySlugAsync("leanne-graham");
-//ConsoleLogExtensions.PrintAuthor(author);
+#region 2c. Get Author by Slug
+//var author2 = await authorRepository.GetAuthorBySlugAsync("leanne-graham");
+//ConsoleLogExtensions.PrintAuthor(author2);
 #endregion
 
 #region 2d. Paginate Authors
@@ -273,10 +281,10 @@ var context = new BlogDbContext();
 #endregion
 
 #region 4.
-////var isSuccess = await commentRepository.SendCommentAsync("Lam", "2011401@dlu.edu.vn", "Lorem ipsum dolor sit amet.", 1);
-////Console.WriteLine("Send comment status: {0}", isSuccess);
-////var isApproved = await commentRepository.ApproveCommentAsync(2);
-////Console.WriteLine("Approval status: {0}", isApproved);
+//var isSuccess = await commentRepository.SendCommentAsync("Lam", "2011401@dlu.edu.vn", "Lorem ipsum dolor sit amet.", 1);
+//Console.WriteLine("Send comment status: {0}", isSuccess);
+//var isApproved = await commentRepository.ApproveCommentAsync(2);
+//Console.WriteLine("Approval status: {0}", isApproved);
 //var postComments = await commentRepository.GetPostCommentsAsync(1);
 //Console.WriteLine("Post 1's comments:");
 //ConsoleLogExtensions.PrintComments(postComments);
