@@ -114,6 +114,24 @@ namespace TipsAndTricks.Services.Extensions {
         }
 
         /// <summary>
+        /// Print Subscriber information
+        /// </summary>
+        /// <param name="subscriber"></param>
+        public static void PrintSubscriber(Subscriber subscriber) {
+            if (subscriber == null) {
+                Console.WriteLine("Item is null!");
+                return;
+            };
+            Console.WriteLine("Id: {0}", subscriber.Id);
+            Console.WriteLine("Email: {0}", subscriber.Email);
+            Console.WriteLine("Subscribed date: {0:dd/MM/yyyy}", subscriber.SubscribedDate);
+            Console.WriteLine("Unsubscribed date: {0:dd/MM/yyyy}", subscriber.UnsubscribedDate);
+            Console.WriteLine("Subscribed state: {0}", subscriber.SubscribeState);
+            Console.WriteLine("Reason: {0}", subscriber.Reason);
+            Console.WriteLine("Notes: {0}", subscriber.Notes);
+        }
+
+        /// <summary>
         /// Print list of Authors
         /// </summary>
         /// <param name="authors">List Authors</param>
@@ -175,6 +193,17 @@ namespace TipsAndTricks.Services.Extensions {
         public static void PrintPosts(IList<Post> posts) {
             foreach (var post in posts) {
                 PrintPost(post);
+                Console.WriteLine("----------------------------------------");
+            }
+        }
+
+        /// <summary>
+        /// Print list of Subscribers
+        /// </summary>
+        /// <param name="subscribers"></param>
+        public static void PrintSubscribers(IList<Subscriber> subscribers) {
+            foreach (var subscriber in subscribers) {
+                PrintSubscriber(subscriber);
                 Console.WriteLine("----------------------------------------");
             }
         }

@@ -1,12 +1,14 @@
 ﻿using TipsAndTricks.Data.Contexts;
-using TipsAndTricks.Services.Blogs;
 
 var context = new BlogDbContext();
 // 1.
 //IBlogRepository blogRepository = new BlogRepository(context);
 
 // 2.
-IAuthorRepository authorRepository = new AuthorRepository(context);
+//IAuthorRepository authorRepository = new AuthorRepository(context);
+
+// 3.
+//ISubscriberRepository subscriberRepository = new SubscriberRepository(context);
 
 #region 1.
 #region 1a. Get Tag by Slug
@@ -203,5 +205,66 @@ IAuthorRepository authorRepository = new AuthorRepository(context);
 #region 2f. Get Authors has most Articles
 //var authors = await authorRepository.GetAuthorsHasMostArticles(1);
 //ConsoleLogExtensions.PrintAuthors(authors);
+#endregion
+#endregion
+
+#region 3.
+#region Subscribe blog
+//var isSuccess = await subscriberRepository.SubscribeAsync("2011401@dlu.edu.vn");
+//Console.WriteLine(isSuccess);
+//var subscribers = await subscriberRepository.GetSubscribersAsync();
+//ConsoleLogExtensions.PrintSubscribers(subscribers);
+#endregion
+
+#region Unsubscribe 
+//var isSuccess = await subscriberRepository.UnsubscribeAsync("2011401@dlu.edu.vn", "No useful");
+//Console.WriteLine(isSuccess);
+//var subscribers = await subscriberRepository.GetSubscribersAsync();
+//ConsoleLogExtensions.PrintSubscribers(subscribers);
+#endregion
+
+#region Ban Subscriber
+//var isSuccess = await subscriberRepository.BanSubscriberAsync(1, "Spam", "Spammmm");
+//Console.WriteLine(isSuccess);
+//var isSubscribe = await subscriberRepository.SubscribeAsync("2011401@dlu.edu.vn");
+//Console.WriteLine(isSubscribe);
+//var subscribers = await subscriberRepository.GetSubscribersAsync();
+//ConsoleLogExtensions.PrintSubscribers(subscribers);
+#endregion
+
+#region Delete Subscriber
+//var isSuccess = await subscriberRepository.DeleteSubscriberAsync(1);
+//Console.WriteLine(isSuccess);
+//var subscribers = await subscriberRepository.GetSubscribersAsync();
+//ConsoleLogExtensions.PrintSubscribers(subscribers);
+#endregion
+
+#region Get Subscriber by Id
+//var subscriber = await subscriberRepository.GetSubscriberByIdAsync(2);
+//ConsoleLogExtensions.PrintSubscriber(subscriber);
+#endregion
+
+#region Get Subscriber by Email
+//var subscriber = await subscriberRepository.GetSubscriberByEmailAsync("2011401@dlu.edu.vn");
+//ConsoleLogExtensions.PrintSubscriber(subscriber);
+#endregion
+
+#region Search Subscriber
+//var pagingParams = new PagingParams {
+//    PageNumber = 1,
+//    PageSize = 5,
+//    SortColumn = "Id"
+//};
+//var subscribers = await subscriberRepository.SearchSubscribersAsync(pagingParams, "2011", SubscribeState.Subscribe);
+//foreach (var subscriber in subscribers) {
+//    Console.WriteLine("Id: {0}", subscriber.Id);
+//    Console.WriteLine("Email: {0}", subscriber.Email);
+//    Console.WriteLine("Subscribed date: {0:dd/MM/yyyy}", subscriber.SubscribedDate);
+//    Console.WriteLine("Unsubscribed date: {0:dd/MM/yyyy}", subscriber.UnsubscribedDate);
+//    Console.WriteLine("Subscribed state: {0}", subscriber.SubscribeState);
+//    Console.WriteLine("Reason: {0}", subscriber.Reason);
+//    Console.WriteLine("Notes: {0}", subscriber.Notes);
+//    Console.WriteLine("----------------------------------------");
+//}
 #endregion
 #endregion
