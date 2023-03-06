@@ -1,6 +1,6 @@
 ﻿using TipsAndTricks.Core.Contracts;
 
-namespace TipsAndTricks.WinApp {
+namespace TipsAndTricks.Services {
     public class PostQuery : IPostQuery {
         public int AuthorId { get; set; } = -1;
         public int CategoryId { get; set; } = -1;
