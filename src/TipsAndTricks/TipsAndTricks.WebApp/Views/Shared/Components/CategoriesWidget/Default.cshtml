@@ -1,0 +1,20 @@
+﻿@model IList<CategoryItem>
+
+<div class="mb-4">
+    <h3 class="text-success mb-2">
+        Các chủ đề
+    </h3>
+    <ul class="list-group">
+        @foreach (var category in Model) {
+            <li class="list-group-item">
+                <a asp-controller="blog"
+                    asp-action="Category"
+                    asp-route-slug=@category.UrlSlug
+                    title=@category.Description>
+                    @category.Name
+                    <span>(@category.PostCount)</span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
