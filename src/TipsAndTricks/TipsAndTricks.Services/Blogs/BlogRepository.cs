@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using TipsAndTricks.Core.Contracts;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
@@ -347,16 +346,37 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<IList<Post>> GetPostsByQuery(IPostQuery query, CancellationToken cancellationToken = default) {
-            return await _context.Set<Post>()
-                .Include(a => a.Author)
-                .Include(c => c.Category)
-                .Include(t => t.Tags)
-                .Where(x => x.AuthorId == query.AuthorId ||
-                            x.CategoryId == query.CategoryId ||
-                            (!query.CategorySlug.IsNullOrEmpty() && x.Category.UrlSlug.Contains(query.CategorySlug)) ||
-                            x.PostedDate.Year == query.PostedYear ||
-                            x.PostedDate.Month == query.PostedMonth)
-                .ToListAsync(cancellationToken);
+            if (!string.IsNullOrWhiteSpace(query.Keyword)) {
+                return await _context.Set<Post>()
+                    .Include(a => a.Author)
+                    .Include(c => c.Category)
+                    .Include(t => t.Tags)
+                    .Where(x => x.Published && (
+                        x.AuthorId == query.AuthorId ||
+                        x.CategoryId == query.CategoryId ||
+                        x.PostedDate.Year == query.PostedYear ||
+                        x.PostedDate.Month == query.PostedMonth ||
+                        (!string.IsNullOrWhiteSpace(query.CategorySlug) &&
+                            x.Category.UrlSlug.Contains(query.CategorySlug)) ||
+                        (!string.IsNullOrWhiteSpace(query.AuthorSlug) &&
+                            x.Author.UrlSlug.Contains(query.AuthorSlug)) ||
+                        (!string.IsNullOrWhiteSpace(query.TagSlug) &&
+                            x.Tags.Any(t => t.UrlSlug.Contains(query.TagSlug))) ||
+                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
+                            x.Title.ToLower().Contains(query.Keyword.ToLower())) ||
+                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
+                            x.ShortDescription.ToLower().Contains(query.Keyword.ToLower())) ||
+                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
+                            x.Description.ToLower().Contains(query.Keyword.ToLower()))))
+                        .ToListAsync(cancellationToken);
+            } else {
+                return await _context.Set<Post>()
+                    .Include(a => a.Author)
+                    .Include(c => c.Category)
+                    .Include(t => t.Tags)
+                    .Where(x => x.Published)
+                    .ToListAsync(cancellationToken);
+            }
         }
 
         /// <summary>
