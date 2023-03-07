@@ -4,7 +4,7 @@
             endpoints.MapControllerRoute(
                 name: "posts-by-category",
                 pattern: "blog/category/{slug}",
-                defaults: new { controller = "Blog", action = "Category " });
+                defaults: new { controller = "Blog", action = "Category" });
 
             endpoints.MapControllerRoute(
                 name: "posts-by-tag",
