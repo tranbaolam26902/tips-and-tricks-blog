@@ -174,6 +174,14 @@ namespace TipsAndTricks.Services.Blogs {
         Task IncreaseViewCountAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Count Monthly Posts
+        /// </summary>
+        /// <param name="numMonths">Number of Posts</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IList<MonthlyPostCountItem>> CountMonthlyPostsAsync(int numMonths, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Filter Posts by Queries
         /// </summary>
         /// <param name="query"></param>
@@ -184,11 +192,10 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Check whether Post's Slug is existed
         /// </summary>
-        /// <param name="id">Post's Id</param>
         /// <param name="slug">Post's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> IsPostSlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default);
+        Task<bool> IsPostSlugExistedAsync(string slug, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 1q. Find all Posts by queries

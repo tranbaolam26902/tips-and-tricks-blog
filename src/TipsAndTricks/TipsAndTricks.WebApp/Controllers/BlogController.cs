@@ -5,9 +5,11 @@ using TipsAndTricks.Services.Blogs;
 namespace TipsAndTricks.WebApp.Controllers {
     public class BlogController : Controller {
         private readonly IBlogRepository _blogRepository;
+        private readonly IAuthorRepository _authorRepository;
 
-        public BlogController(IBlogRepository blogRepository) {
+        public BlogController(IBlogRepository blogRepository, IAuthorRepository authorRepository) {
             _blogRepository = blogRepository;
+            _authorRepository = authorRepository;
         }
 
         public async Task<IActionResult> Index(
@@ -19,13 +21,14 @@ namespace TipsAndTricks.WebApp.Controllers {
                 PageSize = pageSize
             };
             var postQuery = new PostQuery() {
-                Keyword = keywords
+                Published = true,
+                Keyword = keywords,
             };
 
-            var postsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
-            ViewBag.PostQuery = postQuery;
+            var posts = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+            ViewData["PostQuery"] = postQuery;
 
-            return View(postsList);
+            return View(posts);
         }
 
         public IActionResult About() => View();
@@ -40,16 +43,79 @@ namespace TipsAndTricks.WebApp.Controllers {
                 PageSize = 5,
             };
             var postQuery = new PostQuery() {
-                CategorySlug = slug
+                Published = true,
+                CategorySlug = slug,
             };
 
-            var postsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+            var posts = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
             var category = await _blogRepository.GetCategoryBySlugAsync(slug);
 
-            ViewBag.CategoryName = category.Name;
-            ViewBag.PostQuery = postQuery;
+            ViewData["CategoryName"] = category.Name;
+            ViewData["PostQuery"] = postQuery;
 
-            return View(postsList);
+            return View(posts);
+        }
+
+        public async Task<IActionResult> Author(string slug) {
+            var pagingParams = new PagingParams() {
+                PageNumber = 1,
+                PageSize = 5,
+            };
+            var postQuery = new PostQuery() {
+                Published = true,
+                AuthorSlug = slug,
+            };
+            var posts = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+            var author = await _authorRepository.GetAuthorBySlugAsync(slug);
+
+            ViewData["AuthorName"] = author.FullName;
+            ViewData["PostQuery"] = postQuery;
+
+            return View(posts);
+        }
+
+        public async Task<IActionResult> Tag(string slug) {
+            var pagingParams = new PagingParams() {
+                PageNumber = 1,
+                PageSize = 5,
+            };
+            var postQuery = new PostQuery() {
+                Published = true,
+                TagSlug = slug,
+            };
+            var posts = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+            var tag = await _blogRepository.GetTagBySlugAsync(slug);
+
+            ViewData["TagName"] = tag.Name;
+            ViewData["PostQuery"] = postQuery;
+
+            return View(posts);
+        }
+
+        public async Task<IActionResult> Post(int year, int month, int day, string slug) {
+            var post = await _blogRepository.GetPostAsync(year, month, slug);
+            await _blogRepository.IncreaseViewCountAsync(post.Id);
+
+            return View(post);
+        }
+
+        public async Task<IActionResult> Archive(int year, int month) {
+            var pagingParams = new PagingParams() {
+                PageNumber = 1,
+                PageSize = 5,
+            };
+            var postQuery = new PostQuery() {
+                Published = true,
+                PostedYear = year,
+                PostedMonth = month
+            };
+            var posts = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+
+            ViewData["Year"] = year;
+            ViewData["Month"] = month;
+            ViewData["PostQuery"] = postQuery;
+
+            return View(posts);
         }
     }
 }

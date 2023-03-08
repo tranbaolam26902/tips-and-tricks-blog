@@ -2,7 +2,7 @@
 
 @{
     ViewData["PageTitle"] = "Trang chủ";
-    var postQuery = (ViewBag.PostQuery as PostQuery) ?? new PostQuery();
+    var postQuery = (ViewData["PostQuery"] as PostQuery) ?? new PostQuery();
 }
 
 <div class="p-4">
