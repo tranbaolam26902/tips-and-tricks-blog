@@ -31,9 +31,9 @@ namespace TipsAndTricks.WebApp.Controllers {
             return View(posts);
         }
 
-        public IActionResult About() => View();
-
         public IActionResult Contact() => View();
+
+        public IActionResult About() => View();
 
         public IActionResult Rss() => Content("Nội dung sẽ được cập nhật");
 

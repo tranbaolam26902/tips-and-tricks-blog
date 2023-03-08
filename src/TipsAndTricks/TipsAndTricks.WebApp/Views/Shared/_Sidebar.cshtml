@@ -11,7 +11,9 @@
 
     @await Component.InvokeAsync("ArchivesWidget")
 
-    <h1>
+    <a asp-controller="Newsletter"
+       asp-action="Subscribe"
+       class="btn btn-primary d-block py-2">
         Đăng ký nhận tin mới
-    </h1>
+    </a>
 </div>
