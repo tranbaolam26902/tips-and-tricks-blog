@@ -225,6 +225,7 @@ namespace TipsAndTricks.Services.Blogs {
                 .Include(x => x.Author)
                 .Include(x => x.Category)
                 .Include(t => t.Tags)
+                .Where(x => x.Published)
                 .OrderByDescending(p => p.ViewCount)
                 .Take(numPosts)
                 .ToListAsync(cancellationToken);
@@ -241,6 +242,7 @@ namespace TipsAndTricks.Services.Blogs {
                 .Include(a => a.Author)
                 .Include(c => c.Category)
                 .Include(t => t.Tags)
+                .Where(x => x.Published)
                 .OrderBy(x => Guid.NewGuid())
                 .Take(numberOfPosts)
                 .ToListAsync(cancellationToken);
@@ -351,6 +353,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <returns></returns>
         public async Task<IList<MonthlyPostCountItem>> CountMonthlyPostsAsync(int numMonths, CancellationToken cancellationToken = default) {
             return await _context.Set<Post>()
+                .Where(x => x.Published)
                 .GroupBy(x => new { x.PostedDate.Year, x.PostedDate.Month })
                 .Select(g => new MonthlyPostCountItem() {
                     Year = g.Key.Year,
