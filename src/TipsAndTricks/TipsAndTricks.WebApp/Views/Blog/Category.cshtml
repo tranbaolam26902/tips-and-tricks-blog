@@ -2,6 +2,7 @@
 
 @{
     ViewData["PageTitle"] = ViewBag.CategoryName;
+    var postQuery = (ViewBag.PostQuery as PostQuery) ?? new PostQuery();
 }
 
 <div class="p-4">

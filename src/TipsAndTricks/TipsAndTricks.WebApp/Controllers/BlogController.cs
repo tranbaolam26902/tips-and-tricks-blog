@@ -10,10 +10,13 @@ namespace TipsAndTricks.WebApp.Controllers {
             _blogRepository = blogRepository;
         }
 
-        public async Task<IActionResult> Index([FromQuery(Name = "keywords")] string keywords) {
+        public async Task<IActionResult> Index(
+            [FromQuery(Name = "keywords")] string keywords,
+            [FromQuery(Name = "page")] int page = 1,
+            [FromQuery(Name = "page-size")] int pageSize = 5) {
             var pagingParams = new PagingParams() {
-                PageNumber = 1,
-                PageSize = 5,
+                PageNumber = page,
+                PageSize = pageSize
             };
             var postQuery = new PostQuery() {
                 Keyword = keywords
@@ -41,6 +44,7 @@ namespace TipsAndTricks.WebApp.Controllers {
             var postsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
             var category = await _blogRepository.GetCategoryBySlugAsync(slug);
             ViewBag.CategoryName = category.Name;
+            ViewBag.PostQuery = postQuery;
 
             return View(postsList);
         }
