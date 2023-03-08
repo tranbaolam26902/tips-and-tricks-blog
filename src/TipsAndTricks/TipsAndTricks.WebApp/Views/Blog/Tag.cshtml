@@ -1,16 +1,14 @@
 ﻿@model IPagedList<Post>
 
 @{
-    ViewData["PageTitle"] = "Trang chủ";
+    ViewData["PageTitle"] = ViewData["TagName"];
     var postQuery = (ViewData["PostQuery"] as PostQuery) ?? new PostQuery();
 }
 
 <div class="p-4">
-    @if (!string.IsNullOrWhiteSpace(postQuery.Keyword)) {
-        <h3 class="text-primary mb-3">
-            Những bài viết chứa từ khóa '@postQuery.Keyword'
-        </h3>
-    }
+    <h3 class="text-primary mb-3">
+        Bài viết có chứa thẻ '@ViewData["TagName"]'
+    </h3>
     @foreach (var postItem in Model) {
         <partial name="_PostItem" model="postItem" />
     }

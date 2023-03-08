@@ -1,13 +1,13 @@
 ﻿@model IPagedList<Post>
 
 @{
-    ViewData["PageTitle"] = ViewBag.CategoryName;
-    var postQuery = (ViewBag.PostQuery as PostQuery) ?? new PostQuery();
+    ViewData["PageTitle"] = ViewData["CategoryName"];
+    var postQuery = (ViewData["PostQuery"] as PostQuery) ?? new PostQuery();
 }
 
 <div class="p-4">
     <h3 class="text-primary mb-3">
-        Bài viết thuộc danh mục '@ViewBag.CategoryName'
+        Bài viết thuộc danh mục '@ViewData["CategoryName"]'
     </h3>
     @foreach (var postItem in Model) {
         <partial name="_PostItem" model="postItem" />

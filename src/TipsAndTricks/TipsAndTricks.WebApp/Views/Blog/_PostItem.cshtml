@@ -10,9 +10,17 @@
     <div class="card">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="@imageUrl"
-                     class="card-img"
-                     alt="@Model.Title" />
+                <a asp-controller="Blog"
+                   asp-action="Post"
+                   asp-route-year="@Model.PostedDate.Year"
+                   asp-route-month="@Model.PostedDate.Month"
+                   asp-route-day="@Model.PostedDate.Day"
+                   asp-route-slug="@Model.UrlSlug"
+                   class="card-title fs-5 text-decoration-none">
+                    <img src="@imageUrl"
+                         class="card-img"
+                         alt="@Model.Title" />
+                </a>
             </div>
             <div class="col-md-8">
                 <div class="card-body">

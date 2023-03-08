@@ -9,8 +9,8 @@ namespace TipsAndTricks.Services {
         public string TagSlug { get; set; } = "";
         public int PostedYear { get; set; } = -1;
         public int PostedMonth { get; set; } = -1;
-        public bool Published { get; set; } = true;
-        public bool Unpublished { get; set; } = false;
+        public bool Published { get; set; }
+        public bool Unpublished { get; set; }
         public string Keyword { get; set; } = "";
     }
 }
