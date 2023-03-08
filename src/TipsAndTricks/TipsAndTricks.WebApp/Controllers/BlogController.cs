@@ -98,5 +98,24 @@ namespace TipsAndTricks.WebApp.Controllers {
 
             return View(post);
         }
+
+        public async Task<IActionResult> Archive(int year, int month) {
+            var pagingParams = new PagingParams() {
+                PageNumber = 1,
+                PageSize = 5,
+            };
+            var postQuery = new PostQuery() {
+                Published = true,
+                PostedYear = year,
+                PostedMonth = month
+            };
+            var posts = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+
+            ViewData["Year"] = year;
+            ViewData["Month"] = month;
+            ViewData["PostQuery"] = postQuery;
+
+            return View(posts);
+        }
     }
 }
