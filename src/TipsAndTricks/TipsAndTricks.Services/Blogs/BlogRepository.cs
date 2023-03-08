@@ -42,7 +42,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1f. Get Category by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Category's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Category> GetCategoryByIdAsync(int id, CancellationToken cancellationToken = default) {
@@ -54,19 +54,19 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1e. Get Category by Slug
         /// </summary>
-        /// <param name="slug"></param>
+        /// <param name="slug">Category's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Category> GetCategoryBySlugAsync(string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Category>()
                 .Include(p => p.Posts)
-                .FirstOrDefaultAsync(x => x.UrlSlug.ToLower().Contains(slug.ToLower()), cancellationToken);
+                .FirstOrDefaultAsync(x => x.UrlSlug == slug, cancellationToken);
         }
 
         /// <summary>
         /// 1h. Delete Category by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Category's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> DeleteCategoryByIdAsync(int id, CancellationToken cancellationToken = default) {
@@ -77,8 +77,10 @@ namespace TipsAndTricks.Services.Blogs {
 
         /// <summary>
         /// 1g. Edit Category if existed, otherwise insert a new one
+        /// If Category's Id is not provided, insert a new Category with continuous Id
+        /// If Category's Id is provided and existed in database, update Category with new values
         /// </summary>
-        /// <param name="newCategory"></param>
+        /// <param name="newCategory">New Category</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Category> EditCategoryAsync(Category newCategory, CancellationToken cancellationToken = default) {
@@ -90,18 +92,19 @@ namespace TipsAndTricks.Services.Blogs {
             else
                 await _context.Categories.AddAsync(newCategory, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+
             return newCategory;
         }
 
         /// <summary>
         /// 1i. Check whether Category's Slug is existed
         /// </summary>
-        /// <param name="slug"></param>
+        /// <param name="slug">Category's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> IsCategorySlugExistedAsync(string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Category>()
-                .AnyAsync(x => x.UrlSlug.CompareTo(slug) == 0, cancellationToken);
+                .AnyAsync(x => x.UrlSlug == slug, cancellationToken);
         }
 
         /// <summary>
@@ -111,16 +114,15 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
-            var categoryQuery = _context.Set<Category>()
+            return await _context.Set<Category>()
                 .Select(x => new CategoryItem() {
                     Id = x.Id,
                     Name = x.Name,
                     UrlSlug = x.UrlSlug,
                     Description = x.Description,
                     PostCount = x.Posts.Count(p => p.Published)
-                });
-
-            return await categoryQuery.ToPagedListAsync(pagingParams, cancellationToken);
+                })
+                .ToPagedListAsync(pagingParams, cancellationToken);
         }
         #endregion
 
@@ -145,7 +147,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Get Tag by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Tag's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Tag> GetTagByIdAsync(int id, CancellationToken cancellationToken = default) {
@@ -157,19 +159,19 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1a. Get Tag by Slug
         /// </summary>
-        /// <param name="slug"></param>
+        /// <param name="slug">Tag's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Tag> GetTagBySlugAsync(string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Tag>()
                 .Include(p => p.Posts)
-                .FirstOrDefaultAsync(x => x.UrlSlug.ToLower().Contains(slug.ToLower()), cancellationToken);
+                .FirstOrDefaultAsync(x => x.UrlSlug == slug, cancellationToken);
         }
 
         /// <summary>
         /// 1d. Delete Tag by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Tag's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> DeleteTagByIdAsync(int id, CancellationToken cancellationToken = default) {
@@ -185,16 +187,15 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<IPagedList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
-            var tagQuery = _context.Set<Tag>()
+            return await _context.Set<Tag>()
                 .Select(x => new TagItem() {
                     Id = x.Id,
                     Name = x.Name,
                     UrlSlug = x.UrlSlug,
                     Description = x.Description,
                     PostCount = x.Posts.Count(p => p.Published)
-                });
-
-            return await tagQuery.ToPagedListAsync(pagingParams, cancellationToken);
+                })
+                .ToPagedListAsync(pagingParams, cancellationToken);
         }
         #endregion
 
@@ -248,7 +249,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1k. Get Post by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Post's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Post> GetPostByIdAsync(int id, CancellationToken cancellationToken = default) {
@@ -285,8 +286,10 @@ namespace TipsAndTricks.Services.Blogs {
 
         /// <summary>
         /// 1m. Edit Post if existed, otherwise insert a new one
+        /// If Post's Id is not provided, insert a new Post with continuous Id
+        /// If Post's Id is provided and existed in database, update Post with new values
         /// </summary>
-        /// <param name="newPost"></param>
+        /// <param name="newPost">New Post</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Post> EditPostAsync(Post newPost, CancellationToken cancellationToken = default) {
@@ -295,18 +298,20 @@ namespace TipsAndTricks.Services.Blogs {
                 .Include(c => c.Category)
                 .Include(t => t.Tags)
                 .AnyAsync(x => x.Id == newPost.Id, cancellationToken);
+
             if (post)
                 _context.Entry(newPost).State = EntityState.Modified;
             else
                 await _context.AddAsync(newPost, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+
             return newPost;
         }
 
         /// <summary>
         /// 1n. Change Post's Published status
         /// </summary>
-        /// <param name="id">Post Id</param>
+        /// <param name="id">Post's Id</param>
         /// <param name="status">Published</param>
         /// <returns></returns>
         public async Task ChangePostPublishedStatusAsync(int id, bool status) {
@@ -318,25 +323,65 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Increase Post's View by 1
         /// </summary>
-        /// <param name="postId"></param>
+        /// <param name="id">Post's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task IncreaseViewCountAsync(int postId, CancellationToken cancellationToken = default) {
+        public async Task IncreaseViewCountAsync(int id, CancellationToken cancellationToken = default) {
             await _context.Set<Post>()
-                .Where(x => x.Id == postId)
+                .Where(x => x.Id == id)
                 .ExecuteUpdateAsync(p => p.SetProperty(x => x.ViewCount, x => x.ViewCount + 1), cancellationToken);
         }
 
         /// <summary>
         /// Check whether Post's Slug is existed
         /// </summary>
-        /// <param name="postId"></param>
-        /// <param name="slug"></param>
+        /// <param name="id">Post's Id</param>
+        /// <param name="slug">Post's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> IsPostSlugExistedAsync(int postId, string slug, CancellationToken cancellationToken = default) {
+        public async Task<bool> IsPostSlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Post>()
-                .AnyAsync(x => x.Id != postId && x.UrlSlug == slug, cancellationToken);
+                .AnyAsync(x => x.Id != id && x.UrlSlug == slug, cancellationToken);
+        }
+
+        /// <summary>
+        /// Filter Posts by Queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public IQueryable<Post> FilterPosts(IPostQuery query) {
+            IQueryable<Post> postQuery = _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .Include(t => t.Tags);
+
+            if (query.Published)
+                postQuery = postQuery.Where(x => x.Published);
+            if (query.Unpublished)
+                postQuery = postQuery.Where(x => !x.Published);
+            if (!string.IsNullOrWhiteSpace(query.AuthorSlug))
+                postQuery = postQuery.Where(x => x.Author.UrlSlug == query.AuthorSlug);
+            if (!string.IsNullOrWhiteSpace(query.CategorySlug))
+                postQuery = postQuery.Where(x => x.Category.UrlSlug == query.CategorySlug);
+            if (!string.IsNullOrWhiteSpace(query.TagSlug))
+                postQuery = postQuery.Where(x => x.Tags.Any(t => t.UrlSlug == query.TagSlug));
+            if (query.AuthorId != -1)
+                postQuery = postQuery.Where(x => x.AuthorId == query.AuthorId);
+            if (query.CategoryId != -1)
+                postQuery = postQuery.Where(x => x.CategoryId == query.CategoryId);
+            if (query.PostedYear != -1)
+                postQuery = postQuery.Where(x => x.PostedDate.Year == query.PostedYear);
+            if (query.PostedMonth != -1)
+                postQuery = postQuery.Where(x => x.PostedDate.Month == query.PostedMonth);
+            if (!string.IsNullOrWhiteSpace(query.Keyword))
+                postQuery = postQuery.Where(x => x.Title.Contains(query.Keyword) ||
+                                                 x.ShortDescription.Contains(query.Keyword) ||
+                                                 x.Description.Contains(query.Keyword) ||
+                                                 x.Category.Name.Contains(query.Keyword) ||
+                                                 x.Tags.Any(t => t.Name.Contains(query.Keyword)));
+
+            return postQuery;
         }
 
         /// <summary>
@@ -346,37 +391,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<IList<Post>> GetPostsByQuery(IPostQuery query, CancellationToken cancellationToken = default) {
-            if (!string.IsNullOrWhiteSpace(query.Keyword)) {
-                return await _context.Set<Post>()
-                    .Include(a => a.Author)
-                    .Include(c => c.Category)
-                    .Include(t => t.Tags)
-                    .Where(x => x.Published && (
-                        x.AuthorId == query.AuthorId ||
-                        x.CategoryId == query.CategoryId ||
-                        x.PostedDate.Year == query.PostedYear ||
-                        x.PostedDate.Month == query.PostedMonth ||
-                        (!string.IsNullOrWhiteSpace(query.CategorySlug) &&
-                            x.Category.UrlSlug.Contains(query.CategorySlug)) ||
-                        (!string.IsNullOrWhiteSpace(query.AuthorSlug) &&
-                            x.Author.UrlSlug.Contains(query.AuthorSlug)) ||
-                        (!string.IsNullOrWhiteSpace(query.TagSlug) &&
-                            x.Tags.Any(t => t.UrlSlug.Contains(query.TagSlug))) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.Title.ToLower().Contains(query.Keyword.ToLower())) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.ShortDescription.ToLower().Contains(query.Keyword.ToLower())) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.Description.ToLower().Contains(query.Keyword.ToLower()))))
-                        .ToListAsync(cancellationToken);
-            } else {
-                return await _context.Set<Post>()
-                    .Include(a => a.Author)
-                    .Include(c => c.Category)
-                    .Include(t => t.Tags)
-                    .Where(x => x.Published)
-                    .ToListAsync(cancellationToken);
-            }
+            return await FilterPosts(query).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -398,37 +413,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<IPagedList<Post>> GetPagedPostsByQueryAsync(IPostQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
-            if (!string.IsNullOrWhiteSpace(query.Keyword)) {
-                var categoryQuery = _context.Set<Post>()
-                    .Include(a => a.Author)
-                    .Include(c => c.Category)
-                    .Include(t => t.Tags)
-                    .Where(x => x.Published && (
-                        x.AuthorId == query.AuthorId ||
-                        x.CategoryId == query.CategoryId ||
-                        x.PostedDate.Year == query.PostedYear ||
-                        x.PostedDate.Month == query.PostedMonth ||
-                        (!string.IsNullOrWhiteSpace(query.CategorySlug) &&
-                            x.Category.UrlSlug.Contains(query.CategorySlug)) ||
-                        (!string.IsNullOrWhiteSpace(query.AuthorSlug) &&
-                            x.Author.UrlSlug.Contains(query.AuthorSlug)) ||
-                        (!string.IsNullOrWhiteSpace(query.TagSlug) &&
-                            x.Tags.Any(t => t.UrlSlug.Contains(query.TagSlug))) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.Title.ToLower().Contains(query.Keyword.ToLower())) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.ShortDescription.ToLower().Contains(query.Keyword.ToLower())) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.Description.ToLower().Contains(query.Keyword.ToLower()))));
-                return await categoryQuery.ToPagedListAsync(pagingParams, cancellationToken);
-            } else {
-                var categoryQuery = _context.Set<Post>()
-                    .Include(a => a.Author)
-                    .Include(c => c.Category)
-                    .Include(t => t.Tags)
-                    .Where(x => x.Published);
-                return await categoryQuery.ToPagedListAsync(pagingParams, cancellationToken);
-            }
+            return await FilterPosts(query).ToPagedListAsync(pagingParams);
         }
         #endregion
     }

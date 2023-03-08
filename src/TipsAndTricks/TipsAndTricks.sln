@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TipsAndTricks.Services", "T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TipsAndTricks.WinApp", "TipsAndTricks.WinApp\TipsAndTricks.WinApp.csproj", "{50472B09-B6A6-4B23-80BE-95583A88BC76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TipsAndTricks.WebApp", "TipsAndTricks.WebApp\TipsAndTricks.WebApp.csproj", "{C7A888F0-C5D1-48B2-9E4C-2CFF8C5C0961}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TipsAndTricks.WebApp", "TipsAndTricks.WebApp\TipsAndTricks.WebApp.csproj", "{C7A888F0-C5D1-48B2-9E4C-2CFF8C5C0961}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

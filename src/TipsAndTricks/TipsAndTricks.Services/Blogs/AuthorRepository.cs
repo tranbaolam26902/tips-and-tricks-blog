@@ -13,10 +13,11 @@ namespace TipsAndTricks.Services.Blogs {
             _context = context;
         }
 
+        #region Author methods
         /// <summary>
         /// 2b. Get Author by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Author's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Author> GetAuthorByIdAsync(int id, CancellationToken cancellationToken = default) {
@@ -28,7 +29,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 2c. Get Author by Slug
         /// </summary>
-        /// <param name="slug"></param>
+        /// <param name="slug">Author's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Author> GetAuthorBySlugAsync(string slug, CancellationToken cancellationToken = default) {
@@ -38,9 +39,11 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
-        /// 2e. Edit Author if existed, otherwise insert a new one
+        /// 2e. Edit Author if existed, otherwise insert a new one.
+        /// If Author's Id is not provided, insert a new Author with continuous Id
+        /// If Author's Id is provided and existed in database, update Author with new values
         /// </summary>
-        /// <param name="newAuthor"></param>
+        /// <param name="newAuthor">New Author</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Author> EditAuthorAsync(Author newAuthor, CancellationToken cancellationToken = default) {
@@ -96,5 +99,6 @@ namespace TipsAndTricks.Services.Blogs {
                 .Take(numberOfAuthors)
                 .ToListAsync(cancellationToken);
         }
+        #endregion
     }
 }
