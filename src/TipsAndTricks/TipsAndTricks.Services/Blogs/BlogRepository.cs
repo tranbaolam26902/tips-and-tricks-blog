@@ -344,6 +344,25 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
+        /// Count Monthly Posts
+        /// </summary>
+        /// <param name="numMonths">Number of Posts</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IList<MonthlyPostCountItem>> CountMonthlyPostsAsync(int numMonths, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .GroupBy(x => new { x.PostedDate.Year, x.PostedDate.Month })
+                .Select(g => new MonthlyPostCountItem() {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    PostCount = g.Count(x => x.Published)
+                })
+                .OrderByDescending(x => x.Year)
+                .ThenByDescending(x => x.Month)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// Filter Posts by Queries
         /// </summary>
         /// <param name="query"></param>

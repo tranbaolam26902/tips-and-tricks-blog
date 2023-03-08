@@ -174,6 +174,14 @@ namespace TipsAndTricks.Services.Blogs {
         Task IncreaseViewCountAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Count Monthly Posts
+        /// </summary>
+        /// <param name="numMonths">Number of Posts</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IList<MonthlyPostCountItem>> CountMonthlyPostsAsync(int numMonths, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Filter Posts by Queries
         /// </summary>
         /// <param name="query"></param>
