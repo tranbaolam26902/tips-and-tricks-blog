@@ -29,7 +29,7 @@
         <div class="d-flex justify-content-between">
             <div>
 
-                <span>Đăng ngày: @Model.PostedDate.ToShortDateString()</span>
+                <span>Đăng ngày: @Model.PostedDate.ToString("dd/MM/yyyy")</span>
                 <span>
                     bởi: <a asp-controller="Blog"
                         asp-action="Author"
