@@ -37,10 +37,13 @@ namespace TipsAndTricks.WebApp.Controllers {
 
         public IActionResult Rss() => Content("Nội dung sẽ được cập nhật");
 
-        public async Task<IActionResult> Category(string slug) {
+        public async Task<IActionResult> Category(
+            string slug,
+            [FromQuery(Name = "page")] int page = 1,
+            [FromQuery(Name = "page-size")] int pageSize = 5) {
             var pagingParams = new PagingParams() {
-                PageNumber = 1,
-                PageSize = 5,
+                PageNumber = page,
+                PageSize = pageSize,
             };
             var postQuery = new PostQuery() {
                 Published = true,
@@ -56,10 +59,13 @@ namespace TipsAndTricks.WebApp.Controllers {
             return View(posts);
         }
 
-        public async Task<IActionResult> Author(string slug) {
+        public async Task<IActionResult> Author(
+            string slug,
+            [FromQuery(Name = "page")] int page = 1,
+            [FromQuery(Name = "page-size")] int pageSize = 5) {
             var pagingParams = new PagingParams() {
-                PageNumber = 1,
-                PageSize = 5,
+                PageNumber = page,
+                PageSize = pageSize,
             };
             var postQuery = new PostQuery() {
                 Published = true,
@@ -74,10 +80,13 @@ namespace TipsAndTricks.WebApp.Controllers {
             return View(posts);
         }
 
-        public async Task<IActionResult> Tag(string slug) {
+        public async Task<IActionResult> Tag(
+            string slug,
+            [FromQuery(Name = "page")] int page = 1,
+            [FromQuery(Name = "page-size")] int pageSize = 5) {
             var pagingParams = new PagingParams() {
-                PageNumber = 1,
-                PageSize = 5,
+                PageNumber = page,
+                PageSize = pageSize,
             };
             var postQuery = new PostQuery() {
                 Published = true,
@@ -99,13 +108,16 @@ namespace TipsAndTricks.WebApp.Controllers {
             return View(post);
         }
 
-        public async Task<IActionResult> Archive(int year, int month) {
+        public async Task<IActionResult> Archive(
+            int year,
+            int month,
+            [FromQuery(Name = "page")] int page = 1,
+            [FromQuery(Name = "page-size")] int pageSize = 5) {
             var pagingParams = new PagingParams() {
-                PageNumber = 1,
-                PageSize = 5,
+                PageNumber = page,
+                PageSize = pageSize,
             };
             var postQuery = new PostQuery() {
-                Published = true,
                 PostedYear = year,
                 PostedMonth = month
             };

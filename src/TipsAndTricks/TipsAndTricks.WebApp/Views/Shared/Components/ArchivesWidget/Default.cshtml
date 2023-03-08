@@ -1,0 +1,20 @@
+﻿@using System.Globalization;
+@model IList<MonthlyPostCountItem>
+
+<div class="mb-4">
+    <h3 class="text-success mb-2">
+        Bài viết trong 12 tháng
+    </h3>
+    <ul class="list-group">
+        @foreach (var item in Model) {
+            <li class="list-group-item">
+                <a asp-controller="Blog"
+                   asp-action="Archive"
+                   asp-route-year=@item.Year
+                   asp-route-month=@item.Month>
+                    @DateTimeFormatInfo.CurrentInfo.GetMonthName(item.Month) @item.Year (@item.PostCount)
+                </a>
+            </li>
+        }
+    </ul>
+</div>

@@ -3,15 +3,15 @@
 
     @await Component.InvokeAsync("CategoriesWidget")
 
-    <h1>
-        Bài viết nổi bật
-    </h1>
+    @await Component.InvokeAsync("FeaturedPostsWidget")
+
+    @await Component.InvokeAsync("RandomPostsWidget")
+
+    @await Component.InvokeAsync("TagCloudWidget")
+
+    @await Component.InvokeAsync("ArchivesWidget")
 
     <h1>
         Đăng ký nhận tin mới
-    </h1>
-
-    <h1>
-        Tag cloud
     </h1>
 </div>
