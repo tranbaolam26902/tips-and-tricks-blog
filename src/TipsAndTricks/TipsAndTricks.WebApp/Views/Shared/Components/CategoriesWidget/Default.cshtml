@@ -7,7 +7,7 @@
     <ul class="list-group">
         @foreach (var category in Model) {
             <li class="list-group-item">
-                <a asp-controller="blog"
+                <a asp-controller="Blog"
                     asp-action="Category"
                     asp-route-slug=@category.UrlSlug
                     title=@category.Description>

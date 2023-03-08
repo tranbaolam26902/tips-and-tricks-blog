@@ -170,6 +170,14 @@ namespace TipsAndTricks.Services.Blogs {
         Task IncreaseViewCountAsync(int postId, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Filter Posts by Queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        IQueryable<Post> FilterPosts(IPostQuery query);
+
+        /// <summary>
         /// Check whether Post's Slug is existed
         /// </summary>
         /// <param name="postId"></param>
@@ -185,7 +193,6 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IList<Post>> GetPostsByQuery(IPostQuery query, CancellationToken cancellationToken = default);
-        #endregion
 
         /// <summary>
         /// 1r. Count number of Posts by queries
@@ -203,5 +210,6 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IPagedList<Post>> GetPagedPostsByQueryAsync(IPostQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
+        #endregion
     }
 }

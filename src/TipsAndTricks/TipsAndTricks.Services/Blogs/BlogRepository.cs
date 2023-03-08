@@ -340,43 +340,50 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
+        /// Filter Posts by Queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public IQueryable<Post> FilterPosts(IPostQuery query) {
+            IQueryable<Post> postQuery = _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .Include(t => t.Tags);
+            if (query.PublishedOnly)
+                postQuery = postQuery.Where(x => x.Published);
+            if (!string.IsNullOrWhiteSpace(query.AuthorSlug))
+                postQuery = postQuery.Where(x => x.Author.UrlSlug == query.AuthorSlug);
+            if (!string.IsNullOrWhiteSpace(query.CategorySlug))
+                postQuery = postQuery.Where(x => x.Category.UrlSlug == query.CategorySlug);
+            if (!string.IsNullOrWhiteSpace(query.TagSlug))
+                postQuery = postQuery.Where(x => x.Tags.Any(t => t.UrlSlug == query.TagSlug));
+            if (query.AuthorId != -1)
+                postQuery = postQuery.Where(x => x.AuthorId == query.AuthorId);
+            if (query.CategoryId != -1)
+                postQuery = postQuery.Where(x => x.CategoryId == query.CategoryId);
+            if (query.PostedYear != -1)
+                postQuery = postQuery.Where(x => x.PostedDate.Year == query.PostedYear);
+            if (query.PostedMonth != -1)
+                postQuery = postQuery.Where(x => x.PostedDate.Month == query.PostedMonth);
+            if (!string.IsNullOrWhiteSpace(query.Keyword))
+                postQuery = postQuery.Where(x => x.Title.Contains(query.Keyword) ||
+                                                 x.ShortDescription.Contains(query.Keyword) ||
+                                                 x.Description.Contains(query.Keyword) ||
+                                                 x.Category.Name.Contains(query.Keyword) ||
+                                                 x.Tags.Any(t => t.Name.Contains(query.Keyword)));
+
+            return postQuery;
+        }
+
+        /// <summary>
         /// 1q. Find all Posts by queries
         /// </summary>
         /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<IList<Post>> GetPostsByQuery(IPostQuery query, CancellationToken cancellationToken = default) {
-            if (!string.IsNullOrWhiteSpace(query.Keyword)) {
-                return await _context.Set<Post>()
-                    .Include(a => a.Author)
-                    .Include(c => c.Category)
-                    .Include(t => t.Tags)
-                    .Where(x => x.Published && (
-                        x.AuthorId == query.AuthorId ||
-                        x.CategoryId == query.CategoryId ||
-                        x.PostedDate.Year == query.PostedYear ||
-                        x.PostedDate.Month == query.PostedMonth ||
-                        (!string.IsNullOrWhiteSpace(query.CategorySlug) &&
-                            x.Category.UrlSlug.Contains(query.CategorySlug)) ||
-                        (!string.IsNullOrWhiteSpace(query.AuthorSlug) &&
-                            x.Author.UrlSlug.Contains(query.AuthorSlug)) ||
-                        (!string.IsNullOrWhiteSpace(query.TagSlug) &&
-                            x.Tags.Any(t => t.UrlSlug.Contains(query.TagSlug))) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.Title.ToLower().Contains(query.Keyword.ToLower())) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.ShortDescription.ToLower().Contains(query.Keyword.ToLower())) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.Description.ToLower().Contains(query.Keyword.ToLower()))))
-                        .ToListAsync(cancellationToken);
-            } else {
-                return await _context.Set<Post>()
-                    .Include(a => a.Author)
-                    .Include(c => c.Category)
-                    .Include(t => t.Tags)
-                    .Where(x => x.Published)
-                    .ToListAsync(cancellationToken);
-            }
+            return await FilterPosts(query).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -398,37 +405,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<IPagedList<Post>> GetPagedPostsByQueryAsync(IPostQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
-            if (!string.IsNullOrWhiteSpace(query.Keyword)) {
-                var categoryQuery = _context.Set<Post>()
-                    .Include(a => a.Author)
-                    .Include(c => c.Category)
-                    .Include(t => t.Tags)
-                    .Where(x => x.Published && (
-                        x.AuthorId == query.AuthorId ||
-                        x.CategoryId == query.CategoryId ||
-                        x.PostedDate.Year == query.PostedYear ||
-                        x.PostedDate.Month == query.PostedMonth ||
-                        (!string.IsNullOrWhiteSpace(query.CategorySlug) &&
-                            x.Category.UrlSlug.Contains(query.CategorySlug)) ||
-                        (!string.IsNullOrWhiteSpace(query.AuthorSlug) &&
-                            x.Author.UrlSlug.Contains(query.AuthorSlug)) ||
-                        (!string.IsNullOrWhiteSpace(query.TagSlug) &&
-                            x.Tags.Any(t => t.UrlSlug.Contains(query.TagSlug))) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.Title.ToLower().Contains(query.Keyword.ToLower())) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.ShortDescription.ToLower().Contains(query.Keyword.ToLower())) ||
-                        (!string.IsNullOrWhiteSpace(query.Keyword) &&
-                            x.Description.ToLower().Contains(query.Keyword.ToLower()))));
-                return await categoryQuery.ToPagedListAsync(pagingParams, cancellationToken);
-            } else {
-                var categoryQuery = _context.Set<Post>()
-                    .Include(a => a.Author)
-                    .Include(c => c.Category)
-                    .Include(t => t.Tags)
-                    .Where(x => x.Published);
-                return await categoryQuery.ToPagedListAsync(pagingParams, cancellationToken);
-            }
+            return await FilterPosts(query).ToPagedListAsync(pagingParams);
         }
         #endregion
     }

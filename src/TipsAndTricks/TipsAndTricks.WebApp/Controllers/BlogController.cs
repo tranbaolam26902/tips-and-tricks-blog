@@ -10,16 +10,13 @@ namespace TipsAndTricks.WebApp.Controllers {
             _blogRepository = blogRepository;
         }
 
-        public async Task<IActionResult> Index(
-            [FromQuery(Name = "k")] string keyword = null,
-            [FromQuery(Name = "p")] int pageNumber = 1,
-            [FromQuery(Name = "ps")] int pageSize = 5) {
+        public async Task<IActionResult> Index([FromQuery(Name = "keywords")] string keywords) {
             var pagingParams = new PagingParams() {
                 PageNumber = 1,
                 PageSize = 5,
             };
             var postQuery = new PostQuery() {
-                Keyword = keyword
+                Keyword = keywords
             };
             var postsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
             ViewBag.PostQuery = postQuery;
@@ -32,5 +29,20 @@ namespace TipsAndTricks.WebApp.Controllers {
         public IActionResult Contact() => View();
 
         public IActionResult Rss() => Content("Nội dung sẽ được cập nhật");
+
+        public async Task<IActionResult> Category(string slug) {
+            var pagingParams = new PagingParams() {
+                PageNumber = 1,
+                PageSize = 5,
+            };
+            var postQuery = new PostQuery() {
+                CategorySlug = slug
+            };
+            var postsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+            var category = await _blogRepository.GetCategoryBySlugAsync(slug);
+            ViewBag.CategoryName = category.Name;
+
+            return View(postsList);
+        }
     }
 }
