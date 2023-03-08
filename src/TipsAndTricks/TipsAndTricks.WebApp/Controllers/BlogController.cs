@@ -21,6 +21,7 @@ namespace TipsAndTricks.WebApp.Controllers {
             var postQuery = new PostQuery() {
                 Keyword = keywords
             };
+
             var postsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
             ViewBag.PostQuery = postQuery;
 
@@ -41,8 +42,10 @@ namespace TipsAndTricks.WebApp.Controllers {
             var postQuery = new PostQuery() {
                 CategorySlug = slug
             };
+
             var postsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
             var category = await _blogRepository.GetCategoryBySlugAsync(slug);
+
             ViewBag.CategoryName = category.Name;
             ViewBag.PostQuery = postQuery;
 

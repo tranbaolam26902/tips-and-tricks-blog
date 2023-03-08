@@ -16,7 +16,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1f. Get Category by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Category's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<Category> GetCategoryByIdAsync(int id, CancellationToken cancellationToken = default);
@@ -24,7 +24,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1e. Get Category by Slug
         /// </summary>
-        /// <param name="slug"></param>
+        /// <param name="slug">Category's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<Category> GetCategoryBySlugAsync(string slug, CancellationToken cancellationToken = default);
@@ -32,15 +32,17 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1h. Delete Category by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Category's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<bool> DeleteCategoryByIdAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 1g. Edit Category if existed, otherwise insert a new one
+        /// If Category's Id is not provided, insert a new Category with continuous Id
+        /// If Category's Id is provided and existed in database, update Category with new values
         /// </summary>
-        /// <param name="newCategory"></param>
+        /// <param name="newCategory">New Category</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<Category> EditCategoryAsync(Category newCategory, CancellationToken cancellationToken = default);
@@ -48,7 +50,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1i. Check whether Category's Slug is existed
         /// </summary>
-        /// <param name="slug"></param>
+        /// <param name="slug">Category's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<bool> IsCategorySlugExistedAsync(string slug, CancellationToken cancellationToken = default);
@@ -73,7 +75,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Get Tag by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Tag's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<Tag> GetTagByIdAsync(int id, CancellationToken cancellationToken = default);
@@ -81,7 +83,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1a. Get Tag by Slug
         /// </summary>
-        /// <param name="slug"></param>
+        /// <param name="slug">Tag's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<Tag> GetTagBySlugAsync(string slug, CancellationToken cancellationToken = default);
@@ -89,7 +91,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1d. Delete Tag by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Tag's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<bool> DeleteTagByIdAsync(int id, CancellationToken cancellationToken = default);
@@ -130,7 +132,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1k. Get Post by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Post's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<Post> GetPostByIdAsync(int id, CancellationToken cancellationToken = default);
@@ -147,8 +149,10 @@ namespace TipsAndTricks.Services.Blogs {
 
         /// <summary>
         /// 1m. Edit Post if existed, otherwise insert a new one
+        /// If Post's Id is not provided, insert a new Post with continuous Id
+        /// If Post's Id is provided and existed in database, update Post with new values
         /// </summary>
-        /// <param name="newPost"></param>
+        /// <param name="newPost">New Post</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<Post> EditPostAsync(Post newPost, CancellationToken cancellationToken = default);
@@ -156,18 +160,18 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1n. Change Post's Published status
         /// </summary>
-        /// <param name="id">Post Id</param>
-        /// <param name="state">Published</param>
+        /// <param name="id">Post's Id</param>
+        /// <param name="status">Published</param>
         /// <returns></returns>
         Task ChangePostPublishedStatusAsync(int id, bool status);
 
         /// <summary>
         /// Increase Post's view by 1
         /// </summary>
-        /// <param name="postId"></param>
+        /// <param name="id">Post's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task IncreaseViewCountAsync(int postId, CancellationToken cancellationToken = default);
+        Task IncreaseViewCountAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Filter Posts by Queries
@@ -180,11 +184,11 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Check whether Post's Slug is existed
         /// </summary>
-        /// <param name="postId"></param>
-        /// <param name="slug"></param>
+        /// <param name="id">Post's Id</param>
+        /// <param name="slug">Post's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> IsPostSlugExistedAsync(int postId, string slug, CancellationToken cancellationToken = default);
+        Task<bool> IsPostSlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 1q. Find all Posts by queries
@@ -198,7 +202,6 @@ namespace TipsAndTricks.Services.Blogs {
         /// 1r. Count number of Posts by queries
         /// </summary>
         /// <param name="query"></param>
-        /// <param name="count"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<int> CountPostsByQueryAsync(IPostQuery query, CancellationToken cancellationToken = default);

@@ -27,7 +27,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Get Subscriber by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Subscriber's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Subscriber> GetSubscriberByIdAsync(int id, CancellationToken cancellationToken = default) {
@@ -37,7 +37,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Get Subscriber by Email
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="email">Subscriber's Email</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Subscriber> GetSubscriberByEmailAsync(string email, CancellationToken cancellationToken = default) {
@@ -47,7 +47,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Subscribe blog
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="email">Subscriber's Email</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> SubscribeAsync(string email, CancellationToken cancellationToken = default) {
@@ -70,15 +70,16 @@ namespace TipsAndTricks.Services.Blogs {
                 subscriber.SubscribedDate = DateTime.Now;
                 _context.Entry(subscriber).State = EntityState.Modified;
             }
-
             await _context.SaveChangesAsync(cancellationToken);
+
             return true;
         }
 
         /// <summary>
         /// Unsubscribe blog
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="email">Subscriber's Email</param>
+        /// <param name="reason">Reason why Subscriber Unsubscribe</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> UnsubscribeAsync(string email, string reason, CancellationToken cancellationToken = default) {
@@ -103,9 +104,9 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Ban a Subscriber
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="reason"></param>
-        /// <param name="notes"></param>
+        /// <param name="id">Subscriber's Id</param>
+        /// <param name="reason">Reason why Subscriber is banned</param>
+        /// <param name="notes">Admin's notes</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> BanSubscriberAsync(int id, string reason, string notes, CancellationToken cancellationToken = default) {
@@ -126,7 +127,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// Delete Subscriber
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Subscriber's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> DeleteSubscriberAsync(int id, CancellationToken cancellationToken = default) {
@@ -139,15 +140,15 @@ namespace TipsAndTricks.Services.Blogs {
         /// Search Subscriber
         /// </summary>
         /// <param name="pagingParams"></param>
-        /// <param name="keyword"></param>
-        /// <param name="subscribeState"></param>
+        /// <param name="keywords"></param>
+        /// <param name="subscribeStatus"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<IPagedList<Subscriber>> SearchSubscribersAsync(IPagingParams pagingParams, string keyword, SubscribeState subscribeState, CancellationToken cancellationToken = default) {
+        public async Task<IPagedList<Subscriber>> SearchSubscribersAsync(IPagingParams pagingParams, string keywords, SubscribeState subscribeState, CancellationToken cancellationToken = default) {
             var subscriberRequest = _context.Set<Subscriber>()
-                .Where(x => x.Email.Contains(keyword) ||
-                            x.Reason.ToLower().Contains(keyword.ToLower()) ||
-                            x.Notes.ToLower().Contains(keyword.ToLower()) ||
+                .Where(x => x.Email.Contains(keywords) ||
+                            x.Reason.ToLower().Contains(keywords.ToLower()) ||
+                            x.Notes.ToLower().Contains(keywords.ToLower()) ||
                             x.SubscribeState == subscribeState);
             return await subscriberRequest.ToPagedListAsync(pagingParams, cancellationToken);
         }
