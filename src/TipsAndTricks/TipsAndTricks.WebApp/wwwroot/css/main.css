@@ -1,2 +1,54 @@
-﻿body {
+﻿:root {
+    --header-height: 67px;
+    --footer-height: 24px;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+}
+
+.content {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    bottom: var(--footer-height);
+}
+
+.main {
+    height: calc(100vh - var(--header-height) - var(--footer-height));
+    overflow-y: auto;
+}
+
+.sidebar {
+    height: calc(100vh - var(--header-height) - var(--footer-height));
+    overflow-y: auto;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(127, 127, 127);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(127, 127, 127, 0.6);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgba(127, 127, 127, 0.8);
 }
