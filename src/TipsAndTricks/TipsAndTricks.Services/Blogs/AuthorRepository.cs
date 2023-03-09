@@ -86,16 +86,8 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<IList<Author>> GetAuthorsHasMostArticles(int numberOfAuthors, CancellationToken cancellationToken = default) {
-            var authorPostCount = await _context.Set<Author>()
-                .Select(x => new AuthorItem() {
-                    PostCount = x.Posts.Count()
-                })
-                .ToListAsync(cancellationToken);
-            var highestPostCount = authorPostCount.Max(x => x.PostCount);
-
             return await _context.Set<Author>()
-                .Include(p => p.Posts)
-                .Where(x => x.Posts.Count(p => p.Published) == highestPostCount)
+                .OrderByDescending(x => x.Posts.Count)
                 .Take(numberOfAuthors)
                 .ToListAsync(cancellationToken);
         }
