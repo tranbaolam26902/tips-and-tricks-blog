@@ -1,13 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mail;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services.Blogs;
 
 namespace TipsAndTricks.WebApp.Controllers {
     public class NewsletterController : Controller {
         private readonly ISubscriberRepository _subscriberRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public NewsletterController(ISubscriberRepository subscriberRepository) {
+        public NewsletterController(ISubscriberRepository subscriberRepository, IWebHostEnvironment webHostEnvironment) {
             _subscriberRepository = subscriberRepository;
+            _webHostEnvironment = webHostEnvironment;
+
         }
 
         #region Subscribe
@@ -19,9 +24,32 @@ namespace TipsAndTricks.WebApp.Controllers {
         public async Task<IActionResult> SubscribeAsync(string email) {
             var isSuccess = await _subscriberRepository.SubscribeAsync(email);
 
-            if (isSuccess)
+            if (isSuccess) {
+                var subscriber = await _subscriberRepository.GetSubscriberByEmailAsync(email);
+                string wwwrootPath = _webHostEnvironment.WebRootPath;
+                string filePath = Path.Combine(wwwrootPath, "templates/emails/Subscribed.html");
+                string fileContents = System.IO.File.ReadAllText(filePath);
+
+                fileContents = fileContents.Replace("{link}", "https://localhost:7164/Newsletter/Unsubscribe");
+                fileContents = fileContents.Replace("{email}", subscriber.Email);
+
+                using (MailMessage mail = new MailMessage()) {
+                    mail.From = new MailAddress("noreply.email.dluconfession@gmail.com");
+                    mail.To.Add(subscriber.Email);
+                    mail.Subject = $"Xác nhận đăng ký nhận thông báo từ Cats & Tricks Blog";
+                    mail.Body = fileContents;
+                    mail.IsBodyHtml = true;
+
+                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)) {
+                        smtp.Credentials = new NetworkCredential("noreply.email.dluconfession@gmail.com",
+                            "matuhletbnaxlyzd");
+                        smtp.EnableSsl = true;
+                        smtp.Send(mail);
+                    }
+                }
+
                 return View("SubscribeResult");
-            else {
+            } else {
                 var subscriber = await _subscriberRepository.GetSubscriberByEmailAsync(email);
                 string message = "";
 
