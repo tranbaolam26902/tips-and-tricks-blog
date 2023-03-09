@@ -22,28 +22,28 @@
                 </div>
             </div>
             <div class="col-8">
-                <form>
+                <form method="post">
                     <div class="mb-3 fs-3 text-center text-uppercase">Gửi ý kiến</div>
                     <div class="mb-3">
                         <div class="d-flex justify-content-between">
                             <label for="email" class="form-label">Email</label>
                             <span class="text-secondary fst-italic fs-6">(Bắt buộc)</span>
                         </div>
-                        <input type="email" class="form-control" id="email" required>
+                        <input type="email" name="email" class="form-control" id="email" required>
                     </div>
                     <div class="mb-3">
                         <div class="d-flex justify-content-between">
                             <label for="subject" class="form-label">Chủ đề</label>
                             <span class="text-secondary fst-italic fs-6">(Bắt buộc)</span>
                         </div>
-                        <input type="text" class="form-control" id="subject" required>
+                        <input type="text" name="subject" class="form-control" id="subject" required>
                     </div>
                     <div class="mb-3">
                         <div class="d-flex justify-content-between">
                             <label for="content" class="form-label">Nội dung</label>
                             <span class="text-secondary fst-italic fs-6">(Bắt buộc)</span>
                         </div>
-                        <textarea class="form-control" id="content" rows="8" required></textarea>
+                        <textarea class="form-control" name="content" id="content" rows="8" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary px-5 py-2">Gửi</button>
                 </form>

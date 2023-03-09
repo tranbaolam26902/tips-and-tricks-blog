@@ -8,11 +8,12 @@ namespace TipsAndTricks.WebApp.Controllers {
     public class NewsletterController : Controller {
         private readonly ISubscriberRepository _subscriberRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public NewsletterController(ISubscriberRepository subscriberRepository, IWebHostEnvironment webHostEnvironment) {
+        public NewsletterController(ISubscriberRepository subscriberRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration) {
             _subscriberRepository = subscriberRepository;
             _webHostEnvironment = webHostEnvironment;
-
+            _configuration = configuration;
         }
 
         #region Subscribe
@@ -33,16 +34,20 @@ namespace TipsAndTricks.WebApp.Controllers {
                 fileContents = fileContents.Replace("{link}", "https://localhost:7164/Newsletter/Unsubscribe");
                 fileContents = fileContents.Replace("{email}", subscriber.Email);
 
+                var server = _configuration.GetValue<string>("smtp:server");
+                var port = _configuration.GetValue<int>("smtp:port");
+                var sender = _configuration.GetValue<string>("smtp:email");
+                var password = _configuration.GetValue<string>("smtp:password");
+
                 using (MailMessage mail = new MailMessage()) {
-                    mail.From = new MailAddress("noreply.email.dluconfession@gmail.com");
+                    mail.From = new MailAddress(sender);
                     mail.To.Add(subscriber.Email);
                     mail.Subject = $"Xác nhận đăng ký nhận thông báo từ Cats & Tricks Blog";
                     mail.Body = fileContents;
                     mail.IsBodyHtml = true;
 
-                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)) {
-                        smtp.Credentials = new NetworkCredential("noreply.email.dluconfession@gmail.com",
-                            "matuhletbnaxlyzd");
+                    using (SmtpClient smtp = new SmtpClient(server, port)) {
+                        smtp.Credentials = new NetworkCredential(sender, password);
                         smtp.EnableSsl = true;
                         smtp.Send(mail);
                     }

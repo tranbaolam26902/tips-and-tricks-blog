@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args); {
 var app = builder.Build(); {
     app.UseRequestPipeLine();
     app.UseBlogRoutes();
-    app.UseNewsletterRoutes();
     app.UseDataSeeder();
 }
 
