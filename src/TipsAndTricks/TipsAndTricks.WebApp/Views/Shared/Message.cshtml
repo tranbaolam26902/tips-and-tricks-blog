@@ -1,0 +1,8 @@
+﻿<div class="mx-auto p-5 w-50 text-center">
+    <img src="/images/@ViewData["Image"]" alt="message-image" class="w-100 rounded shadow" />
+    <h4 class="mt-4 text-uppercase">@ViewData["Message"]</h4>
+    <p>@ViewData["Description"]</p>
+    @if (ViewBag.CanGoBack) {
+        <input type="button" onclick="history.go(-1)" value="Quay lại" class="btn btn-primary px-4 py-2" />
+    }
+</div>
