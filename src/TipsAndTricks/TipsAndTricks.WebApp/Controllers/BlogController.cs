@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
-using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services;
 using TipsAndTricks.Services.Blogs;
 
@@ -64,7 +63,13 @@ namespace TipsAndTricks.WebApp.Controllers {
                 }
             }
 
-            return View("ContactResult");
+            ViewBag.CanGoBack = true;
+            ViewData["PageTitle"] = "Liên hệ";
+            ViewData["Message"] = "Gửi thành công!";
+            ViewData["Description"] = "Cảm ơn bạn đã gửi ý kiến cho chúng tôi";
+            ViewData["Image"] = "contacted.jpg";
+
+            return View("Message");
         }
 
         public IActionResult About() => View();
@@ -83,7 +88,6 @@ namespace TipsAndTricks.WebApp.Controllers {
                 Published = true,
                 CategorySlug = slug,
             };
-
             var posts = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
             var category = await _blogRepository.GetCategoryBySlugAsync(slug);
 
@@ -146,13 +150,14 @@ namespace TipsAndTricks.WebApp.Controllers {
         [HttpPost]
         public async Task<IActionResult> Post(string name, string description, int postId) {
             await _commentRepository.SendCommentAsync(name, description, postId);
-            var post = await _blogRepository.GetPostByIdAsync(postId);
 
-            return View("CommentResult", post);
-        }
+            ViewBag.CanGoBack = true;
+            ViewData["PageTitle"] = "Bình luận";
+            ViewData["Message"] = "Gửi thành công!";
+            ViewData["Description"] = "Bình luận của bạn đã được gửi đến quản trị viên để phê duyệt.";
+            ViewData["Image"] = "commented.jpg";
 
-        public IActionResult CommentResult(Post post) {
-            return View(post);
+            return View("Message");
         }
 
         public async Task<IActionResult> Archive(

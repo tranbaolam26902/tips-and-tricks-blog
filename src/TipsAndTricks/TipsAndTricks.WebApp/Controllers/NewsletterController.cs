@@ -53,7 +53,13 @@ namespace TipsAndTricks.WebApp.Controllers {
                     }
                 }
 
-                return View("SubscribeResult");
+                ViewBag.CanGoBack = false;
+                ViewData["PageTitle"] = "Đăng ký nhận thông báo";
+                ViewData["Message"] = "Cảm ơn bạn đã đăng ký!";
+                ViewData["Description"] = "Chúng tôi sẽ gửi thông báo cho bạn qua email khi có nội dung mới.";
+                ViewData["Image"] = "subscribed.jpg";
+
+                return View("Message");
             } else {
                 var subscriber = await _subscriberRepository.GetSubscriberByEmailAsync(email);
                 string message = "";
@@ -70,10 +76,6 @@ namespace TipsAndTricks.WebApp.Controllers {
                 return View("Subscribe", message);
             }
         }
-
-        public IActionResult SubscribeResult() {
-            return View();
-        }
         #endregion
 
         #region Unsubscribe
@@ -85,9 +87,16 @@ namespace TipsAndTricks.WebApp.Controllers {
         public async Task<IActionResult> Unsubscribe(string email, string reason) {
             var isSuccess = await _subscriberRepository.UnsubscribeAsync(email, reason);
 
-            if (isSuccess)
-                return View("UnsubscribeResult");
-            else {
+            if (isSuccess) {
+
+                ViewBag.CanGoBack = false;
+                ViewData["PageTitle"] = "Hủy đăng ký nhận thông báo";
+                ViewData["Message"] = "Huỷ đăng ký thành công!";
+                ViewData["Description"] = "Cảm ơn bạn đã theo dõi trong thời gian qua :(";
+                ViewData["Image"] = "unsubscribed.jpg";
+
+                return View("Message");
+            } else {
                 var subscriber = await _subscriberRepository.GetSubscriberByEmailAsync(email);
                 string message = "";
 
@@ -106,10 +115,6 @@ namespace TipsAndTricks.WebApp.Controllers {
 
                 return View("Unsubscribe", message);
             }
-        }
-
-        public IActionResult UnsubscribeResult() {
-            return View();
         }
         #endregion
     }

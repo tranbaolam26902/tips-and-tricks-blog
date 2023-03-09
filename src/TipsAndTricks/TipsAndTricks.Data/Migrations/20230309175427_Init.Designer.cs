@@ -12,7 +12,7 @@ using TipsAndTricks.Data.Contexts;
 namespace TipsAndTricks.Data.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20230309065902_Init")]
+    [Migration("20230309175427_Init")]
     partial class Init
     {
         /// <inheritdoc />
