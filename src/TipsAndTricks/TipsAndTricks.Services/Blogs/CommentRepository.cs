@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Data.Contexts;
 
@@ -58,20 +57,14 @@ namespace TipsAndTricks.Services.Blogs {
         /// Send Comment to a Post
         /// </summary>
         /// <param name="name">User Name</param>
-        /// <param name="email">User Email</param>
         /// <param name="description">Comment's content</param>
         /// <param name="postId">Post's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> SendCommentAsync(string name, string email, string description, int postId, CancellationToken cancellationToken = default) {
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            if (!regex.Match(email).Success)
-                return false;
-
-            if (!string.IsNullOrWhiteSpace(name) || !string.IsNullOrWhiteSpace(description)) {
+        public async Task<bool> SendCommentAsync(string name, string description, int postId, CancellationToken cancellationToken = default) {
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(description)) {
                 var comment = new Comment() {
                     Name = name,
-                    Email = email,
                     Description = description,
                     PostId = postId,
                     PostedDate = DateTime.Now

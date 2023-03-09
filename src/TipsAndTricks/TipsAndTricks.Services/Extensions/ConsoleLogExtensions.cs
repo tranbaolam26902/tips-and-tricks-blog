@@ -148,7 +148,6 @@ namespace TipsAndTricks.Services.Extensions {
             }
             Console.WriteLine("Id: {0}", comment.Id);
             Console.WriteLine("Name: {0}", comment.Name);
-            Console.WriteLine("Email: {0}", comment.Email);
             Console.WriteLine("Description: {0}", comment.Description);
             Console.WriteLine("Posted date: {0:dd/MM/yyyy}", comment.PostedDate);
             Console.WriteLine("Approval: {0}", comment.IsApproved);

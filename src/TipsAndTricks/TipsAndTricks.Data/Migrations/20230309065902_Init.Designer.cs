@@ -12,8 +12,8 @@ using TipsAndTricks.Data.Contexts;
 namespace TipsAndTricks.Data.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20230306073654_Update Comments")]
-    partial class UpdateComments
+    [Migration("20230309065902_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,11 +122,6 @@ namespace TipsAndTricks.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsApproved")
                         .ValueGeneratedOnAdd()

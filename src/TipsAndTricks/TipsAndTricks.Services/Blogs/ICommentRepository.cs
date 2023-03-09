@@ -31,12 +31,11 @@ namespace TipsAndTricks.Services.Blogs {
         /// Send Comment to a Post
         /// </summary>
         /// <param name="name">User Name</param>
-        /// <param name="email">User Email</param>
         /// <param name="description">Comment's content</param>
         /// <param name="postId">Post's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> SendCommentAsync(string name, string email, string description, int postId, CancellationToken cancellationToken = default);
+        Task<bool> SendCommentAsync(string name, string description, int postId, CancellationToken cancellationToken = default);
         #endregion
     }
 }
