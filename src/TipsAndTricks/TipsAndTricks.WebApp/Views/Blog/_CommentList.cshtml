@@ -1,0 +1,11 @@
+﻿@model IList<Comment>
+
+@foreach (var comment in Model) {
+    <div class="mb-3 p-4 bg-secondary bg-opacity-10 border border-1 border-gray rounded">
+        <div>
+            <span class="fs-6 fw-bold me-2">@comment.Name</span>
+            <span class="text-secondary fst-italic">@comment.PostedDate.ToString("dd/MM/yyyy")</span>
+        </div>
+        <p>@comment.Description</p>
+    </div>
+}

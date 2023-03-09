@@ -69,11 +69,12 @@ namespace TipsAndTricks.Services.Blogs {
                     PostId = postId,
                     PostedDate = DateTime.Now
                 };
-                _context.Set<Comment>().Add(comment);
+                await _context.Set<Comment>().AddAsync(comment, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-            }
 
-            return true;
+                return true;
+            }
+            return false;
         }
         #endregion
     }

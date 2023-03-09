@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services;
 using TipsAndTricks.Services.Blogs;
 
@@ -6,10 +7,12 @@ namespace TipsAndTricks.WebApp.Controllers {
     public class BlogController : Controller {
         private readonly IBlogRepository _blogRepository;
         private readonly IAuthorRepository _authorRepository;
+        private readonly ICommentRepository _commentRepository;
 
-        public BlogController(IBlogRepository blogRepository, IAuthorRepository authorRepository) {
+        public BlogController(IBlogRepository blogRepository, IAuthorRepository authorRepository, ICommentRepository commentRepository) {
             _blogRepository = blogRepository;
             _authorRepository = authorRepository;
+            _commentRepository = commentRepository;
         }
 
         public async Task<IActionResult> Index(
@@ -104,7 +107,20 @@ namespace TipsAndTricks.WebApp.Controllers {
         public async Task<IActionResult> Post(int year, int month, int day, string slug) {
             var post = await _blogRepository.GetPostAsync(year, month, slug);
             await _blogRepository.IncreaseViewCountAsync(post.Id);
+            post.Comments = await _commentRepository.GetPostCommentsAsync(post.Id);
 
+            return View(post);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(string name, string description, int postId) {
+            await _commentRepository.SendCommentAsync(name, description, postId);
+            var post = await _blogRepository.GetPostByIdAsync(postId);
+
+            return View("CommentResult", post);
+        }
+
+        public IActionResult CommentResult(Post post) {
             return View(post);
         }
 

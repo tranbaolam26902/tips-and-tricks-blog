@@ -18,6 +18,7 @@ namespace TipsAndTricks.WebApp.Extensions {
             builder.Services.AddScoped<IBlogRepository, BlogRepository>();
             builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
             builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IDataSeeder, DataSeeder>();
 
             return builder;
