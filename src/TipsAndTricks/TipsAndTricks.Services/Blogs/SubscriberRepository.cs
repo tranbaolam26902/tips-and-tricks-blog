@@ -55,7 +55,7 @@ namespace TipsAndTricks.Services.Blogs {
             if (!regex.Match(email).Success)
                 return false;
 
-            Subscriber subscriber = await _context.Set<Subscriber>().FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+            Subscriber subscriber = await GetSubscriberByEmailAsync(email, cancellationToken);
 
             if (subscriber == null) {
                 subscriber = new Subscriber();
@@ -87,14 +87,18 @@ namespace TipsAndTricks.Services.Blogs {
             if (!regex.Match(email).Success)
                 return false;
 
-            var subscriber = await _context.Set<Subscriber>().FirstOrDefaultAsync(x => x.SubscribeState == SubscribeState.Subscribe && x.Email == email, cancellationToken);
+            var subscriber = await GetSubscriberByEmailAsync(email, cancellationToken);
 
-            if (subscriber != null) {
+            if (subscriber == null)
+                return false;
+
+            if (subscriber.SubscribeState == SubscribeState.Subscribe) {
                 subscriber.Reason = reason;
                 subscriber.SubscribeState = SubscribeState.Unsubscribe;
                 subscriber.UnsubscribedDate = DateTime.Now;
                 _context.Entry(subscriber).State = EntityState.Modified;
                 await _context.SaveChangesAsync(cancellationToken);
+
                 return true;
             }
 
