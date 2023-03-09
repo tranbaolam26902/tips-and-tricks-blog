@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mail;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services;
 using TipsAndTricks.Services.Blogs;
@@ -8,11 +10,15 @@ namespace TipsAndTricks.WebApp.Controllers {
         private readonly IBlogRepository _blogRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly ICommentRepository _commentRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public BlogController(IBlogRepository blogRepository, IAuthorRepository authorRepository, ICommentRepository commentRepository) {
+        public BlogController(IBlogRepository blogRepository, IAuthorRepository authorRepository, ICommentRepository commentRepository, IWebHostEnvironment webHostEnvirontment, IConfiguration configuration) {
             _blogRepository = blogRepository;
             _authorRepository = authorRepository;
             _commentRepository = commentRepository;
+            _webHostEnvironment = webHostEnvirontment;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> Index(
@@ -35,6 +41,31 @@ namespace TipsAndTricks.WebApp.Controllers {
         }
 
         public IActionResult Contact() => View();
+
+        [HttpPost]
+        public IActionResult Contact(string email, string subject, string content) {
+            var server = _configuration.GetValue<string>("smtp:server");
+            var port = _configuration.GetValue<int>("smtp:port");
+            var sender = _configuration.GetValue<string>("smtp:email");
+            var password = _configuration.GetValue<string>("smtp:password");
+            var adminEmail = _configuration.GetValue<string>("smtp:admin-email");
+
+            using (MailMessage mail = new MailMessage()) {
+                mail.From = new MailAddress(sender);
+                mail.To.Add(adminEmail);
+                mail.Subject = "Ý kiến phản hồi từ " + email;
+                mail.Body = "<b>Chủ đề: </b>" + subject + "<br><br>" + "<b>Nội dung:</b><br>" + content.Replace("\n", "<br>");
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient(server, port)) {
+                    smtp.Credentials = new NetworkCredential(sender, password);
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
+
+            return View("ContactResult");
+        }
 
         public IActionResult About() => View();
 

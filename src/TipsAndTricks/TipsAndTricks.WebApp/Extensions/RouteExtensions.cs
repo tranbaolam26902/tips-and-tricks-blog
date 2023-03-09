@@ -28,31 +28,7 @@
 
             endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Blog}/{action=Index}");
-
-            return endpoints;
-        }
-
-        public static IEndpointRouteBuilder UseNewsletterRoutes(this IEndpointRouteBuilder endpoints) {
-            endpoints.MapControllerRoute(
-                name: "subscribe",
-                pattern: "Newsletter/Subscribe",
-                defaults: new { controller = "Newsletter", action = "Subscribe" });
-
-            endpoints.MapControllerRoute(
-                name: "subscribe",
-                pattern: "Newsletter/SubscribeResult",
-                defaults: new { controller = "Newsletter", action = "SubscribeResult" });
-
-            endpoints.MapControllerRoute(
-                name: "unsubscribe",
-                pattern: "Newsletter/Unsubscribe",
-                defaults: new { controller = "Newsletter", action = "Unsubscribe" });
-
-            endpoints.MapControllerRoute(
-                name: "unsubscribe",
-                pattern: "Newsletter/UnsubscribeResult",
-                defaults: new { controller = "Newsletter", action = "UnsubscribeResult" });
+                pattern: "{controller=Blog}/{action=Index}/{id?}");
 
             return endpoints;
         }

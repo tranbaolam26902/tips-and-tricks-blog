@@ -12,13 +12,15 @@
     @await RenderSectionAsync("styles", required: false)
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v16.0" nonce="0s8RqvSn"></script>
     <partial name="_Header" />
-    <div class="container-fluid">
+    <div class="container-fluid content">
         <div class="row">
-            <div class="col-9">
+            <div class="main col-9">
                 @RenderBody()
             </div>
-            <div class="col-3 border-start">
+            <div class="sidebar col-3 border-start">
                 <partial name="_SideBar" />
             </div>
         </div>
