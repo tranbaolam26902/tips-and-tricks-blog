@@ -10,9 +10,6 @@ namespace TipsAndTricks.Data.Mappings {
             builder.Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(50);
-            builder.Property(c => c.Email)
-                .IsRequired()
-                .HasMaxLength(50);
             builder.Property(c => c.Description)
                 .IsRequired()
                 .HasMaxLength(1000);
