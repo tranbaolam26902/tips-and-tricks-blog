@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MapsterMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TipsAndTricks.Services;
 using TipsAndTricks.Services.Blogs;
@@ -7,9 +8,12 @@ using TipsAndTricks.WebApp.Areas.Admin.Models;
 namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
     public class PostsController : Controller {
         private readonly IBlogRepository _blogRepository;
+        private readonly IMapper _mapper;
 
-        public PostsController(IBlogRepository blogRepository) {
+        public PostsController(IBlogRepository blogRepository, IMapper mapper) {
             _blogRepository = blogRepository;
+            _mapper = mapper;
+
         }
 
         private async Task PopulatePostFilterModelAsync(PostFilterModel model) {
@@ -28,13 +32,7 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
         }
 
         public async Task<IActionResult> Index(PostFilterModel model) {
-            var postQuery = new PostQuery() {
-                Keyword = model.Keyword,
-                CategoryId = model.CategoryId,
-                AuthorId = model.AuthorId,
-                PostedYear = model.PostedYear,
-                PostedMonth = model.PostedMonth
-            };
+            var postQuery = _mapper.Map<PostQuery>(model);
             var pagingParams = new PagingParams() {
                 PageNumber = 1,
                 PageSize = 10
