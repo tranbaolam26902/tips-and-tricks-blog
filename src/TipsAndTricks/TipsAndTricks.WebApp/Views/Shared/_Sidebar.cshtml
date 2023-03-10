@@ -8,12 +8,13 @@
     @await Component.InvokeAsync("RandomPostsWidget")
 
     @await Component.InvokeAsync("TagCloudWidget")
-    
+
     @await Component.InvokeAsync("BestAuthorsWidget")
 
     @await Component.InvokeAsync("ArchivesWidget")
 
-    <a asp-controller="Newsletter"
+    <a asp-area=""
+       asp-controller="Newsletter"
        asp-action="Subscribe"
        class="btn btn-primary d-block py-2">
         Đăng ký nhận tin mới

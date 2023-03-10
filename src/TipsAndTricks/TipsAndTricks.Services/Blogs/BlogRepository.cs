@@ -13,6 +13,18 @@ namespace TipsAndTricks.Services.Blogs {
             this._context = context;
         }
 
+        #region Author methods
+        /// <summary>
+        /// Get Authors
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IList<Author>> GetAuthorsAsync(CancellationToken cancellationToken = default) {
+            return await _context.Set<Author>()
+                .ToListAsync(cancellationToken);
+        }
+        #endregion
+
         #region Category methods
         /// <summary>
         /// Get Categories
@@ -387,13 +399,13 @@ namespace TipsAndTricks.Services.Blogs {
                 postQuery = postQuery.Where(x => x.Category.UrlSlug == query.CategorySlug);
             if (!string.IsNullOrWhiteSpace(query.TagSlug))
                 postQuery = postQuery.Where(x => x.Tags.Any(t => t.UrlSlug == query.TagSlug));
-            if (query.AuthorId != -1)
+            if (query.AuthorId != null)
                 postQuery = postQuery.Where(x => x.AuthorId == query.AuthorId);
-            if (query.CategoryId != -1)
+            if (query.CategoryId != null)
                 postQuery = postQuery.Where(x => x.CategoryId == query.CategoryId);
-            if (query.PostedYear != -1)
+            if (query.PostedYear != null)
                 postQuery = postQuery.Where(x => x.PostedDate.Year == query.PostedYear);
-            if (query.PostedMonth != -1)
+            if (query.PostedMonth != null)
                 postQuery = postQuery.Where(x => x.PostedDate.Month == query.PostedMonth);
             if (!string.IsNullOrWhiteSpace(query.Keyword))
                 postQuery = postQuery.Where(x => x.Title.Contains(query.Keyword) ||
