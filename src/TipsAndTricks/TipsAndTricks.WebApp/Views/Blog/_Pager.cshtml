@@ -20,7 +20,8 @@
 @if (Model.PageCount > 1) {
     <div class="text-center my-4">
         @if (Model.HasPreviousPage) {
-            <a asp-controller="Blog"
+            <a asp-area=""
+               asp-controller="Blog"
                asp-action=@actionName
                asp-route-slug=@slug
                asp-route-keywords=@postQuery.Keyword
@@ -40,7 +41,8 @@
         }
 
         @if (Model.HasNextPage) {
-            <a asp-controller="Blog"
+            <a asp-area=""
+               asp-controller="Blog"
                asp-action=@actionName
                asp-route-slug=@slug
                asp-route-keywords=@postQuery.Keyword
