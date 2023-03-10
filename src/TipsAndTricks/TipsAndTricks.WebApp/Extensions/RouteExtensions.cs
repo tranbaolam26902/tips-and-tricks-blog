@@ -27,6 +27,11 @@
                 defaults: new { controller = "Blog", action = "Archive" });
 
             endpoints.MapControllerRoute(
+                name: "admin-area",
+                pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}",
+                defaults: new { area = "Admin" });
+
+            endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Blog}/{action=Index}/{id?}");
 
