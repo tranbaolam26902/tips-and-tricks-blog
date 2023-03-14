@@ -164,7 +164,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="newPost">New Post</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Post> EditPostAsync(Post newPost, CancellationToken cancellationToken = default);
+        Task<Post> EditPostAsync(Post newPost, IEnumerable<string> tags, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 1n. Change Post's Published status
