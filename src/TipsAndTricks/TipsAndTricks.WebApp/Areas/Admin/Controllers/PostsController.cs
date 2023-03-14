@@ -1,4 +1,6 @@
-﻿using MapsterMapper;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TipsAndTricks.Core.Entities;
@@ -17,6 +19,7 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
             _blogRepository = blogRepository;
             _mediaManager = mediaManager;
             _mapper = mapper;
+
         }
 
         private async Task PopulatePostFilterModelAsync(PostFilterModel model) {
@@ -74,7 +77,13 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(PostEditModel model) {
+        public async Task<IActionResult> Edit(IValidator<PostEditModel> postValidator, PostEditModel model) {
+            var validationResult = await postValidator.ValidateAsync(model);
+
+            if (!validationResult.IsValid) {
+                validationResult.AddToModelState(ModelState);
+            }
+
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
