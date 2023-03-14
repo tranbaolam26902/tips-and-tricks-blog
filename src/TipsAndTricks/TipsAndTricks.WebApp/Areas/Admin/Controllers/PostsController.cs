@@ -4,17 +4,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services;
 using TipsAndTricks.Services.Blogs;
+using TipsAndTricks.Services.Media;
 using TipsAndTricks.WebApp.Areas.Admin.Models;
 
 namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
     public class PostsController : Controller {
         private readonly IBlogRepository _blogRepository;
+        private readonly IMediaManager _mediaManager;
         private readonly IMapper _mapper;
 
-        public PostsController(IBlogRepository blogRepository, IMapper mapper) {
+        public PostsController(IBlogRepository blogRepository, IMediaManager mediaManager, IMapper mapper) {
             _blogRepository = blogRepository;
+            _mediaManager = mediaManager;
             _mapper = mapper;
-
         }
 
         private async Task PopulatePostFilterModelAsync(PostFilterModel model) {
@@ -63,7 +65,7 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id = 0) {
-            var post = id > 0 ? await _blogRepository.GetPostByIdAsync(id) : null;
+            var post = id > 0 ? await _blogRepository.GetPostByIdAsync(id, true) : null;
             var model = post == null ? new PostEditModel() : _mapper.Map<PostEditModel>(post);
 
             await PopulatePostEditModelAsync(model);
@@ -87,6 +89,17 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
                 _mapper.Map(model, post);
                 post.Category = null;
                 post.ModifiedDate = DateTime.Now;
+            }
+
+            if (model.ImageFile?.Length > 0) {
+                var newImagePath = await _mediaManager.SaveFileAsync(model.ImageFile.OpenReadStream(),
+                    model.ImageFile.FileName,
+                    model.ImageFile.ContentType);
+
+                if (!string.IsNullOrWhiteSpace(newImagePath)) {
+                    await _mediaManager.DeleteFileAsync(post.ImageUrl);
+                    post.ImageUrl = newImagePath;
+                }
             }
 
             await _blogRepository.EditPostAsync(post, model.GetSelectedTags());

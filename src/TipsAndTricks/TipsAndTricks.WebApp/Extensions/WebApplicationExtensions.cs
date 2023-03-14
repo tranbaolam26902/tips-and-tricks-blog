@@ -2,6 +2,7 @@
 using TipsAndTricks.Data.Contexts;
 using TipsAndTricks.Data.Seeders;
 using TipsAndTricks.Services.Blogs;
+using TipsAndTricks.Services.Media;
 
 namespace TipsAndTricks.WebApp.Extensions {
     public static class WebApplicationExtensions {
@@ -15,6 +16,7 @@ namespace TipsAndTricks.WebApp.Extensions {
         public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder) {
             builder.Services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<IMediaManager, LocalFileSystemMediaManager>();
             builder.Services.AddScoped<IBlogRepository, BlogRepository>();
             builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
             builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
