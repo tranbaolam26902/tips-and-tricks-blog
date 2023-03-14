@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SlugGenerator;
 using TipsAndTricks.Core.Contracts;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
@@ -266,7 +267,9 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="id">Post's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<Post> GetPostByIdAsync(int id, CancellationToken cancellationToken = default) {
+        public async Task<Post> GetPostByIdAsync(int id, bool includeDetails = false, CancellationToken cancellationToken = default) {
+            if (!includeDetails)
+                return await _context.Set<Post>().FindAsync(id, cancellationToken);
             return await _context.Set<Post>()
                 .Include(a => a.Author)
                 .Include(c => c.Category)
@@ -306,20 +309,66 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="newPost">New Post</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<Post> EditPostAsync(Post newPost, CancellationToken cancellationToken = default) {
-            var post = await _context.Set<Post>()
-                .Include(a => a.Author)
-                .Include(c => c.Category)
-                .Include(t => t.Tags)
-                .FirstOrDefaultAsync(x => x.Id == newPost.Id, cancellationToken);
+        public async Task<Post> EditPostAsync(Post post, IEnumerable<string> tags, CancellationToken cancellationToken = default) {
+            var existedPost = await _context.Set<Post>().AnyAsync(s => s.Id == post.Id, cancellationToken);
 
-            if (post != null)
-                _context.Entry(newPost).State = EntityState.Modified;
-            else if (!IsPostSlugExistedAsync(newPost.UrlSlug).Result)
-                await _context.AddAsync(newPost, cancellationToken);
+
+            if (!existedPost || post.Tags == null) {
+                post.Tags = new List<Tag>();
+            } else if (post.Tags == null || post.Tags.Count == 0) {
+                await _context.Entry(post)
+                    .Collection(x => x.Tags)
+                    .LoadAsync(cancellationToken);
+            }
+
+            var validTags = tags.Where(x => !string.IsNullOrWhiteSpace(x))
+                .Select(x => new {
+                    Name = x,
+                    Slug = x.GenerateSlug()
+                })
+                .GroupBy(x => x.Slug)
+                .ToDictionary(g => g.Key, g => g.First().Name);
+
+            if (existedPost) {
+                var oldPost = await GetPostByIdAsync(post.Id, true, cancellationToken);
+                var oldTags = oldPost.Tags.ToList();
+                foreach (var tag in oldTags) {
+                    if (!validTags.ContainsKey(tag.UrlSlug)) {
+                        tag.Posts.Remove(post);
+                        post.Tags.Remove(tag);
+                    }
+                }
+            }
+
+            foreach (var item in validTags) {
+                var tagExists = post.Tags.Any(x => string.Compare(x.UrlSlug, item.Key, StringComparison.InvariantCultureIgnoreCase) == 0);
+                if (tagExists)
+                    continue;
+
+                var tag = await GetTagBySlugAsync(item.Key, cancellationToken) ?? new Tag() {
+                    Name = item.Value,
+                    Description = item.Value,
+                    UrlSlug = item.Key,
+                    Posts = new List<Post>()
+                };
+
+                if (tag.Posts.All(p => p.Id != post.Id)) {
+                    tag.Posts.Add(post);
+                }
+
+                post.Tags.Add(tag);
+            }
+
+            if (existedPost) {
+                _context.Posts.Update(post);
+            } else {
+                _context.Posts.Add(post);
+            }
+
+            var enries = _context.ChangeTracker.Entries();
             await _context.SaveChangesAsync(cancellationToken);
 
-            return newPost;
+            return post;
         }
 
         /// <summary>

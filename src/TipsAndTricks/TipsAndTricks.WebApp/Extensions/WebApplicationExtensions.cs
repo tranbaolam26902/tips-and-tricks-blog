@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 using TipsAndTricks.Data.Contexts;
 using TipsAndTricks.Data.Seeders;
 using TipsAndTricks.Services.Blogs;
+using TipsAndTricks.Services.Media;
+using TipsAndTricks.WebApp.Middlewares;
 
 namespace TipsAndTricks.WebApp.Extensions {
     public static class WebApplicationExtensions {
@@ -15,6 +18,7 @@ namespace TipsAndTricks.WebApp.Extensions {
         public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder) {
             builder.Services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<IMediaManager, LocalFileSystemMediaManager>();
             builder.Services.AddScoped<IBlogRepository, BlogRepository>();
             builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
             builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
@@ -35,6 +39,7 @@ namespace TipsAndTricks.WebApp.Extensions {
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseMiddleware<UserActivityMiddleware>();
 
             return app;
         }
@@ -54,6 +59,13 @@ namespace TipsAndTricks.WebApp.Extensions {
             }
 
             return app;
+        }
+
+        public static WebApplicationBuilder ConfigureNLog(this WebApplicationBuilder builder) {
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
+
+            return builder;
         }
     }
 }

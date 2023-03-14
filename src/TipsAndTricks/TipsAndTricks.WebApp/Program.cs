@@ -1,10 +1,13 @@
 using TipsAndTricks.WebApp.Extensions;
 using TipsAndTricks.WebApp.Mapster;
+using TipsAndTricks.WebApp.Validations;
 
 var builder = WebApplication.CreateBuilder(args); {
     builder.ConfigureMvc()
+            .ConfigureNLog()
             .ConfigureServices()
-            .ConfigureMapster();
+            .ConfigureMapster()
+            .ConfigureFluentValidation();
 }
 
 var app = builder.Build(); {
