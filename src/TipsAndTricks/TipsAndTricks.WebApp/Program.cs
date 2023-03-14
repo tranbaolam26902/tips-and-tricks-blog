@@ -4,6 +4,7 @@ using TipsAndTricks.WebApp.Validations;
 
 var builder = WebApplication.CreateBuilder(args); {
     builder.ConfigureMvc()
+            .ConfigureNLog()
             .ConfigureServices()
             .ConfigureMapster()
             .ConfigureFluentValidation();

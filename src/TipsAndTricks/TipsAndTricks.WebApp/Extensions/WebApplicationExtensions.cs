@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 using TipsAndTricks.Data.Contexts;
 using TipsAndTricks.Data.Seeders;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.Media;
+using TipsAndTricks.WebApp.Middlewares;
 
 namespace TipsAndTricks.WebApp.Extensions {
     public static class WebApplicationExtensions {
@@ -37,6 +39,7 @@ namespace TipsAndTricks.WebApp.Extensions {
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseMiddleware<UserActivityMiddleware>();
 
             return app;
         }
@@ -56,6 +59,13 @@ namespace TipsAndTricks.WebApp.Extensions {
             }
 
             return app;
+        }
+
+        public static WebApplicationBuilder ConfigureNLog(this WebApplicationBuilder builder) {
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
+
+            return builder;
         }
     }
 }
