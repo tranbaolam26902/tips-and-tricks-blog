@@ -144,7 +144,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="id">Post's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Post> GetPostByIdAsync(int id, CancellationToken cancellationToken = default);
+        Task<Post> GetPostByIdAsync(int id, bool includeDetails = false, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get Post by Year, Month Published and Slug
