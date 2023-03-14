@@ -11,8 +11,9 @@ namespace TipsAndTricks.WebApp.Validations {
 
             RuleFor(x => x.Title)
                 .NotEmpty()
+                .WithMessage("Bạn không được để trống tiêu đề bài viết")
                 .MaximumLength(500)
-                .WithMessage("Bạn không được để trống tiêu đề bài viết");
+                .WithMessage("Tiêu đề không được nhiều hơn 500 ký tự");
 
             RuleFor(x => x.ShortDescription)
                 .NotEmpty()
@@ -24,13 +25,15 @@ namespace TipsAndTricks.WebApp.Validations {
 
             RuleFor(x => x.Meta)
                 .NotEmpty()
+                .WithMessage("Bạn không được để trống metadata")
                 .MaximumLength(1000)
-                .WithMessage("Bạn không được để trống Metadata");
+                .WithMessage("Metadata không được nhiều hơn 1000 ký tự");
 
             RuleFor(x => x.UrlSlug)
                 .NotEmpty()
+                .WithMessage("Bạn không được để trống slug")
                 .MaximumLength(1000)
-                .WithMessage("Bạn không được để trống Slug");
+                .WithMessage("Slug không được nhiều hơn 1000 ký tự");
 
             RuleFor(x => x.UrlSlug)
                 .MustAsync(async (postModel, slug, cancellationToken) => !await blogRepository
@@ -46,6 +49,8 @@ namespace TipsAndTricks.WebApp.Validations {
                 .WithMessage("Bạn phải chọn tác giả của bài viết");
 
             RuleFor(x => x.SelectedTags)
+                .NotEmpty()
+                .WithMessage("Bạn phải nhập ít nhất một thẻ")
                 .Must(HasAtLeastOneTag)
                 .WithMessage("Bạn phải nhập ít nhất một thẻ");
 
