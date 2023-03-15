@@ -132,5 +132,11 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
 
             return slugExisted ? Json($"Slug '{slug}' đã được sử dụng") : Json(true);
         }
+
+        public async Task<IActionResult> ChangePostPublishedStatus(int id) {
+            await _blogRepository.ChangePostPublishedStatusAsync(id);
+
+            return RedirectToAction("Index");
+        }
     }
 }

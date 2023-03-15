@@ -375,12 +375,11 @@ namespace TipsAndTricks.Services.Blogs {
         /// 1n. Change Post's Published status
         /// </summary>
         /// <param name="id">Post's Id</param>
-        /// <param name="status">Published</param>
         /// <returns></returns>
-        public async Task ChangePostPublishedStatusAsync(int id, bool status) {
+        public async Task ChangePostPublishedStatusAsync(int id, CancellationToken cancellationToken = default) {
             await _context.Set<Post>()
                 .Where(x => x.Id == id)
-                .ExecuteUpdateAsync(p => p.SetProperty(x => x.Published, status));
+                .ExecuteUpdateAsync(p => p.SetProperty(x => x.Published, x => !x.Published), cancellationToken);
         }
 
         /// <summary>
