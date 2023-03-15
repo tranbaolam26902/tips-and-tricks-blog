@@ -15,12 +15,14 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
         private readonly IBlogRepository _blogRepository;
         private readonly IMediaManager _mediaManager;
         private readonly IMapper _mapper;
+        private readonly IValidator<PostEditModel> _postValidator;
 
-        public PostsController(ILogger<PostsController> logger, IBlogRepository blogRepository, IMediaManager mediaManager, IMapper mapper) {
+        public PostsController(ILogger<PostsController> logger, IBlogRepository blogRepository, IMediaManager mediaManager, IMapper mapper, IValidator<PostEditModel> postValidator) {
             _logger = logger;
             _blogRepository = blogRepository;
             _mediaManager = mediaManager;
             _mapper = mapper;
+            _postValidator = postValidator;
         }
 
         private async Task PopulatePostFilterModelAsync(PostFilterModel model) {
@@ -85,8 +87,8 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(IValidator<PostEditModel> postValidator, PostEditModel model) {
-            var validationResult = await postValidator.ValidateAsync(model);
+        public async Task<IActionResult> Edit(PostEditModel model) {
+            var validationResult = await _postValidator.ValidateAsync(model);
 
             if (!validationResult.IsValid) {
                 validationResult.AddToModelState(ModelState);
@@ -125,8 +127,8 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> VerifyPostSlug(string slug) {
-            var slugExisted = await _blogRepository.IsPostSlugExistedAsync(slug);
+        public async Task<IActionResult> VerifyPostSlug(int id, string slug) {
+            var slugExisted = await _blogRepository.IsPostSlugExistedAsync(id, slug);
 
             return slugExisted ? Json($"Slug '{slug}' đã được sử dụng") : Json(true);
         }

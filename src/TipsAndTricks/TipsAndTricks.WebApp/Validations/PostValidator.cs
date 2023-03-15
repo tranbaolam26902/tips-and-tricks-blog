@@ -37,7 +37,7 @@ namespace TipsAndTricks.WebApp.Validations {
 
             RuleFor(x => x.UrlSlug)
                 .MustAsync(async (postModel, slug, cancellationToken) => !await blogRepository
-                    .IsPostSlugExistedAsync(slug, cancellationToken))
+                    .IsPostSlugExistedAsync(postModel.Id, slug, cancellationToken))
                     .WithMessage("Slug '{PropertyValue}' đã được sử dụng");
 
             RuleFor(x => x.CategoryId)
