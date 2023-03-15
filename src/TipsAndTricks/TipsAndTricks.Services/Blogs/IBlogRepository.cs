@@ -170,9 +170,8 @@ namespace TipsAndTricks.Services.Blogs {
         /// 1n. Change Post's Published status
         /// </summary>
         /// <param name="id">Post's Id</param>
-        /// <param name="status">Published</param>
         /// <returns></returns>
-        Task ChangePostPublishedStatusAsync(int id, bool status);
+        Task ChangePostPublishedStatusAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Increase Post's view by 1
