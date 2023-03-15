@@ -55,7 +55,10 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
             });
         }
 
-        public async Task<IActionResult> Index(PostFilterModel model) {
+        public async Task<IActionResult> Index(
+            PostFilterModel model,
+            [FromQuery(Name = "page")] int page = 1,
+            [FromQuery(Name = "page-size")] int pageSize = 10) {
             _logger.LogInformation("Tạo điều kiện truy vấn");
 
             var postQuery = _mapper.Map<PostQuery>(model);
@@ -63,11 +66,12 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
             _logger.LogInformation("Lấy danh sách bài viết từ CSDL");
 
             var pagingParams = new PagingParams() {
-                PageNumber = 1,
-                PageSize = 10
+                PageNumber = page,
+                PageSize = pageSize
             };
 
             ViewBag.PostsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
+            ViewData["PostQuery"] = postQuery;
 
             _logger.LogInformation("Chuẩn bị dữ liệu cho ViewModel");
 
