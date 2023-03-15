@@ -1,0 +1,56 @@
+﻿@model IPagedList<Post>
+
+@{
+    var postQuery = (ViewData["PostQuery"] as PostQuery) ?? new PostQuery();
+    var controller = "Posts";
+
+    if (!string.IsNullOrWhiteSpace(postQuery.AuthorSlug)) {
+        controller = "Authors";
+    } else if (!string.IsNullOrWhiteSpace(postQuery.CategorySlug)) {
+        controller = "Categories";
+    } else if (!string.IsNullOrWhiteSpace(postQuery.TagSlug)) {
+        controller = "Tags";
+    }
+}
+
+@if (Model.PageCount > 1) {
+    <div class="text-center my-4">
+        @if (Model.HasPreviousPage) {
+            <a asp-area="Admin"
+               asp-controller=@controller
+               asp-action="Index"
+               asp-route-page=@(Model.PageNumber - 1)
+               asp-route-page-size=@Model.PageSize
+               class="btn btn-info">
+                <i class="fa fa-arrow-left"></i>
+                Trang trước
+            </a>
+        } else {
+            <button type="button"
+                    class="btn btn-outline-secondary"
+                    dsiabled>
+                <i class="fa fa-arrow-left"></i>
+                Trang trước
+            </button>
+        }
+
+        @if (Model.HasNextPage) {
+            <a asp-area="Admin"
+               asp-controller=@controller
+               asp-action="Index"
+               asp-route-page=@(Model.PageNumber + 1)
+               asp-route-page-size=@Model.PageSize
+               class="btn btn-info">
+                <i class="fa fa-arrow-right"></i>
+                Trang sau
+            </a>
+        } else {
+            <button type="button"
+                    class="btn btn-outline-secondary"
+                    dsiabled>
+                <i class="fa fa-arrow-right"></i>
+                Trang sau
+            </button>
+        }
+    </div>
+}
