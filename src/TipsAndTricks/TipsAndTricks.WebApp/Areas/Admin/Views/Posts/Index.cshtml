@@ -45,17 +45,23 @@
                         @post.Category.Name
                     </td>
                     <td>
-                        <a asp-area="Admin"
-                        asp-controller="Posts"
-                        asp-action="ChangePostPublishedStatus"
-                        asp-route-id=@post.Id
-                                class="btn btn-primary">
-                            @if (post.Published) {
-                                <span>Có</span>
-                            } else {
-                                <span>Không</span>
-                            }
-                        </a>
+                        @if (post.Published) {
+                            <a asp-area="Admin"
+                   asp-controller="Posts"
+                   asp-action="ChangePostPublishedStatus"
+                   asp-route-id=@post.Id
+                               class="btn btn-primary">
+                                Có
+                            </a>
+                        } else {
+                            <a asp-area="Admin"
+                   asp-controller="Posts"
+                   asp-action="ChangePostPublishedStatus"
+                   asp-route-id=@post.Id
+                               class="btn btn-secondary">
+                                Không
+                            </a>
+                        }
                     </td>
                 </tr>
             }
