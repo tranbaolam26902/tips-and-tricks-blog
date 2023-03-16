@@ -1,6 +1,6 @@
 ﻿using TipsAndTricks.Core.Contracts;
 
-namespace TipsAndTricks.Services {
+namespace TipsAndTricks.Services.FilterParams {
     public class PagingParams : IPagingParams {
         public int PageSize { get; set; } = 5;
         public int PageNumber { get; set; } = 1;

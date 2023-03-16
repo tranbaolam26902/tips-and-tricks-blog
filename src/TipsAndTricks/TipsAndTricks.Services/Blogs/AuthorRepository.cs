@@ -39,6 +39,18 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
+        /// Delete Author by Id
+        /// </summary>
+        /// <param name="id">Author's Id</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteAuthorByIdAsync(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Author>()
+                .Where(x => x.Id == id)
+                .ExecuteDeleteAsync(cancellationToken) > 0;
+        }
+
+        /// <summary>
         /// 2e. Edit Author if existed, otherwise insert a new one.
         /// If Author's Id is not provided, insert a new Author with continuous Id
         /// If Author's Id is provided and existed in database, update Author with new values
@@ -73,10 +85,57 @@ namespace TipsAndTricks.Services.Blogs {
                     Id = x.Id,
                     FullName = x.FullName,
                     UrlSlug = x.UrlSlug,
+                    ImageUrl = x.ImageUrl,
+                    JoinedDate = x.JoinedDate,
                     Email = x.Email,
+                    Notes = x.Notes,
                     PostCount = x.Posts.Count(p => p.Published)
                 })
                 .ToPagedListAsync(pagingParams, cancellationToken);
+        }
+
+        /// <summary>
+        /// Filter Authors by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public IQueryable<AuthorItem> FilterAuthors(IAuthorQuery query) {
+            IQueryable<AuthorItem> authorQuery = _context.Set<Author>()
+                .Select(x => new AuthorItem() {
+                    Id = x.Id,
+                    FullName = x.FullName,
+                    UrlSlug = x.UrlSlug,
+                    ImageUrl = x.ImageUrl,
+                    JoinedDate = x.JoinedDate,
+                    Email = x.Email,
+                    Notes = x.Notes,
+                    PostCount = x.Posts.Count(p => p.Published)
+                });
+
+            if (!string.IsNullOrWhiteSpace(query.Keyword)) {
+                authorQuery = authorQuery.Where(x => x.FullName.Contains(query.Keyword) ||
+                                                    x.Notes.Contains(query.Keyword) ||
+                                                    x.Email.Contains(query.Keyword));
+            }
+            if (query.JoinedMonth != null) {
+                authorQuery = authorQuery.Where(x => x.JoinedDate.Month == query.JoinedMonth);
+            }
+            if (query.JoinedYear != null) {
+                authorQuery = authorQuery.Where(x => x.JoinedDate.Year == query.JoinedYear);
+            }
+
+            return authorQuery;
+        }
+
+        /// <summary>
+        /// Paginate Authors found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IPagedList<AuthorItem>> GetPagedAuthorsByQueryAsync(IAuthorQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            return await FilterAuthors(query).ToPagedListAsync(pagingParams, cancellationToken);
         }
 
         /// <summary>
@@ -90,6 +149,18 @@ namespace TipsAndTricks.Services.Blogs {
                 .OrderByDescending(x => x.Posts.Count)
                 .Take(numberOfAuthors)
                 .ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Check whether Author's Slug is existed
+        /// </summary>
+        /// <param name="id">Author's Id</param>
+        /// <param name="slug">Author's Slug</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> IsAuthorSlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default) {
+            return await _context.Set<Author>()
+                .AnyAsync(x => x.Id != id && x.UrlSlug == slug, cancellationToken);
         }
         #endregion
     }

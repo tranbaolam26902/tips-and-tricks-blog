@@ -4,8 +4,8 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TipsAndTricks.Core.Entities;
-using TipsAndTricks.Services;
 using TipsAndTricks.Services.Blogs;
+using TipsAndTricks.Services.FilterParams;
 using TipsAndTricks.Services.Media;
 using TipsAndTricks.WebApp.Areas.Admin.Models;
 
@@ -71,7 +71,6 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
             };
 
             ViewBag.PostsList = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
-            ViewData["PostQuery"] = postQuery;
 
             _logger.LogInformation("Chuẩn bị dữ liệu cho ViewModel");
 

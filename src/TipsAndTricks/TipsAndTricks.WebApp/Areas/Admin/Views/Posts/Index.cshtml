@@ -16,18 +16,18 @@
 @if (postsList != null && postsList.Count > 0) {
     <table class="table table-responsive table-striped">
         <thead>
-            <tr>
-                <th>Tiêu đề</th>
-                <th>Tác giả</th>
-                <th>Chủ đề</th>
-                <th>Xuất bản</th>
-                <th>Xóa</th>
+            <tr class="row">
+                <th class="col-8">Tiêu đề</th>
+                <th class="col-1">Tác giả</th>
+                <th class="col-1">Chủ đề</th>
+                <th class="col-1">Xuất bản</th>
+                <th class="col-1">Xóa</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var post in postsList) {
-                <tr>
-                    <td>
+                <tr class="row">
+                    <td class="col-8">
                         <a asp-area="Admin"
                    asp-controller="Posts"
                    asp-action="Edit"
@@ -39,13 +39,13 @@
                             @post.ShortDescription
                         </p>
                     </td>
-                    <td>
+                    <td class="col-1">
                         @post.Author.FullName
                     </td>
-                    <td>
+                    <td class="col-1">
                         @post.Category.Name
                     </td>
-                    <td>
+                    <td class="col-1">
                         @if (post.Published) {
                             <a asp-area="Admin"
                    asp-controller="Posts"
@@ -65,7 +65,7 @@
                             </a>
                         }
                     </td>
-                    <td>
+                    <td class="col-1">
                         <a asp-area="Admin"
                             asp-controller="Posts"
                             asp-action="DeletePost"

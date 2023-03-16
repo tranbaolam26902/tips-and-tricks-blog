@@ -59,10 +59,11 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1i. Check whether Category's Slug is existed
         /// </summary>
+        /// <param name="id">Category's Id</param>
         /// <param name="slug">Category's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> IsCategorySlugExistedAsync(string slug, CancellationToken cancellationToken = default);
+        Task<bool> IsCategorySlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 1j. Paginate Categories
@@ -71,6 +72,23 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Filter Categories by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        IQueryable<CategoryItem> FilterCategories(ICategoryQuery query);
+
+        /// <summary>
+        /// Paginate Categories found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IPagedList<CategoryItem>> GetPagedCategoriesByQueryAsync(ICategoryQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
         #endregion
 
         #region Tags methods
@@ -106,12 +124,47 @@ namespace TipsAndTricks.Services.Blogs {
         Task<bool> DeleteTagByIdAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Paginate Tags
+        /// Edit Tag if existed, otherwise insert a new one
+        /// If Tag's Id is not provided, insert a new Tag with continuous Id
+        /// If Tag's Id is provided and existed in database, update Tag with new values
+        /// </summary>
+        /// <param name="newTag"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<Tag> EditTagAsync(Tag newTag, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Check whether Tag's Slug is existed
+        /// </summary>
+        /// <param name="id">Tag's Id</param>
+        /// <param name="slug">Tag's Slug</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> IsTagSlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Paginate Tags found by queries
         /// </summary>
         /// <param name="pagingParams"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IPagedList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Filter Tags by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        IQueryable<TagItem> FilterTags(ITagQuery query);
+
+        /// <summary>
+        /// Paginate Tags by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IPagedList<TagItem>> GetPagedTagsByQueryAsync(ITagQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
         #endregion
 
         #region Post methods
