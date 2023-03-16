@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
-using TipsAndTricks.Services;
 using TipsAndTricks.Services.Blogs;
+using TipsAndTricks.Services.FilterParams;
 
 namespace TipsAndTricks.WebApp.Controllers {
     public class BlogController : Controller {
@@ -171,7 +171,8 @@ namespace TipsAndTricks.WebApp.Controllers {
             };
             var postQuery = new PostQuery() {
                 PostedYear = year,
-                PostedMonth = month
+                PostedMonth = month,
+                Published = true,
             };
             var posts = await _blogRepository.GetPagedPostsByQueryAsync(postQuery, pagingParams);
 
