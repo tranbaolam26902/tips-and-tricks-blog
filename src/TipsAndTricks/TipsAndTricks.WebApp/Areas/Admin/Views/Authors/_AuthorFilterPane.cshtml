@@ -1,0 +1,45 @@
+﻿@model TipsAndTricks.WebApp.Areas.Admin.Models.AuthorFilterModel
+
+<form asp-area="Admin"
+      asp-controller="Authors"
+      asp-action="Index"
+      method="get"
+      class="row gy-2 gx-3 align-items-center">
+    <div class="col-auto">
+        <label asp-for="Keyword" class="visually-hidden"></label>
+        <input type="text"
+               asp-for="Keyword"
+               class="form-control"
+               placeholder="Nhập từ khóa" />
+    </div>
+    <div class="col-auto">
+        <label asp-for="JoinedYear" class="visually-hidden"></label>
+        <input type="text"
+               asp-for="JoinedYear"
+               class="form-control"
+               placeholder="Nhập năm" />
+    </div>
+    <div class="col-auto">
+        <label asp-for="JoinedMonth" class="visually-hidden"></label>
+        <select asp-for="JoinedMonth"
+                asp-items=@Model.MonthList
+                class="form-select">
+            <option value="" selected>-- Chọn tháng --</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Tìm/Lọc</button>
+        <a asp-area="Admin"
+           asp-controller="Authors"
+           asp-action="Index"
+           class="btn btn-warning">
+            Bỏ lọc
+        </a>
+        <a asp-area="Admin"
+           asp-controller="Authors"
+           asp-action="Edit"
+           class="btn btn-success">
+            Thêm mới
+        </a>
+    </div>
+</form>

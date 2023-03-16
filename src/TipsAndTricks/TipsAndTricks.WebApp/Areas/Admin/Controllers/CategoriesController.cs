@@ -10,13 +10,13 @@ using TipsAndTricks.WebApp.Areas.Admin.Models;
 
 namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
     public class CategoriesController : Controller {
-        private readonly ILogger<PostsController> _logger;
+        private readonly ILogger<CategoriesController> _logger;
         private readonly IBlogRepository _blogRepository;
         private readonly IMediaManager _mediaManager;
         private readonly IMapper _mapper;
         private readonly IValidator<CategoryEditModel> _categoryValidator;
 
-        public CategoriesController(ILogger<PostsController> logger, IBlogRepository blogRepository, IMediaManager mediaManager, IMapper mapper, IValidator<CategoryEditModel> postValidator) {
+        public CategoriesController(ILogger<CategoriesController> logger, IBlogRepository blogRepository, IMediaManager mediaManager, IMapper mapper, IValidator<CategoryEditModel> postValidator) {
             _logger = logger;
             _blogRepository = blogRepository;
             _mediaManager = mediaManager;

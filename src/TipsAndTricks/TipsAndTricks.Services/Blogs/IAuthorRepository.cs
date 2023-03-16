@@ -22,6 +22,14 @@ namespace TipsAndTricks.Services.Blogs {
         Task<Author> GetAuthorBySlugAsync(string slug, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Delete Author by Id
+        /// </summary>
+        /// <param name="id">Author's Id</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> DeleteAuthorByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 2e. Edit Author if existed, otherwise insert a new one.
         /// If Author's Id is not provided, insert a new Author with continuous Id
         /// If Author's Id is provided and existed in database, update Author with new values
@@ -40,12 +48,38 @@ namespace TipsAndTricks.Services.Blogs {
         Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Filter Authors by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        IQueryable<AuthorItem> FilterAuthors(IAuthorQuery query);
+
+        /// <summary>
+        /// Paginate Authors found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IPagedList<AuthorItem>> GetPagedAuthorsByQueryAsync(IAuthorQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 2f. Get Authors has most Articles
         /// </summary>
         /// <param name="numberOfAuthors"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IList<Author>> GetAuthorsHasMostArticles(int numberOfAuthors, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Check whether Author's Slug is existed
+        /// </summary>
+        /// <param name="id">Author's Id</param>
+        /// <param name="slug">Author's Slug</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> IsAuthorSlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default);
         #endregion
     }
 }

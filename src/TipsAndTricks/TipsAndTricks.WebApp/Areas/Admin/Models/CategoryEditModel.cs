@@ -5,13 +5,13 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Models {
         public int Id { get; set; }
 
         [DisplayName("Tên")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [DisplayName("Giới thiệu")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [DisplayName("Slug")]
-        public string UrlSlug { get; set; }
+        public string? UrlSlug { get; set; }
 
         [DisplayName("Hiển thị trên menu")]
         public bool ShowOnMenu { get; set; }
