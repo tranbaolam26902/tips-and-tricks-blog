@@ -59,10 +59,11 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1i. Check whether Category's Slug is existed
         /// </summary>
+        /// <param name="id">Category's Id</param>
         /// <param name="slug">Category's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> IsCategorySlugExistedAsync(string slug, CancellationToken cancellationToken = default);
+        Task<bool> IsCategorySlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 1j. Paginate Categories

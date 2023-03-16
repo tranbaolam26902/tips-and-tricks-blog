@@ -112,12 +112,13 @@ namespace TipsAndTricks.Services.Blogs {
         /// <summary>
         /// 1i. Check whether Category's Slug is existed
         /// </summary>
+        /// <param name="id">Category's Id</param>
         /// <param name="slug">Category's Slug</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> IsCategorySlugExistedAsync(string slug, CancellationToken cancellationToken = default) {
+        public async Task<bool> IsCategorySlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Category>()
-                .AnyAsync(x => x.UrlSlug == slug, cancellationToken);
+                .AnyAsync(x => x.Id != id && x.UrlSlug == slug, cancellationToken);
         }
 
         /// <summary>
