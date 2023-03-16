@@ -157,6 +157,14 @@ namespace TipsAndTricks.Services.Blogs {
         Task<Post> GetPostAsync(int year, int month, string slug, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Delete Post by Id
+        /// </summary>
+        /// <param name="id">Post's Id</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> DeletePostById(int id, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 1m. Edit Post if existed, otherwise insert a new one
         /// If Post's Id is not provided, insert a new Post with continuous Id
         /// If Post's Id is provided and existed in database, update Post with new values

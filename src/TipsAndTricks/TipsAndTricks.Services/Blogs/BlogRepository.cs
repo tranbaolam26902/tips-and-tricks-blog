@@ -302,6 +302,18 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
+        /// Delete Post by Id
+        /// </summary>
+        /// <param name="id">Post's Id</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> DeletePostById(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Where(x => x.Id == id)
+                .ExecuteDeleteAsync(cancellationToken) > 0;
+        }
+
+        /// <summary>
         /// 1m. Edit Post if existed, otherwise insert a new one
         /// If Post's Id is not provided, insert a new Post with continuous Id
         /// If Post's Id is provided and existed in database, update Post with new values
