@@ -14,6 +14,8 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Models {
         public int? PostedYear { get; set; }
         [DisplayName("Tháng")]
         public int? PostedMonth { get; set; }
+        [DisplayName("Chưa xuất bản")]
+        public bool Unpublished { get; set; }
 
         public IEnumerable<SelectListItem> AuthorList { get; set; }
         public IEnumerable<SelectListItem> CategoryList { get; set; }
