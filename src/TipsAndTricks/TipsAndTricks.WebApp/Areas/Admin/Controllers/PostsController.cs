@@ -142,5 +142,11 @@ namespace TipsAndTricks.WebApp.Areas.Admin.Controllers {
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> DeletePost(int id) {
+            await _blogRepository.DeletePostById(id);
+
+            return RedirectToAction("Index");
+        }
     }
 }
