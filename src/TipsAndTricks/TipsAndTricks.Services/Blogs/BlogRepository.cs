@@ -234,6 +234,39 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
+        /// Edit Tag if existed, otherwise insert a new one
+        /// If Tag's Id is not provided, insert a new Tag with continuous Id
+        /// If Tag's Id is provided and existed in database, update Tag with new values
+        /// </summary>
+        /// <param name="newTag"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Tag> EditTagAsync(Tag newTag, CancellationToken cancellationToken = default) {
+            var tag = await _context.Set<Tag>()
+                .Include(p => p.Posts)
+                .AnyAsync(x => x.Id == newTag.Id, cancellationToken);
+            if (tag)
+                _context.Entry(newTag).State = EntityState.Modified;
+            else
+                await _context.Tags.AddAsync(newTag, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return newTag;
+        }
+
+        /// <summary>
+        /// Check whether Tag's Slug is existed
+        /// </summary>
+        /// <param name="id">Tag's Id</param>
+        /// <param name="slug">Tag's Slug</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> IsTagSlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default) {
+            return await _context.Set<Tag>()
+                .AnyAsync(x => x.Id != id && x.UrlSlug == slug, cancellationToken);
+        }
+
+        /// <summary>
         /// Paginate Tags
         /// </summary>
         /// <param name="pagingParams"></param>
@@ -249,6 +282,39 @@ namespace TipsAndTricks.Services.Blogs {
                     PostCount = x.Posts.Count(p => p.Published)
                 })
                 .ToPagedListAsync(pagingParams, cancellationToken);
+        }
+
+        /// <summary>
+        /// Filter Tags by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public IQueryable<TagItem> FilterTags(ITagQuery query) {
+            IQueryable<TagItem> tagQuery = _context.Set<Tag>()
+                .Select(x => new TagItem() {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+                    PostCount = x.Posts.Count(p => p.Published)
+                });
+
+            if (!string.IsNullOrWhiteSpace(query.Keyword)) {
+                tagQuery = tagQuery.Where(x => x.Name.Contains(query.Keyword) || x.Description.Contains(query.Keyword));
+            }
+
+            return tagQuery;
+        }
+
+        /// <summary>
+        /// Paginate Tags found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IPagedList<TagItem>> GetPagedTagsByQueryAsync(ITagQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            return await FilterTags(query).ToPagedListAsync(pagingParams);
         }
         #endregion
 
