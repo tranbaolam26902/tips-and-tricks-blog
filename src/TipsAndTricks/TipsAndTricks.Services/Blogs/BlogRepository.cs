@@ -133,6 +133,7 @@ namespace TipsAndTricks.Services.Blogs {
                     Name = x.Name,
                     UrlSlug = x.UrlSlug,
                     Description = x.Description,
+                    ShowOnMenu = x.ShowOnMenu,
                     PostCount = x.Posts.Count(p => p.Published)
                 })
                 .ToPagedListAsync(pagingParams, cancellationToken);
@@ -150,6 +151,7 @@ namespace TipsAndTricks.Services.Blogs {
                     Name = x.Name,
                     UrlSlug = x.UrlSlug,
                     Description = x.Description,
+                    ShowOnMenu = x.ShowOnMenu,
                     PostCount = x.Posts.Count(p => p.Published)
                 });
 
