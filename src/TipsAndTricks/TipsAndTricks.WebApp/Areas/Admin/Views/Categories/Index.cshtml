@@ -1,7 +1,55 @@
-﻿@{
+﻿@using TipsAndTricks.Core.Contracts;
+@using TipsAndTricks.Core.Entities;
+@model TipsAndTricks.WebApp.Areas.Admin.Models.CategoryFilterModel
+
+@{
     ViewData["PageTitle"] = "Quản lý chủ đề";
+    var categoriesList = ViewBag.CategoriesList as IPagedList<CategoryItem>;
 }
 
 <h1>
     Danh sách chủ đề
 </h1>
+
+<partial name="_CategoryFilterPane" model=@Model />
+
+@if (categoriesList != null && categoriesList.Count > 0) {
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr class="row">
+                <th class="col-6">Chủ đề</th>
+                <th class="col-3">Hiển thị trên menu</th>
+                <th class="col-3">Số lượng bài viết</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in categoriesList) {
+                <tr class="row">
+                    <td class="col-6">
+                        <a asp-area="Admin"
+                   asp-controller="Posts"
+                   asp-action="Edit"
+                   asp-route-id="@category.Id"
+                           class="text-bold">
+                            @category.Name
+                        </a>
+                        <p class="text-muted">
+                            @category.Description
+                        </p>
+                    </td>
+                    <td class="col-3">
+                        @(category.ShowOnMenu ? "Có" : "Không")
+                    </td>
+                    <td class="col-3">
+                        @category.PostCount
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <partial name="_Pager" model=@categoriesList />
+} else {
+    <h1 class="text-danger">
+        Không tìm thấy chủ đề nào
+    </h1>
+}

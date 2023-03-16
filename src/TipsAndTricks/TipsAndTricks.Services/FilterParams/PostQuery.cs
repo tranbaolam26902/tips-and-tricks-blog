@@ -1,6 +1,6 @@
 ﻿using TipsAndTricks.Core.Contracts;
 
-namespace TipsAndTricks.Services {
+namespace TipsAndTricks.Services.FilterParams {
     public class PostQuery : IPostQuery {
         public int? AuthorId { get; set; }
         public int? CategoryId { get; set; }

@@ -137,6 +137,43 @@ namespace TipsAndTricks.Services.Blogs {
                 })
                 .ToPagedListAsync(pagingParams, cancellationToken);
         }
+
+        /// <summary>
+        /// Filter Categories by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public IQueryable<CategoryItem> FilterCategories(ICategoryQuery query) {
+            IQueryable<CategoryItem> categoryQuery = _context.Set<Category>()
+                .Select(x => new CategoryItem() {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+                    PostCount = x.Posts.Count(p => p.Published)
+                });
+
+            if (!string.IsNullOrWhiteSpace(query.Keyword)) {
+                categoryQuery = categoryQuery.Where(x => x.Name.Contains(query.Keyword) ||
+                                                            x.Description.Contains(query.Keyword));
+            }
+            if (query.ShowOnMenu) {
+                categoryQuery = categoryQuery.Where(x => x.ShowOnMenu);
+            }
+
+            return categoryQuery;
+        }
+
+        /// <summary>
+        /// Paginate Categories found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IPagedList<CategoryItem>> GetPagedCategoriesByQueryAsync(ICategoryQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            return await FilterCategories(query).ToPagedListAsync(pagingParams);
+        }
         #endregion
 
         #region Tag methods

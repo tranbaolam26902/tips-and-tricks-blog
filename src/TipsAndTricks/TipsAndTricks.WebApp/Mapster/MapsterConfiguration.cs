@@ -1,10 +1,11 @@
 ﻿using Mapster;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
-using TipsAndTricks.Services;
+using TipsAndTricks.Services.FilterParams;
 using TipsAndTricks.WebApp.Areas.Admin.Models;
 
-namespace TipsAndTricks.WebApp.Mapster {
+namespace TipsAndTricks.WebApp.Mapster
+{
     public class MapsterConfiguration : IRegister {
         public void Register(TypeAdapterConfig config) {
             config.NewConfig<Post, PostItem>()

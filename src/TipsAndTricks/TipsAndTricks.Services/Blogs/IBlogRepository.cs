@@ -71,6 +71,23 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Filter Categories by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        IQueryable<CategoryItem> FilterCategories(ICategoryQuery query);
+
+        /// <summary>
+        /// Paginate Categories found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IPagedList<CategoryItem>> GetPagedCategoriesByQueryAsync(ICategoryQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
         #endregion
 
         #region Tags methods
