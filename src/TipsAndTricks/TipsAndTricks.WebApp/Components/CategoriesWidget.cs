@@ -10,7 +10,7 @@ namespace TipsAndTricks.WebApp.Components {
         }
 
         public async Task<IViewComponentResult> InvokeAsync() {
-            var categories = await _blogRepository.GetCategoriesAsync();
+            var categories = await _blogRepository.GetCategoriesAsync(true);
 
             return View(categories);
         }
