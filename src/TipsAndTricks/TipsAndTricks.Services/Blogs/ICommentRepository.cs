@@ -1,15 +1,16 @@
-﻿using TipsAndTricks.Core.Entities;
+﻿using TipsAndTricks.Core.Contracts;
+using TipsAndTricks.Core.Entities;
 
 namespace TipsAndTricks.Services.Blogs {
     public interface ICommentRepository {
         #region Comment methods
         /// <summary>
-        /// Approve a Comment to show on a Post
+        /// Toggle Comment's Approved state
         /// </summary>
         /// <param name="id">Comment's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> ApproveCommentAsync(int id, CancellationToken cancellationToken = default);
+        Task ChangeCommentApprovedState(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete Comment
@@ -17,7 +18,23 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="id">Comment's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> DeleteCommentAsync(int id, CancellationToken cancellationToken = default);
+        Task<bool> DeleteCommentByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Filter Comments by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        IQueryable<Comment> FilterComments(ICommentQuery query);
+
+        /// <summary>
+        /// Paginate Comments found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IPagedList<Comment>> GetPagedCommentsByQueryAsync(ICommentQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get Comments of Post
