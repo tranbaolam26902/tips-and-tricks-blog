@@ -192,6 +192,10 @@ namespace TipsAndTricks.Services.Blogs {
                 subscriberQuery = subscriberQuery.Where(x => x.SubscribedDate.Month == query.LastSubscribedMonth);
             }
 
+            if (query.LastSubscribedDay != null) {
+                subscriberQuery = subscriberQuery.Where(x => x.SubscribedDate.Day == query.LastSubscribedDay);
+            }
+
             return subscriberQuery;
         }
 
