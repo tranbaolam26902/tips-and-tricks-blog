@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TipsAndTricks.Core.Contracts;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Data.Contexts;
+using TipsAndTricks.Services.Extensions;
 
 namespace TipsAndTricks.Services.Blogs {
     public class CommentRepository : ICommentRepository {
@@ -12,21 +14,15 @@ namespace TipsAndTricks.Services.Blogs {
 
         #region Comment methods
         /// <summary>
-        /// Approve a Comment to show on a Post
+        /// Change Comment's Approved state
         /// </summary>
         /// <param name="id">Comment's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> ApproveCommentAsync(int id, CancellationToken cancellationToken = default) {
-            var comment = await _context.Set<Comment>().FirstOrDefaultAsync(x => x.Id == id && x.IsApproved == false);
-            if (comment == null)
-                return true;
-
-            comment.IsApproved = true;
-            _context.Entry(comment).State = EntityState.Modified;
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return true;
+        public async Task ChangeCommentApprovedState(int id, CancellationToken cancellationToken = default) {
+            await _context.Set<Comment>()
+                .Where(x => x.Id == id)
+                .ExecuteUpdateAsync(c => c.SetProperty(x => x.IsApproved, x => !x.IsApproved), cancellationToken);
         }
 
         /// <summary>
@@ -35,10 +31,47 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="id">Comment's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteCommentAsync(int id, CancellationToken cancellationToken = default) {
+        public async Task<bool> DeleteCommentByIdAsync(int id, CancellationToken cancellationToken = default) {
             return await _context.Set<Comment>()
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync(cancellationToken) > 0;
+        }
+
+        /// <summary>
+        /// Filter Comments by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public IQueryable<Comment> FilterComments(ICommentQuery query) {
+            IQueryable<Comment> commentQuery = _context.Set<Comment>();
+
+            if (!string.IsNullOrWhiteSpace(query.Keyword)) {
+                commentQuery = commentQuery.Where(x => x.Name.Contains(query.Keyword) ||
+                                                        x.Description.Contains(query.Keyword) ||
+                                                        x.Post.Title.Contains(query.Keyword));
+            }
+            if (query.PostedMonth != null) {
+                commentQuery = commentQuery.Where(x => x.PostedDate.Month == query.PostedMonth);
+            }
+            if (query.PostedYear != null) {
+                commentQuery = commentQuery.Where(x => x.PostedDate.Year == query.PostedYear);
+            }
+            if (query.IsNotApproved) {
+                commentQuery = commentQuery.Where(x => !x.IsApproved);
+            }
+
+            return commentQuery;
+        }
+
+        /// <summary>
+        /// Paginate Comments found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IPagedList<Comment>> GetPagedCommentsByQueryAsync(ICommentQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            return await FilterComments(query).ToPagedListAsync(pagingParams);
         }
 
         /// <summary>

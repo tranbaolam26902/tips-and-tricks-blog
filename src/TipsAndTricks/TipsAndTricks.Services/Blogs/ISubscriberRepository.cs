@@ -47,11 +47,10 @@ namespace TipsAndTricks.Services.Blogs {
         /// Ban a Subscriber
         /// </summary>
         /// <param name="id">Subscriber's Id</param>
-        /// <param name="reason">Reason why Subscriber is banned</param>
         /// <param name="notes">Admin's notes</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> BanSubscriberAsync(int id, string reason, string notes, CancellationToken cancellationToken = default);
+        Task<bool> BanSubscriberAsync(int id, string notes, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete Subscriber
@@ -59,7 +58,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="id">Subscriber's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> DeleteSubscriberAsync(int id, CancellationToken cancellationToken = default);
+        Task<bool> DeleteSubscriberByIdAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Search Subscriber
@@ -70,5 +69,29 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IPagedList<Subscriber>> SearchSubscribersAsync(IPagingParams pagingParams, string keywords, SubscribeState subscribeStatus, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Filter Subscribers by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        IQueryable<Subscriber> FilterSubscribers(ISubscriberQuery query);
+
+        /// <summary>
+        /// Paginate Subscribers found by queries
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IPagedList<Subscriber>> GetPagedSubscribersByQueryAsync(ISubscriberQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Unban Subscriber by Id
+        /// </summary>
+        /// <param name="id">Subscriber's Id</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> UnbanSubscriberAsync(int id, CancellationToken cancellationToken = default);
     }
 }

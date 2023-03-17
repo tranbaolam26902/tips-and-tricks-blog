@@ -16,6 +16,7 @@ namespace TipsAndTricks.Data.Mappings {
                 .HasColumnType("datetime");
             builder.Property(s => s.SubscribeState)
                 .IsRequired();
+            builder.Property(s => s.PreviousBannedState);
             builder.Property(s => s.Reason)
                 .HasMaxLength(500);
             builder.Property(s => s.Notes)

@@ -2,6 +2,58 @@
     ViewData["PageTitle"] = "Bảng điều khiển";
 }
 
-<h1>
-    Đây là khu vực dành cho người quản trị
+<h1 class="mt-3 mb-5 text-uppercase">
+    Tổng quan
 </h1>
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="d-flex flex-column p-3 shadow border border-5 border-top-0 border-bottom-0 border-end-0 border-primary">
+            <span class="fs-3">Tổng số bài viết</span>
+            <span class="d-flex align-items-center flex-1 fs-1 fw-bold">@ViewData["TotalPosts"]</span>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="d-flex flex-column p-3 shadow border border-5 border-top-0 border-bottom-0 border-end-0 border-secondary">
+            <span class="fs-3">Số bài viết chưa xuất bản</span>
+            <span class="d-flex align-items-center flex-1 fs-1 fw-bold">@ViewData["TotalUnpublishedPosts"]</span>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="d-flex flex-column p-3 shadow border border-5 border-top-0 border-bottom-0 border-end-0 border-warning">
+            <span class="fs-3">Tổng số chủ đề</span>
+            <span class="d-flex align-items-center flex-1 fs-1 fw-bold">@ViewData["TotalCategories"]</span>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="d-flex flex-column p-3 shadow border border-5 border-top-0 border-bottom-0 border-end-0 border-danger">
+            <span class="fs-3">Tổng số tác giả</span>
+            <span class="d-flex align-items-center flex-1 fs-1 fw-bold">@ViewData["TotalAuthors"]</span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="d-flex flex-column p-3 shadow border border-5 border-top-0 border-bottom-0 border-end-0 border-success">
+            <span class="fs-3">Số bình luận chờ phê duyệt</span>
+            <span class="d-flex align-items-center flex-1 fs-1 fw-bold">@ViewData["TotalNotApprovedComments"]</span>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="d-flex flex-column p-3 shadow border border-5 border-top-0 border-bottom-0 border-end-0 border-info">
+            <span class="fs-3">Tổng số người theo dõi</span>
+            <span class="d-flex align-items-center flex-1 fs-1 fw-bold">
+                @ViewData["TotalSubscribers"]
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="d-flex flex-column p-3 shadow border border-5 border-top-0 border-bottom-0 border-end-0 border-dark">
+            <span class="fs-3">Số người theo dõi hôm nay</span>
+            <span class="d-flex align-items-center flex-1 fs-1 fw-bold">@ViewData["TotalSubscribersToday"]</span>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3 d-flex align-items-center justify-content-center">
+        <a asp-area=""
+           asp-controller="Blog"
+           asp-action="Index" class="text-primary fs-1">Trang chủ</a>
+    </div>
+</div>

@@ -12,6 +12,7 @@ namespace TipsAndTricks.Core.Entities {
         public DateTime SubscribedDate { get; set; }
         public DateTime? UnsubscribedDate { get; set; }
         public SubscribeState SubscribeState { get; set; }
+        public SubscribeState PreviousBannedState { get; set; }
         public string Reason { get; set; }
         public string Notes { get; set; }
     }
