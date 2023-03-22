@@ -8,7 +8,7 @@ using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
 using TipsAndTricks.Services.Media;
-using TipsAndTricks.WebApi.Extensions;
+using TipsAndTricks.WebApi.Filter;
 using TipsAndTricks.WebApi.Models;
 
 namespace TipsAndTricks.WebApi.Endpoints {
@@ -28,6 +28,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Produces<PaginationResult<Post>>();
             routeGroupBuilder.MapPost("/", AddAuthor)
                 .WithName("AddNewAuthor")
+                .AddEndpointFilter<ValidatorFilter<AuthorEditModel>>()
                 .Produces(201)
                 .Produces(400)
                 .Produces(409);
@@ -38,6 +39,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Produces(404);
             routeGroupBuilder.MapPut("/{id:int}", UpdateAuthor)
                 .WithName("UpdateAnAuthor")
+                .AddEndpointFilter<ValidatorFilter<AuthorEditModel>>()
                 .Produces(204)
                 .Produces(400)
                 .Produces(409);
@@ -86,13 +88,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return Results.Ok(paginationResult);
         }
 
-        private static async Task<IResult> AddAuthor(AuthorEditModel model, IValidator<AuthorEditModel> validator, IAuthorRepository authorRepository, IMapper mapper) {
-            var validationResult = await validator.ValidateAsync(model);
-
-            if (!validationResult.IsValid) {
-                return Results.BadRequest(validationResult.Errors.ToResponse());
-            }
-
+        private static async Task<IResult> AddAuthor(AuthorEditModel model, IAuthorRepository authorRepository, IMapper mapper) {
             if (await authorRepository.IsAuthorSlugExistedAsync(0, model.UrlSlug)) {
                 return Results.Conflict($"Slug '{model.UrlSlug}' đã được sử dụng");
             }
@@ -114,13 +110,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return Results.Ok(imageUrl);
         }
 
-        private static async Task<IResult> UpdateAuthor(int id, AuthorEditModel model, IValidator<AuthorEditModel> validator, IAuthorRepository authorRepository, IMapper mapper) {
-            var validationResult = await validator.ValidateAsync(model);
-
-            if (!validationResult.IsValid) {
-                return Results.BadRequest(validationResult.Errors.ToResponse());
-            }
-
+        private static async Task<IResult> UpdateAuthor(int id, AuthorEditModel model, IAuthorRepository authorRepository, IMapper mapper) {
             if (await authorRepository.IsAuthorSlugExistedAsync(id, model.UrlSlug)) {
                 return Results.Conflict($"Slug '{model.UrlSlug}' đã được sử dụng");
             }
