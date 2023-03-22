@@ -1,10 +1,12 @@
 using TipsAndTricks.WebApi.Extensions;
+using TipsAndTricks.WebApi.Mapsters;
 
 var builder = WebApplication.CreateBuilder(args); {
     builder.ConfigureCors()
             .ConfigureNLog()
             .ConfigureServices()
-            .ConfigureSwaggerOpenApi();
+            .ConfigureSwaggerOpenApi()
+            .ConfigureMapster();
 }
 
 var app = builder.Build(); {
