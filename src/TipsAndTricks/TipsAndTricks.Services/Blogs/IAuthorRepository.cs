@@ -71,6 +71,18 @@ namespace TipsAndTricks.Services.Blogs {
         Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Paginate Authors by Name
+        /// </summary>
+        /// <param name="pagingParams"></param>
+        /// <param name="name">Author's Name</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(
+        IPagingParams pagingParams,
+        string name = null,
+        CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Filter Authors by queries
         /// </summary>
         /// <param name="query"></param>

@@ -152,6 +152,36 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
+        /// Paginate Authors by Name
+        /// </summary>
+        /// <param name="pagingParams"></param>
+        /// <param name="name">Author's Name</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(
+        IPagingParams pagingParams,
+        string name = null,
+        CancellationToken cancellationToken = default) {
+            var authorQuery = _context.Set<Author>()
+                .AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(name)) {
+                authorQuery = authorQuery.Where(x => x.FullName.Contains(name));
+            }
+
+            return await authorQuery.Select(a => new AuthorItem() {
+                Id = a.Id,
+                FullName = a.FullName,
+                Email = a.Email,
+                JoinedDate = a.JoinedDate,
+                ImageUrl = a.ImageUrl,
+                UrlSlug = a.UrlSlug,
+                PostCount = a.Posts.Count(p => p.Published)
+            })
+                .ToPagedListAsync(pagingParams, cancellationToken);
+        }
+
+        /// <summary>
         /// Filter Authors by queries
         /// </summary>
         /// <param name="query"></param>
