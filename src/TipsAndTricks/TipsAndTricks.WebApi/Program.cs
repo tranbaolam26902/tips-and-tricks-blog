@@ -1,9 +1,14 @@
 using TipsAndTricks.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args); {
-    builder.ConfigureNLog();
+    builder.ConfigureCors()
+            .ConfigureNLog()
+            .ConfigureServices()
+            .ConfigureSwaggerOpenApi();
 }
 
-var app = builder.Build();
+var app = builder.Build(); {
+    app.SetupRequestPipeLine();
 
-app.Run();
+    app.Run();
+}
