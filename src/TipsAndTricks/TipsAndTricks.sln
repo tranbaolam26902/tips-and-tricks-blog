@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TipsAndTricks.WinApp", "Tip
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TipsAndTricks.WebApp", "TipsAndTricks.WebApp\TipsAndTricks.WebApp.csproj", "{C7A888F0-C5D1-48B2-9E4C-2CFF8C5C0961}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TipsAndTricks.WebApi", "TipsAndTricks.WebApi\TipsAndTricks.WebApi.csproj", "{328DFA5D-F7B9-4E88-837A-F6664BC40E76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C7A888F0-C5D1-48B2-9E4C-2CFF8C5C0961}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7A888F0-C5D1-48B2-9E4C-2CFF8C5C0961}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7A888F0-C5D1-48B2-9E4C-2CFF8C5C0961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{328DFA5D-F7B9-4E88-837A-F6664BC40E76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{328DFA5D-F7B9-4E88-837A-F6664BC40E76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{328DFA5D-F7B9-4E88-837A-F6664BC40E76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{328DFA5D-F7B9-4E88-837A-F6664BC40E76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

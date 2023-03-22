@@ -14,18 +14,6 @@ namespace TipsAndTricks.Services.Blogs {
             this._context = context;
         }
 
-        #region Author methods
-        /// <summary>
-        /// Get Authors
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<IList<Author>> GetAuthorsAsync(CancellationToken cancellationToken = default) {
-            return await _context.Set<Author>()
-                .ToListAsync(cancellationToken);
-        }
-        #endregion
-
         #region Category methods
         /// <summary>
         /// Get Categories
