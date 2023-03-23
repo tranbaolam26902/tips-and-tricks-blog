@@ -1,6 +1,5 @@
 ﻿using Mapster;
 using MapsterMapper;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using TipsAndTricks.Core.Collections;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
@@ -82,29 +81,13 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return post != null ? Results.Ok(mapper.Map<PostDetail>(post)) : Results.NotFound($"Không tìm thấy bài viết có slug {slug}");
         }
 
-        private static async Task PopulatePostEditModelAsync(PostEditModel model, IAuthorRepository authorRepository, IBlogRepository blogRepository) {
-            var authors = await authorRepository.GetAuthorsAsync();
-            var categories = await blogRepository.GetCategoriesAsync();
-
-            model.AuthorList = authors.Select(a => new SelectListItem() {
-                Text = a.FullName,
-                Value = a.Id.ToString()
-            });
-
-            model.CategoryList = categories.Select(c => new SelectListItem() {
-                Text = c.Name,
-                Value = c.Id.ToString()
-            });
-        }
-
         private static async Task<IResult> AddPost(PostEditModel model, IAuthorRepository authorRepository, IBlogRepository blogRepository, IMapper mapper) {
-            await PopulatePostEditModelAsync(model, authorRepository, blogRepository);
-
             if (await blogRepository.IsPostSlugExistedAsync(0, model.UrlSlug)) {
                 return Results.Conflict($"Slug '{model.UrlSlug}' đã được sử dụng");
             }
 
             var post = mapper.Map<Post>(model);
+            post.PostedDate = DateTime.Now;
             await blogRepository.EditPostAsync(post, model.GetSelectedTags());
 
             return Results.CreatedAtRoute("GetPostById", new { post.Id }, mapper.Map<PostDetail>(post));

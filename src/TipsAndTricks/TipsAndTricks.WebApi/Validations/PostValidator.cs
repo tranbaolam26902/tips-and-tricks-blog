@@ -53,30 +53,10 @@ namespace TipsAndTricks.WebApi.Validations {
                 .WithMessage("Bạn phải nhập ít nhất một thẻ")
                 .Must(HasAtLeastOneTag)
                 .WithMessage("Bạn phải nhập ít nhất một thẻ");
-
-            When(x => x.Id <= 0, () => {
-                RuleFor(x => x.ImageFile)
-                    .Must(x => x is { Length: > 0 })
-                    .WithMessage("Bạn phải chọn hình ảnh cho bài viết");
-            })
-                .Otherwise(() => {
-                    RuleFor(x => x.ImageFile)
-                    .MustAsync(SetImageIfNotExist)
-                    .WithMessage("Bạn phải chọn hình ảnh cho bài viết");
-                });
         }
 
         private bool HasAtLeastOneTag(PostEditModel postModel, string selectedTags) {
             return postModel.GetSelectedTags().Any();
-        }
-
-        private async Task<bool> SetImageIfNotExist(
-            PostEditModel postModel, IFormFile imageFile, CancellationToken cancellationToken) {
-            var post = await _blogRepository.GetPostByIdAsync(postModel.Id, false, cancellationToken);
-            if (!string.IsNullOrWhiteSpace(post?.ImageUrl))
-                return true;
-
-            return imageFile is { Length: > 0 };
         }
     }
 }
