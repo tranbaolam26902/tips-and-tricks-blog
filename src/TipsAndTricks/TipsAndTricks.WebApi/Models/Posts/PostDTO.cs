@@ -1,4 +1,8 @@
-﻿namespace TipsAndTricks.WebApi.Models {
+﻿using TipsAndTricks.WebApi.Models.Authors;
+using TipsAndTricks.WebApi.Models.Categories;
+using TipsAndTricks.WebApi.Models.Tags;
+
+namespace TipsAndTricks.WebApi.Models {
     public class PostDTO {
         public int Id { get; set; }
         public string Title { get; set; }
