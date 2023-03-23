@@ -31,6 +31,16 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Produces(201)
                 .Produces(400)
                 .Produces(409);
+            routeGroupBuilder.MapPut("/{id:int}", UpdateCategory)
+                .WithName("UpdateAnCategory")
+                .AddEndpointFilter<ValidatorFilter<CategoryEditModel>>()
+                .Produces(204)
+                .Produces(400)
+                .Produces(409);
+            routeGroupBuilder.MapDelete("/{id:int}", DeleteCategory)
+                .WithName("DeleteCategory")
+                .Produces(204)
+                .Produces(404);
 
             return app;
         }
@@ -73,6 +83,25 @@ namespace TipsAndTricks.WebApi.Endpoints {
             await blogRepository.EditCategoryAsync(category);
 
             return Results.CreatedAtRoute("GetCategoryById", new { category.Id }, mapper.Map<CategoryItem>(category));
+        }
+
+        private static async Task<IResult> UpdateCategory(int id, CategoryEditModel model, IBlogRepository blogRepository, IMapper mapper) {
+            if (await blogRepository.IsCategorySlugExistedAsync(id, model.UrlSlug)) {
+                return Results.Conflict($"Slug '{model.UrlSlug}' đã được sử dụng");
+            }
+
+            var category = mapper.Map<Category>(model);
+            category.Id = id;
+
+            return await blogRepository.EditCategoryAsync(category) != null
+                ? Results.NoContent()
+                : Results.NotFound();
+        }
+
+        private static async Task<IResult> DeleteCategory(int id, IBlogRepository blogRepository) {
+            return await blogRepository.DeleteCategoryByIdAsync(id)
+                ? Results.NoContent()
+                : Results.NotFound($"Không tìm thấy chủ đề có mã số {id}");
         }
     }
 }
