@@ -11,6 +11,7 @@ using TipsAndTricks.Services.FilterParams;
 using TipsAndTricks.Services.Media;
 using TipsAndTricks.WebApi.Filter;
 using TipsAndTricks.WebApi.Models;
+using TipsAndTricks.WebApi.Models.Authors;
 
 namespace TipsAndTricks.WebApi.Endpoints {
     public static class AuthorEndpoints {
@@ -29,7 +30,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Produces(404);
             routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}/posts", GetPostsByAuthorSlug)
                 .WithName("GetPostsByAuthorSlug")
-                .Produces<PaginationResult<Post>>();
+                .Produces<PaginationResult<PostDTO>>();
             routeGroupBuilder.MapPost("/", AddAuthor)
                 .WithName("AddNewAuthor")
                 .AddEndpointFilter<ValidatorFilter<AuthorEditModel>>()

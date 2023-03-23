@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args); {
 var app = builder.Build(); {
     app.SetupRequestPipeLine();
     app.MapAuthorEndPoints();
+    app.MapCategoryEndpoints();
 
     app.Run();
 }

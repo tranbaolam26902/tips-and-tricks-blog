@@ -1,4 +1,4 @@
-﻿namespace TipsAndTricks.WebApi.Models {
+﻿namespace TipsAndTricks.WebApi.Models.Authors {
     public class AuthorEditModel {
         public string FullName { get; set; }
         public string UrlSlug { get; set; }

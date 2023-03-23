@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using TipsAndTricks.WebApi.Models;
+using TipsAndTricks.WebApi.Models.Authors;
 
 namespace TipsAndTricks.WebApi.Validations {
     public class AuthorValidator : AbstractValidator<AuthorEditModel> {
