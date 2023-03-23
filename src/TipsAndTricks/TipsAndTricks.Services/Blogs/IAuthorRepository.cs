@@ -105,7 +105,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="numberOfAuthors"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<IList<Author>> GetAuthorsHasMostArticles(int numberOfAuthors, CancellationToken cancellationToken = default);
+        Task<IList<AuthorItem>> GetAuthorsHasMostArticles(int numberOfAuthors, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Check whether Author's Slug is existed

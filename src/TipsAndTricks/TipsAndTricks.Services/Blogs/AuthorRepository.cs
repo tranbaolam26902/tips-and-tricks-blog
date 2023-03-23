@@ -231,9 +231,19 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="numberOfAuthors"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<IList<Author>> GetAuthorsHasMostArticles(int numberOfAuthors, CancellationToken cancellationToken = default) {
+        public async Task<IList<AuthorItem>> GetAuthorsHasMostArticles(int numberOfAuthors, CancellationToken cancellationToken = default) {
             return await _context.Set<Author>()
-                .OrderByDescending(x => x.Posts.Count)
+                .Include(p => p.Posts)
+                .Select(x => new AuthorItem() {
+                    Id = x.Id,
+                    FullName = x.FullName,
+                    UrlSlug = x.UrlSlug,
+                    Email = x.Email,
+                    ImageUrl = x.ImageUrl,
+                    Notes = x.UrlSlug,
+                    PostCount = x.Posts.Count(p => p.Published)
+                })
+                .OrderByDescending(x => x.PostCount)
                 .Take(numberOfAuthors)
                 .ToListAsync(cancellationToken);
         }

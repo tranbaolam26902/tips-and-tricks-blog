@@ -3,6 +3,7 @@ using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using TipsAndTricks.Core.Collections;
+using TipsAndTricks.Core.Contracts;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services.Blogs;
@@ -19,6 +20,9 @@ namespace TipsAndTricks.WebApi.Endpoints {
             routeGroupBuilder.MapGet("/", GetAuthors)
                 .WithName("GetAuthors")
                 .Produces<PaginationResult<AuthorItem>>();
+            routeGroupBuilder.MapGet("/best/{limit:int}", GetAuthorsHasMostArticles)
+                .WithDescription("GetBestAuthors")
+                .Produces<IPagedList<AuthorItem>>();
             routeGroupBuilder.MapGet("/{id:int}", GetAuthorDetails)
                 .WithName("GetAuthorById")
                 .Produces<AuthorItem>()
@@ -56,6 +60,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var paginationResult = new PaginationResult<AuthorItem>(authors);
 
             return Results.Ok(paginationResult);
+        }
+
+        private static async Task<IResult> GetAuthorsHasMostArticles(int limit, IAuthorRepository authorRepository) {
+            var authors = await authorRepository.GetAuthorsHasMostArticles(limit);
+
+            return Results.Ok(authors);
         }
 
         private static async Task<IResult> GetAuthorDetails(int id, IAuthorRepository authorRepository, IMapper mapper) {
