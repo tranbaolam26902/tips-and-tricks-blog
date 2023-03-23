@@ -14,18 +14,6 @@ namespace TipsAndTricks.Services.Blogs {
             this._context = context;
         }
 
-        #region Author methods
-        /// <summary>
-        /// Get Authors
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<IList<Author>> GetAuthorsAsync(CancellationToken cancellationToken = default) {
-            return await _context.Set<Author>()
-                .ToListAsync(cancellationToken);
-        }
-        #endregion
-
         #region Category methods
         /// <summary>
         /// Get Categories
@@ -614,6 +602,19 @@ namespace TipsAndTricks.Services.Blogs {
         /// <returns></returns>
         public async Task<IPagedList<Post>> GetPagedPostsByQueryAsync(IPostQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
             return await FilterPosts(query).ToPagedListAsync(pagingParams);
+        }
+
+        /// <summary>
+        /// Paginate Posts found by queries and cast to T type
+        /// </summary>
+        /// <typeparam name="T">Destination Type</typeparam>
+        /// <param name="mapper">Function to cast type</param>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IPagedList<T>> GetPagedPostsByQueryAsync<T>(Func<IQueryable<Post>, IQueryable<T>> mapper, IPostQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            return await mapper(FilterPosts(query).AsNoTracking()).ToPagedListAsync(pagingParams, cancellationToken);
         }
         #endregion
     }
