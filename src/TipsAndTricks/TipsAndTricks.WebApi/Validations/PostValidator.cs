@@ -50,13 +50,7 @@ namespace TipsAndTricks.WebApi.Validations {
 
             RuleFor(x => x.SelectedTags)
                 .NotEmpty()
-                .WithMessage("Bạn phải nhập ít nhất một thẻ")
-                .Must(HasAtLeastOneTag)
                 .WithMessage("Bạn phải nhập ít nhất một thẻ");
-        }
-
-        private bool HasAtLeastOneTag(PostEditModel postModel, string selectedTags) {
-            return postModel.GetSelectedTags().Any();
         }
     }
 }

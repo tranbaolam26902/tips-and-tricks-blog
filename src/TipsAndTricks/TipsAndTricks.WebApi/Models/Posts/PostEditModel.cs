@@ -9,11 +9,6 @@
         public bool Published { get; set; }
         public int CategoryId { get; set; }
         public int AuthorId { get; set; }
-        public string SelectedTags { get; set; }
-        public List<string> GetSelectedTags() {
-            return (SelectedTags ?? "")
-                .Split(new[] { ',', ';', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                .ToList();
-        }
+        public IList<string> SelectedTags { get; set; }
     }
 }

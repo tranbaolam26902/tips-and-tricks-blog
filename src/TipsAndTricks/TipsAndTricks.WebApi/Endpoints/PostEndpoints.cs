@@ -5,6 +5,7 @@ using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
+using TipsAndTricks.Services.Media;
 using TipsAndTricks.WebApi.Filter;
 using TipsAndTricks.WebApi.Models;
 using TipsAndTricks.WebApi.Models.Posts;
@@ -40,6 +41,11 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Produces(201)
                 .Produces(400)
                 .Produces(409);
+            routeGroupBuilder.MapPost("/{id:int}/thumbnail", SetPostImage)
+                .WithName("SetPostImage")
+                .Accepts<IFormFile>("multipart/form-data")
+                .Produces<string>()
+                .Produces(404);
 
             return app;
         }
@@ -88,9 +94,20 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
             var post = mapper.Map<Post>(model);
             post.PostedDate = DateTime.Now;
-            await blogRepository.EditPostAsync(post, model.GetSelectedTags());
+            await blogRepository.EditPostAsync(post, model.SelectedTags);
 
             return Results.CreatedAtRoute("GetPostById", new { post.Id }, mapper.Map<PostDetail>(post));
+        }
+
+        private static async Task<IResult> SetPostImage(int id, IFormFile imageFile, IBlogRepository blogRepository, IMediaManager mediaManager) {
+            var imageUrl = await mediaManager.SaveFileAsync(imageFile.OpenReadStream(), imageFile.FileName, imageFile.ContentType);
+
+            if (string.IsNullOrWhiteSpace(imageUrl)) {
+                return Results.BadRequest("Không lưu được tập tin");
+            }
+
+            await blogRepository.SetImageUrlAsync(id, imageUrl);
+            return Results.Ok(imageUrl);
         }
     }
 }

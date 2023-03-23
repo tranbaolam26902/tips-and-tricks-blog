@@ -98,6 +98,20 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
+        /// Set Post's Image URL
+        /// </summary>
+        /// <param name="id">Post's Id</param>
+        /// <param name="imageUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> SetImageUrlAsync(int id, string imageUrl,
+           CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Where(x => x.Id == id)
+                .ExecuteUpdateAsync(x => x.SetProperty(a => a.ImageUrl, a => imageUrl), cancellationToken) > 0;
+        }
+
+        /// <summary>
         /// 1i. Check whether Category's Slug is existed
         /// </summary>
         /// <param name="id">Category's Id</param>

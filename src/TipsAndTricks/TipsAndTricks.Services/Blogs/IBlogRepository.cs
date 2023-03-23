@@ -227,6 +227,16 @@ namespace TipsAndTricks.Services.Blogs {
         Task<Post> EditPostAsync(Post newPost, IEnumerable<string> tags, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Set Post's Image URL
+        /// </summary>
+        /// <param name="id">Post's Id</param>
+        /// <param name="imageUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> SetImageUrlAsync(int id, string imageUrl,
+           CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 1n. Change Post's Published status
         /// </summary>
         /// <param name="id">Post's Id</param>
