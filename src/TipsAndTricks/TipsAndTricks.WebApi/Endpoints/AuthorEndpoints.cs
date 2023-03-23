@@ -30,7 +30,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Produces(404);
             routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}/posts", GetPostsByAuthorSlug)
                 .WithName("GetPostsByAuthorSlug")
-                .Produces<PaginationResult<Post>>();
+                .Produces<PaginationResult<PostDTO>>();
             routeGroupBuilder.MapPost("/", AddAuthor)
                 .WithName("AddNewAuthor")
                 .AddEndpointFilter<ValidatorFilter<AuthorEditModel>>()
