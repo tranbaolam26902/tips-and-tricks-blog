@@ -529,6 +529,7 @@ namespace TipsAndTricks.Services.Blogs {
                 })
                 .OrderByDescending(x => x.Year)
                 .ThenByDescending(x => x.Month)
+                .Take(numMonths)
                 .ToListAsync(cancellationToken);
         }
 
