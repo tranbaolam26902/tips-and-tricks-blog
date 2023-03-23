@@ -23,6 +23,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
             routeGroupBuilder.MapGet("/archive/{limit:int}", GetArchivePosts)
                 .WithName("GetArchivePosts")
                 .Produces<IList<MonthlyPostCountItem>>();
+            routeGroupBuilder.MapGet("/{id:int}", GetPostById)
+                .WithName("GetPostById")
+                .Produces<PostDetail>()
+                .Produces(404);
 
             return app;
         }
@@ -50,6 +54,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var posts = await blogRepository.CountMonthlyPostsAsync(limit);
 
             return posts.Count != 0 ? Results.Ok(mapper.Map<IList<MonthlyPostCountItem>>(posts)) : Results.NotFound("Không có bài viết");
+        }
+
+        public static async Task<IResult> GetPostById(int id, IBlogRepository blogRepository, IMapper mapper) {
+            var post = await blogRepository.GetPostByIdAsync(id);
+
+            return post != null ? Results.Ok(mapper.Map<PostDetail>(post)) : Results.NotFound($"Không tìm thấy bài viết có mã số {id}");
         }
     }
 }
