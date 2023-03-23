@@ -3,8 +3,10 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using TipsAndTricks.Core.Collections;
 using TipsAndTricks.Core.DTO;
+using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
+using TipsAndTricks.WebApi.Filter;
 using TipsAndTricks.WebApi.Models;
 using TipsAndTricks.WebApi.Models.Categories;
 
@@ -23,6 +25,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}/posts", GetPostsByCategorySlug)
                 .WithName("GetPostsByCategorySlug")
                 .Produces<PaginationResult<PostDTO>>();
+            routeGroupBuilder.MapPost("/", AddCategory)
+                .WithName("AddNewCategory")
+                .AddEndpointFilter<ValidatorFilter<CategoryEditModel>>()
+                .Produces(201)
+                .Produces(400)
+                .Produces(409);
 
             return app;
         }
@@ -54,6 +62,17 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var paginationResult = new PaginationResult<PostDTO>(posts);
 
             return Results.Ok(paginationResult);
+        }
+
+        private static async Task<IResult> AddCategory(CategoryEditModel model, IBlogRepository blogRepository, IMapper mapper) {
+            if (await blogRepository.IsCategorySlugExistedAsync(0, model.UrlSlug)) {
+                return Results.Conflict($"Slug '{model.UrlSlug}' đã được sử dụng");
+            }
+
+            var category = mapper.Map<Category>(model);
+            await blogRepository.EditCategoryAsync(category);
+
+            return Results.CreatedAtRoute("GetCategoryById", new { category.Id }, mapper.Map<CategoryItem>(category));
         }
     }
 }
