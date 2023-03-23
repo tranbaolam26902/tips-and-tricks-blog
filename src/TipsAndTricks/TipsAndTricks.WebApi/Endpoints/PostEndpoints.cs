@@ -27,6 +27,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("GetPostById")
                 .Produces<PostDetail>()
                 .Produces(404);
+            routeGroupBuilder.MapGet("/byslug/{slug:regex(^[a-z0-9_-]+$)}", GetPostBySlug)
+                .WithName("GetPostBySlug")
+                .Produces<PostDetail>()
+                .Produces(404);
 
             return app;
         }
@@ -60,6 +64,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var post = await blogRepository.GetPostByIdAsync(id);
 
             return post != null ? Results.Ok(mapper.Map<PostDetail>(post)) : Results.NotFound($"Không tìm thấy bài viết có mã số {id}");
+        }
+
+        public static async Task<IResult> GetPostBySlug(string slug, IBlogRepository blogRepository, IMapper mapper) {
+            var post = await blogRepository.GetPostBySlugAsync(slug);
+
+            return post != null ? Results.Ok(mapper.Map<PostDetail>(post)) : Results.NotFound($"Không tìm thấy bài viết có slug {slug}");
         }
     }
 }
