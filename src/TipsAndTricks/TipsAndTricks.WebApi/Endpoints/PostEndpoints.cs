@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using MapsterMapper;
 using TipsAndTricks.Core.Collections;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
@@ -12,6 +13,9 @@ namespace TipsAndTricks.WebApi.Endpoints {
             routeGroupBuilder.MapGet("/", GetPosts)
                 .WithName("GetPosts")
                 .Produces<PaginationResult<PostDTO>>();
+            routeGroupBuilder.MapGet("/featured/{limit:int}", GetPopularPosts)
+                .WithName("GetPopularPosts")
+                .Produces<IList<PostDTO>>();
 
             return app;
         }
@@ -21,6 +25,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var paginationResult = new PaginationResult<PostDTO>(posts);
 
             return Results.Ok(paginationResult);
+        }
+
+        public static async Task<IResult> GetPopularPosts(int limit, IBlogRepository blogRepository, IMapper mapper) {
+            var posts = await blogRepository.GetPopularArticlesAsync(limit);
+
+            return posts.Count != 0 ? Results.Ok(mapper.Map<IList<PostDTO>>(posts)) : Results.NotFound("Không có bài viết");
         }
     }
 }
