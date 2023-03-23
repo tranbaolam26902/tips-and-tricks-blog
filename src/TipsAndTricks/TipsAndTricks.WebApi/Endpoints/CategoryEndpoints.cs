@@ -1,4 +1,5 @@
-﻿using TipsAndTricks.Core.Collections;
+﻿using MapsterMapper;
+using TipsAndTricks.Core.Collections;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
@@ -10,8 +11,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var routeGroupBuilder = app.MapGroup("/api/categories");
 
             routeGroupBuilder.MapGet("/", GetCategories)
-               .WithName("GetCategories")
-               .Produces<PaginationResult<CategoryItem>>();
+                .WithName("GetCategories")
+                .Produces<PaginationResult<CategoryItem>>();
+            routeGroupBuilder.MapGet("/{id:int}", GetCategoryById)
+                .WithName("GetCategoryById")
+                .Produces<CategoryItem>()
+                .Produces(404);
 
             return app;
         }
@@ -24,6 +29,14 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var paginationResult = new PaginationResult<CategoryItem>(categories);
 
             return Results.Ok(paginationResult);
+        }
+
+        private static async Task<IResult> GetCategoryById(int id, IBlogRepository blogRepository, IMapper mapper) {
+            var category = await blogRepository.GetCategoryByIdAsync(id);
+
+            return category == null
+                ? Results.NotFound($"Không tìm thấy chủ đề có mã số {id}")
+                : Results.Ok(mapper.Map<CategoryItem>(category));
         }
     }
 }
