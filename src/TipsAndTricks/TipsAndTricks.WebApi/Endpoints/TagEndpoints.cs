@@ -1,4 +1,5 @@
-﻿using TipsAndTricks.Core.Collections;
+﻿using MapsterMapper;
+using TipsAndTricks.Core.Collections;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
@@ -12,6 +13,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
             routeGroupBuilder.MapGet("/", GetTags)
                 .WithName("GetTags")
                 .Produces<PaginationResult<TagItem>>();
+            routeGroupBuilder.MapGet("/{id:int}", GetTagById)
+                .WithName("GetTagById")
+                .Produces<TagItem>()
+                .Produces(404);
 
             return app;
         }
@@ -24,6 +29,14 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var paginationResult = new PaginationResult<TagItem>(tags);
 
             return Results.Ok(paginationResult);
+        }
+
+        private static async Task<IResult> GetTagById(int id, IBlogRepository blogRepository, IMapper mapper) {
+            var tag = await blogRepository.GetTagByIdAsync(id);
+
+            return tag == null
+                ? Results.NotFound($"Không tìm thấy thẻ có mã số {id}")
+                : Results.Ok(mapper.Map<TagItem>(tag));
         }
     }
 }
