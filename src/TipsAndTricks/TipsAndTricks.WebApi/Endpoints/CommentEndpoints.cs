@@ -16,6 +16,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("ChangeCommentApprovalStatus")
                 .Produces(204)
                 .Produces(404);
+            routeGroupBuilder.MapDelete("/{id:int}", DeleteComment)
+                .WithName("DeleteComment")
+                .Produces(204)
+                .Produces(404);
 
             return app;
         }
@@ -29,6 +33,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
         private static async Task<IResult> ChangeCommentApprovalStatus(int id, ICommentRepository commentRepository) {
             return await commentRepository.ChangeCommentApprovedState(id)
+                ? Results.NoContent()
+                : Results.NotFound($"Không tìm thấy bình luận có mã số {id}");
+        }
+
+        private static async Task<IResult> DeleteComment(int id, ICommentRepository commentRepository) {
+            return await commentRepository.DeleteCommentByIdAsync(id)
                 ? Results.NoContent()
                 : Results.NotFound($"Không tìm thấy bình luận có mã số {id}");
         }
