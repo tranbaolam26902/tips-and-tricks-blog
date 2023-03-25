@@ -38,6 +38,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Produces(201)
                 .Produces(400)
                 .Produces(409);
+            routeGroupBuilder.MapDelete("/{id:int}", DeleteTag)
+                .WithName("DeleteTag")
+                .Produces(204)
+                .Produces(404);
 
             return app;
         }
@@ -93,6 +97,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return await blogRepository.EditTagAsync(tag) != null
                 ? Results.NoContent()
                 : Results.NotFound();
+        }
+
+        private static async Task<IResult> DeleteTag(int id, IBlogRepository blogRepository) {
+            return await blogRepository.DeleteTagByIdAsync(id)
+                ? Results.NoContent()
+                : Results.NotFound($"Không tìm thấy thẻ có mã số {id}");
         }
     }
 }
