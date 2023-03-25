@@ -10,7 +10,7 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="id">Comment's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task ChangeCommentApprovedState(int id, CancellationToken cancellationToken = default);
+        Task<bool> ChangeCommentApprovedState(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete Comment
