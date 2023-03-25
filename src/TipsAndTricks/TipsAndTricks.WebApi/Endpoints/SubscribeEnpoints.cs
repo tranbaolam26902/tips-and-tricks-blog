@@ -16,6 +16,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
             routeGroupBuilder.MapPut("/{id:int}", BanSubscriber)
                 .WithName("BanSubscriber")
                 .Produces(404);
+            routeGroupBuilder.MapDelete("/{id:int}", DeleteSubscriber)
+                .WithName("DeleteSubscriber")
+                .Produces(204)
+                .Produces(404);
 
             return app;
         }
@@ -37,6 +41,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
                     ? Results.NoContent()
                     : Results.NotFound($"Không tìm thấy người theo dõi có mã số {id}");
             }
+        }
+
+        private static async Task<IResult> DeleteSubscriber(int id, ISubscriberRepository subscriberRepository) {
+            return await subscriberRepository.DeleteSubscriberByIdAsync(id)
+                ? Results.NoContent()
+                : Results.NotFound($"Không tìm thấy người theo dõi có mã số {id}");
         }
     }
 }
