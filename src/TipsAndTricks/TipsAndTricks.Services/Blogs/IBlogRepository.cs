@@ -156,6 +156,17 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IPagedList<TagItem>> GetPagedTagsByQueryAsync(ITagQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Paginate Tags found by queries and cast to T type
+        /// </summary>
+        /// <typeparam name="T">Destination type</typeparam>
+        /// <param name="mapper">Function to cast type</param>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IPagedList<T>> GetPagedTagsByQueryAsync<T>(Func<IQueryable<TagItem>, IQueryable<T>> mapper, ITagQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default);
         #endregion
 
         #region Post methods

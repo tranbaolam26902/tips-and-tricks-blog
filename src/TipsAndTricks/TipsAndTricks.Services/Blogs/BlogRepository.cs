@@ -318,6 +318,19 @@ namespace TipsAndTricks.Services.Blogs {
         public async Task<IPagedList<TagItem>> GetPagedTagsByQueryAsync(ITagQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
             return await FilterTags(query).ToPagedListAsync(pagingParams);
         }
+
+        /// <summary>
+        /// Paginate Tags found by queries and cast to T type
+        /// </summary>
+        /// <typeparam name="T">Destination type</typeparam>
+        /// <param name="mapper">Function to cast type</param>
+        /// <param name="query"></param>
+        /// <param name="pagingParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IPagedList<T>> GetPagedTagsByQueryAsync<T>(Func<IQueryable<TagItem>, IQueryable<T>> mapper, ITagQuery query, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            return await mapper(FilterTags(query).AsNoTracking()).ToPagedListAsync(pagingParams, cancellationToken);
+        }
         #endregion
 
         #region Post methods
