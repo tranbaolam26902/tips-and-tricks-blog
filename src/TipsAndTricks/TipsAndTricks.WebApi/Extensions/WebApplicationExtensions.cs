@@ -15,6 +15,7 @@ namespace TipsAndTricks.WebApi.Extensions {
             builder.Services.AddScoped<IBlogRepository, BlogRepository>();
             builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+            builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
 
             return builder;
         }
