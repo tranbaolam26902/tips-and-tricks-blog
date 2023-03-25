@@ -46,6 +46,13 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Accepts<IFormFile>("multipart/form-data")
                 .Produces<string>()
                 .Produces(404);
+            routeGroupBuilder.MapDelete("/{id:int}", DeletePost)
+                .WithName("DeletePost")
+                .Produces(204)
+                .Produces(404);
+            routeGroupBuilder.MapGet("/{id:int}/comments", GetPostComments)
+                .WithName("GetPostComments")
+                .Produces<IList<Comment>>();
 
             return app;
         }
@@ -108,6 +115,18 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
             await blogRepository.SetImageUrlAsync(id, imageUrl);
             return Results.Ok(imageUrl);
+        }
+
+        private static async Task<IResult> DeletePost(int id, IBlogRepository blogRepository) {
+            return await blogRepository.DeletePostById(id)
+                ? Results.NoContent()
+                : Results.NotFound($"Không thể tìm thấy bài viết có mã số {id}");
+        }
+
+        private static async Task<IResult> GetPostComments(int id, ICommentRepository commentRepository) {
+            var comments = await commentRepository.GetPostCommentsAsync(id);
+
+            return Results.Ok(comments);
         }
     }
 }
