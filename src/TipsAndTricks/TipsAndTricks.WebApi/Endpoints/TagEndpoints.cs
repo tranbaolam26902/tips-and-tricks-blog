@@ -1,5 +1,5 @@
-﻿using Mapster;
-using TipsAndTricks.Core.Collections;
+﻿using TipsAndTricks.Core.Collections;
+using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
 using TipsAndTricks.WebApi.Models.Tags;
@@ -11,7 +11,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
             routeGroupBuilder.MapGet("/", GetTags)
                 .WithName("GetTags")
-                .Produces<PaginationResult<TagDTO>>();
+                .Produces<PaginationResult<TagItem>>();
 
             return app;
         }
@@ -20,8 +20,8 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var tagQuery = new TagQuery() {
                 Keyword = model.Name
             };
-            var tags = await blogRepository.GetPagedTagsByQueryAsync(t => t.ProjectToType<TagDTO>(), tagQuery, model);
-            var paginationResult = new PaginationResult<TagDTO>(tags);
+            var tags = await blogRepository.GetPagedTagsByQueryAsync(tagQuery, model);
+            var paginationResult = new PaginationResult<TagItem>(tags);
 
             return Results.Ok(paginationResult);
         }
