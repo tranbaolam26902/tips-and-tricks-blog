@@ -98,6 +98,20 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
+        /// Set Post's Image URL
+        /// </summary>
+        /// <param name="id">Post's Id</param>
+        /// <param name="imageUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> SetImageUrlAsync(int id, string imageUrl,
+           CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Where(x => x.Id == id)
+                .ExecuteUpdateAsync(x => x.SetProperty(a => a.ImageUrl, a => imageUrl), cancellationToken) > 0;
+        }
+
+        /// <summary>
         /// 1i. Check whether Category's Slug is existed
         /// </summary>
         /// <param name="id">Category's Id</param>
@@ -372,6 +386,20 @@ namespace TipsAndTricks.Services.Blogs {
         }
 
         /// <summary>
+        /// Get Post by Id
+        /// </summary>
+        /// <param name="slug">Post's Slug</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Post> GetPostBySlugAsync(string slug, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .Include(t => t.Tags)
+                .FirstOrDefaultAsync(x => x.UrlSlug == slug, cancellationToken);
+        }
+
+        /// <summary>
         /// Get Post by Year, Month Published and Slug
         /// </summary>
         /// <param name="year"></param>
@@ -529,6 +557,7 @@ namespace TipsAndTricks.Services.Blogs {
                 })
                 .OrderByDescending(x => x.Year)
                 .ThenByDescending(x => x.Month)
+                .Take(numMonths)
                 .ToListAsync(cancellationToken);
         }
 

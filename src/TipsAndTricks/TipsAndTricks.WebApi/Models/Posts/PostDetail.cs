@@ -2,7 +2,7 @@
 using TipsAndTricks.WebApi.Models.Categories;
 using TipsAndTricks.WebApi.Models.Tags;
 
-namespace TipsAndTricks.WebApi.Models {
+namespace TipsAndTricks.WebApi.Models.Posts {
     public class PostDetail {
         public int Id { get; set; }
         public string Title { get; set; }

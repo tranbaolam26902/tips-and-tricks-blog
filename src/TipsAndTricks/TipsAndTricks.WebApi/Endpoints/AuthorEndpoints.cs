@@ -12,6 +12,7 @@ using TipsAndTricks.Services.Media;
 using TipsAndTricks.WebApi.Filter;
 using TipsAndTricks.WebApi.Models;
 using TipsAndTricks.WebApi.Models.Authors;
+using TipsAndTricks.WebApi.Models.Posts;
 
 namespace TipsAndTricks.WebApi.Endpoints {
     public static class AuthorEndpoints {

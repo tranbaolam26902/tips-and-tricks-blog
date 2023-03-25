@@ -191,6 +191,14 @@ namespace TipsAndTricks.Services.Blogs {
         Task<Post> GetPostByIdAsync(int id, bool includeDetails = false, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Get Post by Id
+        /// </summary>
+        /// <param name="slug">Post's Slug</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<Post> GetPostBySlugAsync(string slug, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Get Post by Year, Month Published and Slug
         /// </summary>
         /// <param name="year"></param>
@@ -217,6 +225,16 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<Post> EditPostAsync(Post newPost, IEnumerable<string> tags, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Set Post's Image URL
+        /// </summary>
+        /// <param name="id">Post's Id</param>
+        /// <param name="imageUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> SetImageUrlAsync(int id, string imageUrl,
+           CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 1n. Change Post's Published status

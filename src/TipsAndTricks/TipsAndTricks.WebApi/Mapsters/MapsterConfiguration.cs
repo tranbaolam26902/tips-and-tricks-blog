@@ -1,9 +1,9 @@
 ﻿using Mapster;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
-using TipsAndTricks.WebApi.Models;
 using TipsAndTricks.WebApi.Models.Authors;
 using TipsAndTricks.WebApi.Models.Categories;
+using TipsAndTricks.WebApi.Models.Posts;
 
 namespace TipsAndTricks.WebApi.Mapsters {
     public class MapsterConfiguration : IRegister {
