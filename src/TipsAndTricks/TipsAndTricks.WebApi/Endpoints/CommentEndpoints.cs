@@ -12,6 +12,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
             routeGroupBuilder.MapGet("/", GetComments)
                 .WithName("GetComments")
                 .Produces<PaginationResult<Comment>>();
+            routeGroupBuilder.MapPost("/{id:int}", ChangeCommentApprovalStatus)
+                .WithName("ChangeCommentApprovalStatus")
+                .Produces(204)
+                .Produces(404);
 
             return app;
         }
@@ -21,6 +25,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var paginationResult = new PaginationResult<Comment>(comments);
 
             return Results.Ok(paginationResult);
+        }
+
+        private static async Task<IResult> ChangeCommentApprovalStatus(int id, ICommentRepository commentRepository) {
+            return await commentRepository.ChangeCommentApprovedState(id)
+                ? Results.NoContent()
+                : Results.NotFound($"Không tìm thấy bình luận có mã số {id}");
         }
     }
 }

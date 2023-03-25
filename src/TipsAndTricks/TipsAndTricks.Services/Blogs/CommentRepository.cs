@@ -19,10 +19,10 @@ namespace TipsAndTricks.Services.Blogs {
         /// <param name="id">Comment's Id</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task ChangeCommentApprovedState(int id, CancellationToken cancellationToken = default) {
-            await _context.Set<Comment>()
+        public async Task<bool> ChangeCommentApprovedState(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Comment>()
                 .Where(x => x.Id == id)
-                .ExecuteUpdateAsync(c => c.SetProperty(x => x.IsApproved, x => !x.IsApproved), cancellationToken);
+                .ExecuteUpdateAsync(c => c.SetProperty(x => x.IsApproved, x => !x.IsApproved), cancellationToken) > 0;
         }
 
         /// <summary>
