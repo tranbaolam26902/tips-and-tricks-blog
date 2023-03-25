@@ -1,8 +1,12 @@
-﻿using MapsterMapper;
+﻿using Mapster;
+using MapsterMapper;
+using Microsoft.AspNetCore.Mvc;
 using TipsAndTricks.Core.Collections;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
+using TipsAndTricks.WebApi.Models;
+using TipsAndTricks.WebApi.Models.Posts;
 using TipsAndTricks.WebApi.Models.Tags;
 
 namespace TipsAndTricks.WebApi.Endpoints {
@@ -17,6 +21,9 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("GetTagById")
                 .Produces<TagItem>()
                 .Produces(404);
+            routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}/posts", GetTagPostsBySlug)
+                .WithName("GetTagPostsBySlug")
+                .Produces<PaginationResult<PostDTO>>();
 
             return app;
         }
@@ -37,6 +44,17 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return tag == null
                 ? Results.NotFound($"Không tìm thấy thẻ có mã số {id}")
                 : Results.Ok(mapper.Map<TagItem>(tag));
+        }
+
+        private static async Task<IResult> GetTagPostsBySlug([FromRoute] string slug, [AsParameters] PagingModel pagingModel, IBlogRepository blogRepository) {
+            var postQuery = new PostQuery() {
+                TagSlug = slug,
+                Published = true
+            };
+            var posts = await blogRepository.GetPagedPostsByQueryAsync(posts => posts.ProjectToType<PostDTO>(), postQuery, pagingModel);
+            var paginationResult = new PaginationResult<PostDTO>(posts);
+
+            return Results.Ok(paginationResult);
         }
     }
 }
