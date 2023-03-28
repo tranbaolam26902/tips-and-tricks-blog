@@ -10,5 +10,9 @@
         public int CategoryId { get; set; }
         public int AuthorId { get; set; }
         public IList<string> SelectedTags { get; set; }
+
+        public PostEditModel() {
+            SelectedTags = new List<string>();
+        }
     }
 }

@@ -50,6 +50,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("DeletePost")
                 .Produces(204)
                 .Produces(404);
+            routeGroupBuilder.MapPut("/{id:int}", UpdatePost)
+                .WithName("UpdatePost")
+                .AddEndpointFilter<ValidatorFilter<PostEditModel>>()
+                .Produces(204)
+                .Produces(400)
+                .Produces(409);
             routeGroupBuilder.MapGet("/{id:int}/comments", GetPostComments)
                 .WithName("GetPostComments")
                 .Produces<IList<Comment>>();
@@ -121,6 +127,34 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return await blogRepository.DeletePostById(id)
                 ? Results.NoContent()
                 : Results.NotFound($"Không thể tìm thấy bài viết có mã số {id}");
+        }
+
+        private static async Task<IResult> UpdatePost(int id, PostEditModel model, IBlogRepository blogRepository, IAuthorRepository authorRepository, IMapper mapper) {
+            var post = await blogRepository.GetPostByIdAsync(id);
+
+            if (post == null)
+                return Results.NotFound($"Không tìm thấy bài viết có mã số '{id}");
+
+            if (await blogRepository.IsPostSlugExistedAsync(id, model.UrlSlug)) {
+                return Results.Conflict(
+                    $"Slug '{model.UrlSlug}' đã được sử dụng");
+            }
+
+            var isExitsCategory = await blogRepository.GetCategoryByIdAsync(model.CategoryId);
+            var isExitsAuthor = await authorRepository.GetAuthorByIdAsync(model.AuthorId);
+
+            if (isExitsAuthor == null || isExitsCategory == null) {
+                return Results.NotFound($"Mã tác giả hoặc chủ đề không tồn tại!");
+            }
+
+            mapper.Map(model, post);
+            post.Id = id;
+            post.Category = null;
+            post.Author = null;
+
+            return await blogRepository.EditPostAsync(post, model.SelectedTags) != null
+                ? Results.NoContent()
+                : Results.NotFound();
         }
 
         private static async Task<IResult> GetPostComments(int id, ICommentRepository commentRepository) {
