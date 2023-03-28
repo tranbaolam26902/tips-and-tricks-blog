@@ -460,7 +460,7 @@ namespace TipsAndTricks.Services.Blogs {
             var existedPost = await _context.Set<Post>().AnyAsync(s => s.Id == post.Id, cancellationToken);
 
 
-            if (!existedPost || post.Tags == null) {
+            if (!existedPost) {
                 post.Tags = new List<Tag>();
             } else if (post.Tags == null || post.Tags.Count == 0) {
                 await _context.Entry(post)
