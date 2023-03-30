@@ -1,5 +1,6 @@
 ﻿using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
+using TipsAndTricks.WebApi.Models;
 using TipsAndTricks.WebApi.Models.Dashboard;
 
 namespace TipsAndTricks.WebApi.Endpoints {
@@ -9,7 +10,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
             routeGroupBuilder.MapGet("/", GetDashboardInformation)
                 .WithName("GetDashboardInformation")
-                .Produces<DashboardModel>();
+                .Produces<ApiResponse<DashboardModel>>();
 
             return app;
         }
@@ -36,7 +37,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 TotalSubscriberToday = todaySubscribers.Count
             };
 
-            return Results.Ok(dashboard);
+            return Results.Ok(ApiResponse.Success(dashboard));
         }
     }
 }

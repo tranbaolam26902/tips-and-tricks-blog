@@ -1,4 +1,5 @@
-﻿using TipsAndTricks.Core.Collections;
+﻿using System.Net;
+using TipsAndTricks.Core.Collections;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
@@ -11,15 +12,17 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
             routeGroupBuilder.MapGet("/", GetComments)
                 .WithName("GetComments")
-                .Produces<PaginationResult<Comment>>();
+                .Produces<ApiResponse<PaginationResult<Comment>>>();
+
             routeGroupBuilder.MapPost("/{id:int}", ChangeCommentApprovalStatus)
                 .WithName("ChangeCommentApprovalStatus")
                 .Produces(204)
-                .Produces(404);
+                .Produces<ApiResponse<string>>();
+
             routeGroupBuilder.MapDelete("/{id:int}", DeleteComment)
                 .WithName("DeleteComment")
                 .Produces(204)
-                .Produces(404);
+                .Produces<ApiResponse<string>>();
 
             return app;
         }
@@ -28,19 +31,19 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var comments = await commentRepository.GetPagedCommentsByQueryAsync(query, pagingModel);
             var paginationResult = new PaginationResult<Comment>(comments);
 
-            return Results.Ok(paginationResult);
+            return Results.Ok(ApiResponse.Success(paginationResult));
         }
 
         private static async Task<IResult> ChangeCommentApprovalStatus(int id, ICommentRepository commentRepository) {
             return await commentRepository.ChangeCommentApprovedState(id)
-                ? Results.NoContent()
-                : Results.NotFound($"Không tìm thấy bình luận có mã số {id}");
+                ? Results.Ok(ApiResponse.Success("Đổi trạng thái thành công", HttpStatusCode.NoContent))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bình luận có mã số {id}"));
         }
 
         private static async Task<IResult> DeleteComment(int id, ICommentRepository commentRepository) {
             return await commentRepository.DeleteCommentByIdAsync(id)
-                ? Results.NoContent()
-                : Results.NotFound($"Không tìm thấy bình luận có mã số {id}");
+                ? Results.Ok(ApiResponse.Success("Xóa thành công", HttpStatusCode.NoContent))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bình luận có mã số {id}"));
         }
     }
 }

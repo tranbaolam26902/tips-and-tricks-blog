@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using MapsterMapper;
+using System.Net;
 using TipsAndTricks.Core.Collections;
 using TipsAndTricks.Core.DTO;
 using TipsAndTricks.Core.Entities;
@@ -17,48 +18,53 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
             routeGroupBuilder.MapGet("/", GetPosts)
                 .WithName("GetPosts")
-                .Produces<PaginationResult<PostDTO>>();
+                .Produces<ApiResponse<PaginationResult<PostDTO>>>();
+
             routeGroupBuilder.MapGet("/featured/{limit:int}", GetPopularPosts)
                 .WithName("GetPopularPosts")
-                .Produces<IList<PostDTO>>();
+                .Produces<ApiResponse<IList<PostDTO>>>();
+
             routeGroupBuilder.MapGet("/random/{limit:int}", GetRandomPosts)
                 .WithName("GetRandomPosts")
-                .Produces<IList<PostDTO>>();
+                .Produces<ApiResponse<IList<PostDTO>>>();
+
             routeGroupBuilder.MapGet("/archive/{limit:int}", GetArchivePosts)
                 .WithName("GetArchivePosts")
-                .Produces<IList<MonthlyPostCountItem>>();
+                .Produces<ApiResponse<IList<MonthlyPostCountItem>>>();
+
             routeGroupBuilder.MapGet("/{id:int}", GetPostById)
                 .WithName("GetPostById")
-                .Produces<PostDetail>()
-                .Produces(404);
+                .Produces<ApiResponse<PostDetail>>();
+
             routeGroupBuilder.MapGet("/byslug/{slug:regex(^[a-z0-9_-]+$)}", GetPostBySlug)
                 .WithName("GetPostBySlug")
-                .Produces<PostDetail>()
-                .Produces(404);
+                .Produces<ApiResponse<PostDetail>>();
+
             routeGroupBuilder.MapPost("/", AddPost)
                 .WithName("AddPost")
                 .AddEndpointFilter<ValidatorFilter<PostEditModel>>()
                 .Produces(201)
-                .Produces(400)
-                .Produces(409);
+                .Produces<ApiResponse<PostDetail>>();
+
             routeGroupBuilder.MapPost("/{id:int}/thumbnail", SetPostImage)
                 .WithName("SetPostImage")
                 .Accepts<IFormFile>("multipart/form-data")
-                .Produces<string>()
-                .Produces(404);
+                .Produces<ApiResponse<string>>();
+
             routeGroupBuilder.MapDelete("/{id:int}", DeletePost)
                 .WithName("DeletePost")
-                .Produces(204)
-                .Produces(404);
+                .Produces(401)
+                .Produces<ApiResponse<string>>();
+
             routeGroupBuilder.MapPut("/{id:int}", UpdatePost)
                 .WithName("UpdatePost")
                 .AddEndpointFilter<ValidatorFilter<PostEditModel>>()
-                .Produces(204)
-                .Produces(400)
-                .Produces(409);
+                .Produces(401)
+                .Produces<ApiResponse<string>>();
+
             routeGroupBuilder.MapGet("/{id:int}/comments", GetPostComments)
                 .WithName("GetPostComments")
-                .Produces<IList<Comment>>();
+                .Produces<ApiResponse<IList<Comment>>>();
 
             return app;
         }
@@ -67,84 +73,93 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var posts = await blogRepository.GetPagedPostsByQueryAsync(posts => posts.ProjectToType<PostDTO>(), query, pagingModel);
             var paginationResult = new PaginationResult<PostDTO>(posts);
 
-            return Results.Ok(paginationResult);
+            return Results.Ok(ApiResponse.Success(paginationResult));
         }
 
         private static async Task<IResult> GetPopularPosts(int limit, IBlogRepository blogRepository, IMapper mapper) {
             var posts = await blogRepository.GetPopularArticlesAsync(limit);
 
-            return posts.Count != 0 ? Results.Ok(mapper.Map<IList<PostDTO>>(posts)) : Results.NotFound("Không có bài viết");
+            return posts.Count != 0
+                ? Results.Ok(ApiResponse.Success(mapper.Map<IList<PostDTO>>(posts)))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, "Không có bài viết"));
         }
 
         private static async Task<IResult> GetRandomPosts(int limit, IBlogRepository blogRepository, IMapper mapper) {
             var posts = await blogRepository.GetRandomPostsAsync(limit);
 
-            return posts.Count != 0 ? Results.Ok(mapper.Map<IList<PostDTO>>(posts)) : Results.NotFound("Không có bài viết");
+            return posts.Count != 0
+                ? Results.Ok(ApiResponse.Success(mapper.Map<IList<PostDTO>>(posts)))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, "Không có bài viết"));
         }
 
         private static async Task<IResult> GetArchivePosts(int limit, IBlogRepository blogRepository, IMapper mapper) {
             var posts = await blogRepository.CountMonthlyPostsAsync(limit);
 
-            return posts.Count != 0 ? Results.Ok(mapper.Map<IList<MonthlyPostCountItem>>(posts)) : Results.NotFound("Không có bài viết");
+            return posts.Count != 0
+                ? Results.Ok(ApiResponse.Success(mapper.Map<IList<MonthlyPostCountItem>>(posts)))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, "Không có bài viết"));
         }
 
         private static async Task<IResult> GetPostById(int id, IBlogRepository blogRepository, IMapper mapper) {
             var post = await blogRepository.GetPostByIdAsync(id);
 
-            return post != null ? Results.Ok(mapper.Map<PostDetail>(post)) : Results.NotFound($"Không tìm thấy bài viết có mã số {id}");
+            return post != null
+                ? Results.Ok(ApiResponse.Success(mapper.Map<PostDetail>(post)))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bài viết có mã số {id}"));
         }
 
         private static async Task<IResult> GetPostBySlug(string slug, IBlogRepository blogRepository, IMapper mapper) {
             var post = await blogRepository.GetPostBySlugAsync(slug);
 
-            return post != null ? Results.Ok(mapper.Map<PostDetail>(post)) : Results.NotFound($"Không tìm thấy bài viết có slug {slug}");
+            return post != null
+                ? Results.Ok(ApiResponse.Success(mapper.Map<PostDetail>(post)))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bài viết có slug {slug}"));
         }
 
         private static async Task<IResult> AddPost(PostEditModel model, IAuthorRepository authorRepository, IBlogRepository blogRepository, IMapper mapper) {
             if (await blogRepository.IsPostSlugExistedAsync(0, model.UrlSlug)) {
-                return Results.Conflict($"Slug '{model.UrlSlug}' đã được sử dụng");
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.Conflict, $"Slug '{model.UrlSlug}' đã được sử dụng"));
             }
 
             var post = mapper.Map<Post>(model);
             post.PostedDate = DateTime.Now;
             await blogRepository.EditPostAsync(post, model.SelectedTags);
 
-            return Results.CreatedAtRoute("GetPostById", new { post.Id }, mapper.Map<PostDetail>(post));
+            return Results.Ok(ApiResponse.Success(mapper.Map<PostDetail>(post), HttpStatusCode.Created));
         }
 
         private static async Task<IResult> SetPostImage(int id, IFormFile imageFile, IBlogRepository blogRepository, IMediaManager mediaManager) {
             var imageUrl = await mediaManager.SaveFileAsync(imageFile.OpenReadStream(), imageFile.FileName, imageFile.ContentType);
 
             if (string.IsNullOrWhiteSpace(imageUrl)) {
-                return Results.BadRequest("Không lưu được tập tin");
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.BadRequest, "Không lưu được tập tin"));
             }
 
             await blogRepository.SetImageUrlAsync(id, imageUrl);
-            return Results.Ok(imageUrl);
+            return Results.Ok(ApiResponse.Success(imageUrl));
         }
 
         private static async Task<IResult> DeletePost(int id, IBlogRepository blogRepository) {
             return await blogRepository.DeletePostById(id)
-                ? Results.NoContent()
-                : Results.NotFound($"Không thể tìm thấy bài viết có mã số {id}");
+                ? Results.Ok(ApiResponse.Success("Xóa thành công", HttpStatusCode.NoContent))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không thể tìm thấy tác giả có mã số {id}"));
         }
 
         private static async Task<IResult> UpdatePost(int id, PostEditModel model, IBlogRepository blogRepository, IAuthorRepository authorRepository, IMapper mapper) {
             var post = await blogRepository.GetPostByIdAsync(id);
 
             if (post == null)
-                return Results.NotFound($"Không tìm thấy bài viết có mã số '{id}");
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không thể tìm thấy bài viết có mã số {id}"));
 
             if (await blogRepository.IsPostSlugExistedAsync(id, model.UrlSlug)) {
-                return Results.Conflict(
-                    $"Slug '{model.UrlSlug}' đã được sử dụng");
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.Conflict, $"Slug '{model.UrlSlug}' đã được sử dụng"));
             }
 
             var isExitsCategory = await blogRepository.GetCategoryByIdAsync(model.CategoryId);
             var isExitsAuthor = await authorRepository.GetAuthorByIdAsync(model.AuthorId);
 
             if (isExitsAuthor == null || isExitsCategory == null) {
-                return Results.NotFound($"Mã tác giả hoặc chủ đề không tồn tại!");
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Mã tác giả hoặc chủ đề không tồn tại"));
             }
 
             mapper.Map(model, post);
@@ -153,14 +168,14 @@ namespace TipsAndTricks.WebApi.Endpoints {
             post.Author = null;
 
             return await blogRepository.EditPostAsync(post, model.SelectedTags) != null
-                ? Results.NoContent()
-                : Results.NotFound();
+                ? Results.Ok(ApiResponse.Success("Cập nhật thành công", HttpStatusCode.NoContent))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không thể tìm thấy tác giả có mã số {id}"));
         }
 
         private static async Task<IResult> GetPostComments(int id, ICommentRepository commentRepository) {
             var comments = await commentRepository.GetPostCommentsAsync(id);
 
-            return Results.Ok(comments);
+            return Results.Ok(ApiResponse.Success(comments));
         }
     }
 }
