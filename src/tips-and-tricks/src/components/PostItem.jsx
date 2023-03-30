@@ -1,5 +1,5 @@
 import { Card } from 'react-bootstrap';
-import Link from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { isEmptyOrWhitespace } from '../utils';
 import TagList from './TagList';
