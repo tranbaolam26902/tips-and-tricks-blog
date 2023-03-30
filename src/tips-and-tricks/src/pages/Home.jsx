@@ -1,9 +1,21 @@
 import { useEffect } from 'react';
 
-export default function Home() {
+import PostItem from '../components/PostItem';
+
+export default function Home({ posts }) {
 	useEffect(() => {
 		document.title = 'Trang chủ';
 	}, []);
 
-	return <h1>Trang chủ</h1>;
+	return (
+		<>
+			{posts.length && (
+				<div className='p-4'>
+					{posts.map((post) => (
+						<PostItem key={post.id} post={post} />
+					))}
+				</div>
+			)}
+		</>
+	);
 }
