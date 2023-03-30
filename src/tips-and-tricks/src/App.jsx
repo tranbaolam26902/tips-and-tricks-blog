@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import './App.css';
+import Footer from './components/Footer';
 
 import Navigation from './components/Navigation';
 import Sidebar from './components/Sidebar';
@@ -17,6 +18,7 @@ function App() {
 					</div>
 				</div>
 			</div>
+			<Footer />
 		</Router>
 	);
 }
