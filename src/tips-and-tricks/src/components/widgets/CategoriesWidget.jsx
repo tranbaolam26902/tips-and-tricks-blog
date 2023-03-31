@@ -26,7 +26,7 @@ export default function CategoriesWidget() {
 					{categories.map((category, index) => (
 						<ListGroup.Item key={index}>
 							<Link
-								to={`/blog/category?slug=${category.urlSlug}`}
+								to={`/blog/category/${category.urlSlug}`}
 								title={category.description}
 							>
 								{category.name}

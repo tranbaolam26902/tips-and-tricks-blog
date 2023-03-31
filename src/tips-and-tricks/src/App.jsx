@@ -5,7 +5,16 @@ import styles from './App.module.css';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Sidebar from './components/Sidebar';
-import { About, Contact, Home, Layout, Rss, Subscribe } from './pages';
+import {
+	About,
+	Contact,
+	Home,
+	Layout,
+	Rss,
+	Subscribe,
+	PostsByCategory,
+	NotFound,
+} from './pages';
 
 function App() {
 	return (
@@ -28,6 +37,11 @@ function App() {
 									path='newsletter/subscribe'
 									element={<Subscribe />}
 								/>
+								<Route
+									path='blog/category/:slug'
+									element={<PostsByCategory />}
+								/>
+								<Route path='*' element={<NotFound />} />
 							</Route>
 						</Routes>
 					</div>
