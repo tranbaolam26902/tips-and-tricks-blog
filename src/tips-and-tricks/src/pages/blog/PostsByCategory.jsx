@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { getCategory } from '../../services/blogRepository';
+import { getCategoryBySlug } from '../../services/categories';
 
 import PostsFilter from '../../components/PostsFilter';
 
@@ -15,7 +15,7 @@ export default function PostsByCategory() {
 		fetchCategory();
 
 		async function fetchCategory() {
-			const data = await getCategory(params.slug);
+			const data = await getCategoryBySlug(params.slug);
 			if (data) setCategory(data);
 			else setCategory({});
 		}
@@ -23,7 +23,9 @@ export default function PostsByCategory() {
 
 	return (
 		<div className='p-4'>
-			<h1>Danh sách bài viết thuộc danh mục: "{category.name}"</h1>
+			<h1 className='mb-4'>
+				Danh sách bài viết thuộc danh mục: "{category.name}"
+			</h1>
 			<PostsFilter postQuery={{ categorySlug: params.slug }} />
 		</div>
 	);

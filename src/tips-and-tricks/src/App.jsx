@@ -12,8 +12,10 @@ import {
 	Layout,
 	Rss,
 	Subscribe,
-	PostsByCategory,
 	NotFound,
+	PostsByCategory,
+	PostsByAuthor,
+	PostsByTag,
 } from './pages';
 
 function App() {
@@ -40,6 +42,14 @@ function App() {
 								<Route
 									path='blog/category/:slug'
 									element={<PostsByCategory />}
+								/>
+								<Route
+									path='blog/author/:slug'
+									element={<PostsByAuthor />}
+								/>
+								<Route
+									path='blog/tag/:slug'
+									element={<PostsByTag />}
 								/>
 								<Route path='*' element={<NotFound />} />
 							</Route>
