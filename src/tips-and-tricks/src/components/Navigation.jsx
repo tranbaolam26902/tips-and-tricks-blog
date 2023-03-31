@@ -13,12 +13,14 @@ export default function Navigation() {
 			className={`${styles.header} border-bottom`}
 		>
 			<div className='container-fluid mx-4'>
-				<Navbar.Brand href='/'>
-					<img
-						src='/assets/images/logo-text.png'
-						alt='logo'
-						style={{ height: 40 }}
-					/>
+				<Navbar.Brand>
+					<Link to='/'>
+						<img
+							src='/assets/images/logo-text.png'
+							alt='logo'
+							style={{ height: 40 }}
+						/>
+					</Link>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls='responsive-navbar-nav' />
 				<Navbar.Collapse
