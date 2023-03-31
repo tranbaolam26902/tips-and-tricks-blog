@@ -23,7 +23,7 @@ export default function PostsByCategory() {
 
 	return (
 		<div className='p-4'>
-			<h1>Danh sách bài viết thuộc danh mục: {category.name}</h1>
+			<h1>Danh sách bài viết thuộc danh mục: "{category.name}"</h1>
 			<PostsFilter postQuery={{ categorySlug: params.slug }} />
 		</div>
 	);
