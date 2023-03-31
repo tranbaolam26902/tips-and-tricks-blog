@@ -7,7 +7,7 @@ import TagList from './TagList';
 export default function PostItem({ post }) {
 	// Variables
 	const imageUrl = isEmptyOrWhitespace(post.imageUrl)
-		? process.env.PUBLIC_URL + '/images/default-thumbnail.jpg'
+		? process.env.PUBLIC_URL + '/assets/images/default-thumbnail.jpg'
 		: `${post.imageUrl}`;
 	const postedDate = new Date(post.postedDate);
 
