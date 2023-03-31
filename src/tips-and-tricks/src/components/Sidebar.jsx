@@ -11,7 +11,7 @@ import {
 
 export default function Sidebar() {
 	return (
-		<div className='pt-4 ps-2'>
+		<div className='mb-4 pt-4 ps-2'>
 			<SearchForm />
 			<CategoriesWidget />
 			<FeaturedPostsWidget />

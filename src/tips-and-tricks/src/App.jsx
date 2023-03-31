@@ -1,19 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import './App.css';
-import Footer from './components/Footer';
-
 import Navigation from './components/Navigation';
+
+import styles from './App.module.css';
+
+import Footer from './components/Footer';
 import Sidebar from './components/Sidebar';
 import { About, Contact, Home, Layout, Rss, Subscribe } from './pages';
 
 function App() {
+	console.log(styles);
 	return (
 		<Router>
 			<Navigation />
-			<div className='container-fluid'>
+			<div className={`container-fluid ${styles.content}`}>
 				<div className='row'>
-					<div className='col-9'>
+					<div className={`${styles.main} col-9`}>
 						<Routes>
 							<Route path='/' element={<Layout />}>
 								<Route path='/' element={<Home />} />
@@ -31,7 +32,7 @@ function App() {
 							</Route>
 						</Routes>
 					</div>
-					<div className='col-3 border-start'>
+					<div className={`${styles.sidebar} col-3 border-start`}>
 						<Sidebar />
 					</div>
 				</div>
