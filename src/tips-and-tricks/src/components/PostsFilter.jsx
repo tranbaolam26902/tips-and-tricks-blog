@@ -28,7 +28,7 @@ export default function PostsFilter({ postQuery }) {
 				Published: true,
 				Unpublished: false,
 				PageNumber: pageNumber || 1,
-				PageSize: 2,
+				PageSize: 10,
 			});
 			categorySlug && queries.append('CategorySlug', categorySlug);
 			authorSlug && queries.append('AuthorSlug', authorSlug);
