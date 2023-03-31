@@ -19,3 +19,13 @@ export async function getFeaturedPosts(limit) {
 	if (data.isSuccess) return data.result;
 	else return null;
 }
+
+export async function getRandomPosts(limit) {
+	const response = await axios.get(
+		`https://localhost:7157/api/posts/random/${limit}`,
+	);
+	const data = response.data;
+
+	if (data.isSuccess) return data.result;
+	else return null;
+}

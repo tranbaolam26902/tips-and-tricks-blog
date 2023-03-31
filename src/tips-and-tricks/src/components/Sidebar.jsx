@@ -1,5 +1,9 @@
 import SearchForm from './SearchForm';
-import { CategoriesWidget, FeaturedPostsWidget } from './widgets';
+import {
+	CategoriesWidget,
+	FeaturedPostsWidget,
+	RandomPostsWidget,
+} from './widgets';
 
 export default function Sidebar() {
 	return (
@@ -7,6 +11,7 @@ export default function Sidebar() {
 			<SearchForm />
 			<CategoriesWidget />
 			<FeaturedPostsWidget />
+			<RandomPostsWidget />
 			<h1>Đăng ký nhận tin mới</h1>
 			<h1>Tag cloud</h1>
 		</div>
