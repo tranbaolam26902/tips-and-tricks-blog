@@ -23,36 +23,42 @@ export default function PostItem({ post }) {
 						/>
 					</div>
 					<div className='col-md-8'>
-						<Card.Body>
-							<Card.Title>
-								<Link
-									to={`/blog/post/${postedDate.getFullYear()}/${postedDate.getMonth()}/${postedDate.getDate()}/${
-										post.urlSlug
-									}`}
-									className='text-decoration-none'
-								>
-									{post.title}
-								</Link>
-							</Card.Title>
-							<Card.Text>
-								<small className='text-muted'>Tác giả:</small>
-								<Link
-									to={`/blog/author/${post.author.urlSlug}`}
-									className='text-primary text-decoration-none m-1'
-								>
-									{post.author.fullName}
-								</Link>
-								<small className='text-muted'>Chủ đề:</small>
-								<Link
-									to={`blog/category/${post.category.urlSlug}`}
-									className='text-primary text-decoration-none m-1'
-								>
-									{post.category.name}
-								</Link>
-							</Card.Text>
-							<Card.Text>{post.shortDescription}</Card.Text>
-							<div className='tag-list'>
-								<TagList tags={post.tags} />
+						<Card.Body className='d-flex flex-column justify-content-between h-100'>
+							<div>
+								<Card.Title>
+									<Link
+										to={`/blog/post/${postedDate.getFullYear()}/${postedDate.getMonth()}/${postedDate.getDate()}/${
+											post.urlSlug
+										}`}
+										className='text-decoration-none'
+									>
+										{post.title}
+									</Link>
+								</Card.Title>
+								<Card.Text>
+									<small className='text-muted'>
+										Tác giả:
+									</small>
+									<Link
+										to={`/blog/author/${post.author.urlSlug}`}
+										className='text-primary text-decoration-none m-1'
+									>
+										{post.author.fullName}
+									</Link>
+									<small className='text-muted'>
+										Chủ đề:
+									</small>
+									<Link
+										to={`blog/category/${post.category.urlSlug}`}
+										className='text-primary text-decoration-none m-1'
+									>
+										{post.category.name}
+									</Link>
+								</Card.Text>
+								<Card.Text>{post.shortDescription}</Card.Text>
+								<div className='tag-list'>
+									<TagList tags={post.tags} />
+								</div>
 							</div>
 							<div className='text-end'>
 								<Link
