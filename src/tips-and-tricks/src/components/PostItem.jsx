@@ -49,7 +49,7 @@ export default function PostItem({ post }) {
 										Chủ đề:
 									</small>
 									<Link
-										to={`blog/category/${post.category.urlSlug}`}
+										to={`/blog/category/${post.category.urlSlug}`}
 										className='text-primary text-decoration-none m-1'
 									>
 										{post.category.name}
