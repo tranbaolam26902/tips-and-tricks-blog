@@ -29,3 +29,13 @@ export async function getRandomPosts(limit) {
 	if (data.isSuccess) return data.result;
 	else return null;
 }
+
+export async function getTagCloud() {
+	const response = await axios.get(
+		'https://localhost:7157/api/tags?PageSize=100&PageNumber=1',
+	);
+	const data = response.data;
+
+	if (data.isSuccess) return data.result;
+	else return null;
+}
