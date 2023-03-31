@@ -39,3 +39,13 @@ export async function getTagCloud() {
 	if (data.isSuccess) return data.result;
 	else return null;
 }
+
+export async function getTopAuthors(limit) {
+	const response = await axios.get(
+		`https://localhost:7157/api/authors/best/${limit}`,
+	);
+	const data = response.data;
+
+	if (data.isSuccess) return data.result;
+	else return null;
+}

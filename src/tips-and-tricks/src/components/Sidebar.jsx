@@ -4,6 +4,7 @@ import {
 	FeaturedPostsWidget,
 	RandomPostsWidget,
 	TagCloudWidget,
+	TopAuthorsWidget,
 } from './widgets';
 
 export default function Sidebar() {
@@ -14,6 +15,7 @@ export default function Sidebar() {
 			<FeaturedPostsWidget />
 			<RandomPostsWidget />
 			<TagCloudWidget />
+			<TopAuthorsWidget />
 			<h1>Đăng ký nhận tin mới</h1>
 		</div>
 	);
