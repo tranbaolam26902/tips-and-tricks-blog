@@ -1,5 +1,5 @@
 import SearchForm from './SearchForm';
-import CategoriesWidget from './CategoriesWidget';
+import { CategoriesWidget } from './widgets';
 
 export default function Sidebar() {
 	return (
