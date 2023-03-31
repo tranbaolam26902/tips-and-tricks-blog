@@ -15,24 +15,24 @@ export default function About() {
 					<img
 						src='/assets/images/about-01.jpg'
 						className='w-50'
-						alt='about-image'
+						alt='about'
 					/>
 					<img
 						src='/assets/images/about-02.jpg'
 						className='w-50'
-						alt='about-image'
+						alt='about'
 					/>
 				</div>
 				<div className='d-flex justify-content-between row gx-4 mt-4'>
 					<img
 						src='/assets/images/about-03.jpg'
 						className='w-50'
-						alt='about-image'
+						alt='about'
 					/>
 					<img
 						src='/assets/images/about-04.jpg'
 						className='w-50'
-						alt='about-image'
+						alt='about'
 					/>
 				</div>
 			</div>
