@@ -25,6 +25,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("GetTagById")
                 .Produces<ApiResponse<TagItem>>();
 
+            routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}", GetTagBySlug)
+                .WithName("GetTagBySlug")
+                .Produces<ApiResponse<TagItem>>();
+
             routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}/posts", GetTagPostsBySlug)
                 .WithName("GetTagPostsBySlug")
                 .Produces<ApiResponse<PaginationResult<PostDTO>>>();
@@ -64,6 +68,14 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
             return tag == null
                 ? Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy thẻ có mã số {id}"))
+                : Results.Ok(ApiResponse.Success(mapper.Map<TagItem>(tag)));
+        }
+
+        private static async Task<IResult> GetTagBySlug(string slug, IBlogRepository blogRepository, IMapper mapper) {
+            var tag = await blogRepository.GetTagBySlugAsync(slug);
+
+            return tag == null
+                ? Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy thẻ có slug '{slug}'"))
                 : Results.Ok(ApiResponse.Success(mapper.Map<TagItem>(tag)));
         }
 
