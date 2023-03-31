@@ -1,16 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import PostsFilter from '../../components/PostsFilter';
 
 export default function Home() {
+	const queryStrings = new URLSearchParams(useLocation().search);
+	const keyword = queryStrings.get('keyword');
+
 	useEffect(() => {
 		document.title = 'Trang chủ';
 	}, []);
 
 	return (
 		<div className='p-4'>
-			<PostsFilter postQuery={{}} />
+			{keyword && (
+				<h1 className='mb-4'>
+					Kết quả tìm kiếm cho từ khóa: "{keyword}"
+				</h1>
+			)}
+			<PostsFilter postQuery={{ keyword }} />
 		</div>
 	);
 }
