@@ -27,11 +27,7 @@ export default function RandomPostsWidget() {
 						const postedDate = new Date(post.postedDate);
 						return (
 							<ListGroup.Item key={index}>
-								<Link
-									to={`/blog/post/${postedDate.getFullYear()}/${postedDate.getMonth()}/${postedDate.getDate()}/${
-										post.urlSlug
-									}`}
-								>
+								<Link to={`/blog/post/${post.urlSlug}`}>
 									{post.title}
 								</Link>
 							</ListGroup.Item>

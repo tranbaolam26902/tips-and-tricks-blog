@@ -6,3 +6,5 @@ export { default as Rss } from './Rss';
 export { default as PostsByCategory } from './PostsByCategory';
 export { default as PostsByAuthor } from './PostsByAuthor';
 export { default as PostsByTag } from './PostsByTag';
+export { default as PostsByTime } from './PostsByTime';
+export { default as Post } from './Post';

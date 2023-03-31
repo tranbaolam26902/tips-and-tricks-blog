@@ -16,8 +16,9 @@ import {
 	PostsByCategory,
 	PostsByAuthor,
 	PostsByTag,
+	PostsByTime,
+	Post,
 } from './pages';
-import PostsByTime from './pages/blog/PostsByTime';
 
 function App() {
 	return (
@@ -55,6 +56,10 @@ function App() {
 								<Route
 									path='blog/archive/:year/:month'
 									element={<PostsByTime />}
+								/>
+								<Route
+									path='blog/post/:slug'
+									element={<Post />}
 								/>
 								<Route path='*' element={<NotFound />} />
 							</Route>
