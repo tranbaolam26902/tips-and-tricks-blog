@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 
+import styles from '../App.module.css';
+
 export default function Navigation() {
 	return (
 		<Navbar
@@ -8,10 +10,16 @@ export default function Navigation() {
 			expand='sm'
 			bg='white'
 			variant='light'
-			className='border-bottom shadow'
+			className={`${styles.header} border-bottom`}
 		>
-			<div className='container-fluid'>
-				<Navbar.Brand href='/'>Cats & Tricks</Navbar.Brand>
+			<div className='container-fluid mx-4'>
+				<Navbar.Brand href='/'>
+					<img
+						src='/assets/images/logo-text.png'
+						alt='logo'
+						style={{ height: 40 }}
+					/>
+				</Navbar.Brand>
 				<Navbar.Toggle aria-controls='responsive-navbar-nav' />
 				<Navbar.Collapse
 					id='responsive-navbar-nav'

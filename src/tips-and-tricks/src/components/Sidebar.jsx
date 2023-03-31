@@ -1,14 +1,30 @@
+import { Link } from 'react-router-dom';
 import SearchForm from './SearchForm';
-import CategoriesWidget from './CategoriesWidget';
+import {
+	ArchivesWidget,
+	CategoriesWidget,
+	FeaturedPostsWidget,
+	RandomPostsWidget,
+	TagCloudWidget,
+	TopAuthorsWidget,
+} from './widgets';
 
 export default function Sidebar() {
 	return (
-		<div className='pt-4 ps-2'>
+		<div className='mb-4 pt-4 ps-2'>
 			<SearchForm />
 			<CategoriesWidget />
-			<h1>Bài viết nổi bật</h1>
-			<h1>Đăng ký nhận tin mới</h1>
-			<h1>Tag cloud</h1>
+			<FeaturedPostsWidget />
+			<RandomPostsWidget />
+			<TagCloudWidget />
+			<TopAuthorsWidget />
+			<ArchivesWidget />
+			<Link
+				to='/newsletter/subscribe'
+				className='btn btn-primary py-2 w-100'
+			>
+				Đăng ký nhận tin mới
+			</Link>
 		</div>
 	);
 }

@@ -7,7 +7,7 @@ import TagList from './TagList';
 export default function PostItem({ post }) {
 	// Variables
 	const imageUrl = isEmptyOrWhitespace(post.imageUrl)
-		? process.env.PUBLIC_URL + '/images/default-thumbnail.jpg'
+		? process.env.PUBLIC_URL + '/assets/images/default-thumbnail.jpg'
 		: `${post.imageUrl}`;
 	const postedDate = new Date(post.postedDate);
 
@@ -23,25 +23,46 @@ export default function PostItem({ post }) {
 						/>
 					</div>
 					<div className='col-md-8'>
-						<Card.Body>
-							<Card.Title>{post.title}</Card.Title>
-							<Card.Text>
-								<small className='text-muted'>Tác giả:</small>
-								<span className='text-primary m-1'>
-									{post.author.fullName}
-								</span>
-								<small className='text-muted'>Chủ đề:</small>
-								<span className='text-primary m-1'>
-									{post.category.name}
-								</span>
-							</Card.Text>
-							<Card.Text>{post.shortDescription}</Card.Text>
-							<div className='tag-list'>
-								<TagList tags={post.tags} />
+						<Card.Body className='d-flex flex-column justify-content-between h-100'>
+							<div>
+								<Card.Title>
+									<Link
+										to={`/blog/post/${postedDate.getFullYear()}/${postedDate.getMonth()}/${postedDate.getDate()}/${
+											post.urlSlug
+										}`}
+										className='text-decoration-none'
+									>
+										{post.title}
+									</Link>
+								</Card.Title>
+								<Card.Text>
+									<small className='text-muted'>
+										Tác giả:
+									</small>
+									<Link
+										to={`/blog/author/${post.author.urlSlug}`}
+										className='text-primary text-decoration-none m-1'
+									>
+										{post.author.fullName}
+									</Link>
+									<small className='text-muted'>
+										Chủ đề:
+									</small>
+									<Link
+										to={`blog/category/${post.category.urlSlug}`}
+										className='text-primary text-decoration-none m-1'
+									>
+										{post.category.name}
+									</Link>
+								</Card.Text>
+								<Card.Text>{post.shortDescription}</Card.Text>
+								<div className='tag-list'>
+									<TagList tags={post.tags} />
+								</div>
 							</div>
 							<div className='text-end'>
 								<Link
-									to={`/blog/post?year=${postedDate.getFullYear()}&month=${postedDate.getMonth()}&day=${postedDate.getDay()}&slug=${
+									to={`/blog/post?year=${postedDate.getFullYear()}&month=${postedDate.getMonth()}&day=${postedDate.getDate()}&slug=${
 										post.urlSlug
 									}`}
 									title={post.title}
