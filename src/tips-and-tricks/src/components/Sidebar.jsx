@@ -1,5 +1,6 @@
 import SearchForm from './SearchForm';
 import {
+	ArchivesWidget,
 	CategoriesWidget,
 	FeaturedPostsWidget,
 	RandomPostsWidget,
@@ -16,6 +17,7 @@ export default function Sidebar() {
 			<RandomPostsWidget />
 			<TagCloudWidget />
 			<TopAuthorsWidget />
+			<ArchivesWidget />
 			<h1>Đăng ký nhận tin mới</h1>
 		</div>
 	);

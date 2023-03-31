@@ -49,3 +49,13 @@ export async function getTopAuthors(limit) {
 	if (data.isSuccess) return data.result;
 	else return null;
 }
+
+export async function getArchives(limit) {
+	const response = await axios.get(
+		`https://localhost:7157/api/posts/archive/${limit}`,
+	);
+	const data = response.data;
+
+	if (data.isSuccess) return data.result;
+	else return null;
+}
