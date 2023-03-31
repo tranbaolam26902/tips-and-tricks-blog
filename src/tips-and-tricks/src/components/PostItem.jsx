@@ -24,16 +24,31 @@ export default function PostItem({ post }) {
 					</div>
 					<div className='col-md-8'>
 						<Card.Body>
-							<Card.Title>{post.title}</Card.Title>
+							<Card.Title>
+								<Link
+									to={`/blog/post/${postedDate.getFullYear()}/${postedDate.getMonth()}/${postedDate.getDate()}/${
+										post.urlSlug
+									}`}
+									className='text-decoration-none'
+								>
+									{post.title}
+								</Link>
+							</Card.Title>
 							<Card.Text>
 								<small className='text-muted'>Tác giả:</small>
-								<span className='text-primary m-1'>
+								<Link
+									to={`/blog/author/${post.author.urlSlug}`}
+									className='text-primary text-decoration-none m-1'
+								>
 									{post.author.fullName}
-								</span>
+								</Link>
 								<small className='text-muted'>Chủ đề:</small>
-								<span className='text-primary m-1'>
+								<Link
+									to={`blog/category/${post.category.urlSlug}`}
+									className='text-primary text-decoration-none m-1'
+								>
 									{post.category.name}
-								</span>
+								</Link>
 							</Card.Text>
 							<Card.Text>{post.shortDescription}</Card.Text>
 							<div className='tag-list'>
@@ -41,7 +56,7 @@ export default function PostItem({ post }) {
 							</div>
 							<div className='text-end'>
 								<Link
-									to={`/blog/post?year=${postedDate.getFullYear()}&month=${postedDate.getMonth()}&day=${postedDate.getDay()}&slug=${
+									to={`/blog/post?year=${postedDate.getFullYear()}&month=${postedDate.getMonth()}&day=${postedDate.getDate()}&slug=${
 										post.urlSlug
 									}`}
 									title={post.title}
