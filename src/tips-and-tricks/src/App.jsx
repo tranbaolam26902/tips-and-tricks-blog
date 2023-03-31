@@ -1,14 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navigation from './components/Navigation';
 
 import styles from './App.module.css';
 
+import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Sidebar from './components/Sidebar';
 import { About, Contact, Home, Layout, Rss, Subscribe } from './pages';
 
 function App() {
-	console.log(styles);
 	return (
 		<Router>
 			<Navigation />
