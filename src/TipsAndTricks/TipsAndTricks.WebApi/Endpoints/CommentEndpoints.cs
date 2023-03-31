@@ -24,6 +24,11 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Produces(204)
                 .Produces<ApiResponse<string>>();
 
+            routeGroupBuilder.MapPost("/", SendComment)
+                .WithName("SendComment")
+                .Produces(204)
+                .Produces<ApiResponse<string>>();
+
             return app;
         }
 
@@ -44,6 +49,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return await commentRepository.DeleteCommentByIdAsync(id)
                 ? Results.Ok(ApiResponse.Success("Xóa thành công", HttpStatusCode.NoContent))
                 : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bình luận có mã số {id}"));
+        }
+
+        private static async Task<IResult> SendComment(int id, string name, string description, ICommentRepository commentRepository) {
+            return await commentRepository.SendCommentAsync(name, description, id)
+                ? Results.Ok(ApiResponse.Success("Gửi thành công", HttpStatusCode.NoContent))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bài viết có mã số {id}"));
         }
     }
 }
