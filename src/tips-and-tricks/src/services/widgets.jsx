@@ -9,3 +9,13 @@ export async function getCategories() {
 	if (data.isSuccess) return data.result;
 	else return null;
 }
+
+export async function getFeaturedPosts(limit) {
+	const response = await axios.get(
+		`https://localhost:7157/api/posts/featured/${limit}`,
+	);
+	const data = response.data;
+
+	if (data.isSuccess) return data.result;
+	else return null;
+}

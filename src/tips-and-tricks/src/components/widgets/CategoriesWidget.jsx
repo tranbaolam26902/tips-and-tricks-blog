@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
 
-import { getCategories } from '../../services/categoriesWidget';
+import { getCategories } from '../../services/widgets';
 
 export default function CategoriesWidget() {
 	// Component's states
