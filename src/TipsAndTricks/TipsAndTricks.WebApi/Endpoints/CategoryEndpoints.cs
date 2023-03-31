@@ -25,6 +25,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("GetCategoryById")
                 .Produces<ApiResponse<CategoryItem>>();
 
+            routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}", GetCategoryBySlug)
+                .WithName("GetCategoryBySlug")
+                .Produces<ApiResponse<CategoryItem>>();
+
             routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}/posts", GetPostsByCategorySlug)
                 .WithName("GetPostsByCategorySlug")
                 .Produces<ApiResponse<PaginationResult<PostDTO>>>();
@@ -64,6 +68,14 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
             return category == null
                 ? Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy chủ đề có mã số {id}"))
+                : Results.Ok(ApiResponse.Success(mapper.Map<CategoryItem>(category)));
+        }
+
+        private static async Task<IResult> GetCategoryBySlug(string slug, IBlogRepository blogRepository, IMapper mapper) {
+            var category = await blogRepository.GetCategoryBySlugAsync(slug);
+
+            return category == null
+                ? Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy chủ đề có slug '{slug}'"))
                 : Results.Ok(ApiResponse.Success(mapper.Map<CategoryItem>(category)));
         }
 

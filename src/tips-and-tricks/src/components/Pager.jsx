@@ -1,28 +1,23 @@
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'react-bootstrap';
 
-export default function Pager({ postQuery, metadata }) {
-	// Component's variables
-	const { keyword } = postQuery ?? '';
-	const { pageCount, hasNextPage, hasPreviousPage, pageNumber, pageSize } =
-		metadata;
+export default function Pager({ metadata, onPageChange }) {
+	// Component's props
+	const { pageCount, hasNextPage, hasPreviousPage } = metadata;
 
 	return (
 		<>
-			{pageCount > 1 ? (
+			{pageCount > 1 && (
 				<div className='my-4 text-center'>
 					{hasPreviousPage ? (
-						<Link
-							to={`/blog/?Keyword=${keyword}&PageNumber=${
-								pageNumber - 1
-							}&PageSize=${pageSize}`}
+						<button
 							className='btn btn-info'
+							onClick={() => onPageChange(-1)}
 						>
 							<FontAwesomeIcon icon={faArrowLeft} />
 							&nbsp;Trang trước
-						</Link>
+						</button>
 					) : (
 						<Button variant='outline-secondary' disabled>
 							<FontAwesomeIcon icon={faArrowLeft} />
@@ -30,15 +25,13 @@ export default function Pager({ postQuery, metadata }) {
 						</Button>
 					)}
 					{hasNextPage ? (
-						<Link
-							to={`/blog/?Keyword=${keyword}&PageNumber=${
-								pageNumber + 1
-							}&PageSize=${pageSize}`}
+						<button
 							className='btn btn-info ms-1'
+							onClick={() => onPageChange(1)}
 						>
 							Trang sau&nbsp;
 							<FontAwesomeIcon icon={faArrowRight} />
-						</Link>
+						</button>
 					) : (
 						<Button
 							variant='outline-secondary'
@@ -50,7 +43,7 @@ export default function Pager({ postQuery, metadata }) {
 						</Button>
 					)}
 				</div>
-			) : null}
+			)}
 		</>
 	);
 }

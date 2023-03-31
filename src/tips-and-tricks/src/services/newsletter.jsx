@@ -1,10 +1,10 @@
 import axios from 'axios';
 
+import { API_URL } from '../utils/constants';
+
 export async function subscribe(email) {
 	const response = await axios.post(
-		`https://localhost:7157/api/subscribers/${encodeURIComponent(
-			email,
-		)}/subscribe`,
+		`${API_URL}/api/subscribers/${encodeURIComponent(email)}/subscribe`,
 	);
 
 	const data = response.data;

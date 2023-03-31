@@ -5,10 +5,20 @@ export function isEmptyOrWhitespace(str) {
 }
 
 export function getMonthName(monthNumber) {
-	const date = new Date();
-	date.setMonth(monthNumber - 1);
+	const month = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	];
 
-	return date.toLocaleString('en-US', {
-		month: 'long',
-	});
+	return month[monthNumber - 1];
 }

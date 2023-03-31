@@ -7,7 +7,7 @@ export default function TagList({ tags }) {
 				? tags.map((tag, index) => (
 						<Link
 							key={index}
-							to={`/blog/tag?slug=${tag.name}`}
+							to={`/blog/tag/${tag.urlSlug}`}
 							title={tag.name}
 							className='btn btn-sm btn-outline-secondary me-1'
 						>

@@ -110,6 +110,8 @@ namespace TipsAndTricks.WebApi.Endpoints {
 
         private static async Task<IResult> GetPostBySlug(string slug, IBlogRepository blogRepository, IMapper mapper) {
             var post = await blogRepository.GetPostBySlugAsync(slug);
+            if (post != null)
+                await blogRepository.IncreaseViewCountAsync(post.Id);
 
             return post != null
                 ? Results.Ok(ApiResponse.Success(mapper.Map<PostDetail>(post)))

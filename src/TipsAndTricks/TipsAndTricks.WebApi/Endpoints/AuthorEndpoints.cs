@@ -24,6 +24,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("GetAuthors")
                 .Produces<ApiResponse<PaginationResult<AuthorItem>>>();
 
+            routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}", GetAuthorBySlug)
+                .WithName("GetAuthorBySlug")
+                .Produces<ApiResponse<AuthorItem>>();
+
             routeGroupBuilder.MapGet("/best/{limit:int}", GetAuthorsHasMostArticles)
                 .WithDescription("GetBestAuthors")
                 .Produces<ApiResponse<IPagedList<AuthorItem>>>();
@@ -68,6 +72,14 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var paginationResult = new PaginationResult<AuthorItem>(authors);
 
             return Results.Ok(ApiResponse.Success(paginationResult));
+        }
+
+        private static async Task<IResult> GetAuthorBySlug(string slug, IAuthorRepository authorRepository, IMapper mapper) {
+            var author = await authorRepository.GetAuthorBySlugAsync(slug);
+
+            return author == null
+                ? Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy tác giả có slug '{slug}'"))
+                : Results.Ok(ApiResponse.Success(mapper.Map<AuthorItem>(author)));
         }
 
         private static async Task<IResult> GetAuthorsHasMostArticles(int limit, IAuthorRepository authorRepository) {
