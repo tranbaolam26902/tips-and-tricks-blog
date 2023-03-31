@@ -17,3 +17,11 @@ export async function getPostBySlug(slug) {
 	if (data.isSuccess) return data.result;
 	else return null;
 }
+
+export async function getPostComments(id) {
+	const response = await axios.get(`${API_URL}/api/posts/${id}/comments`);
+	const data = response.data;
+
+	if (data.isSuccess) return data.result;
+	else return null;
+}
