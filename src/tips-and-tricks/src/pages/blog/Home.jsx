@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { getPosts } from '../services/blogRepository';
+import { getPosts } from '../../services/blogRepository';
 
-import PostItem from '../components/PostItem';
-import Pager from '../components/Pager';
+import PostItem from '../../components/PostItem';
+import Pager from '../../components/Pager';
 
 export default function Home() {
 	// Component's states
