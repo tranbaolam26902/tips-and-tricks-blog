@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 
 import Navigation from './components/Navigation';
 import Sidebar from './components/Sidebar';
-import { About, Contact, Home, Layout, Rss } from './pages';
+import { About, Contact, Home, Layout, Rss, Subscribe } from './pages';
 
 function App() {
 	return (
@@ -24,6 +24,10 @@ function App() {
 								/>
 								<Route path='blog/about' element={<About />} />
 								<Route path='blog/rss' element={<Rss />} />
+								<Route
+									path='newsletter/subscribe'
+									element={<Subscribe />}
+								/>
 							</Route>
 						</Routes>
 					</div>

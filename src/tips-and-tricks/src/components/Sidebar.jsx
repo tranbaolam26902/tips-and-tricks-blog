@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import SearchForm from './SearchForm';
 import {
 	ArchivesWidget,
@@ -18,7 +19,12 @@ export default function Sidebar() {
 			<TagCloudWidget />
 			<TopAuthorsWidget />
 			<ArchivesWidget />
-			<h1>Đăng ký nhận tin mới</h1>
+			<Link
+				to='/newsletter/subscribe'
+				className='btn btn-primary py-2 w-100'
+			>
+				Đăng ký nhận tin mới
+			</Link>
 		</div>
 	);
 }
