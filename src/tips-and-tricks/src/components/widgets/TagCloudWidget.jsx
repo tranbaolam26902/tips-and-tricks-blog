@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { getTagCloud } from '../../../services/widgets';
+import { getTagCloud } from '../../services/widgets';
 
 export default function TagCloudWidget() {
 	// Component's states

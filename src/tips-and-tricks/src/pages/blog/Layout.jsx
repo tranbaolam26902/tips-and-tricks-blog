@@ -2,8 +2,8 @@ import { Outlet } from 'react-router-dom';
 
 import styles from '../../styles/layout.module.css';
 
-import Navigation from '../../components/blog/Navigation';
-import Sidebar from '../../components/blog/Sidebar';
+import Navigation from '../../components/Navigation';
+import Sidebar from '../../components/Sidebar';
 
 export default function Layout() {
 	return (

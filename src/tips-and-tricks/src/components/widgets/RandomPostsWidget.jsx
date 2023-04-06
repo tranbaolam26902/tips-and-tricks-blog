@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
 
-import { getRandomPosts } from '../../../services/widgets';
+import { getRandomPosts } from '../../services/widgets';
 
 export default function RandomPostsWidget() {
 	// Component's states

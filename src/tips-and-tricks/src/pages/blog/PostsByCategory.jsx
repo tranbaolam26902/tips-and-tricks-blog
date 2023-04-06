@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { getCategoryBySlug } from '../../services/categories';
 
-import PostsFilter from '../../components/blog/PostsFilter';
+import PostsFilter from '../../components/PostsFilter';
 
 export default function PostsByCategory() {
 	// Component's variables

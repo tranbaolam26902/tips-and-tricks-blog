@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import PostsFilter from '../../components/blog/PostsFilter';
+import PostsFilter from '../../components/PostsFilter';
 
 export default function Home() {
 	const queryStrings = new URLSearchParams(useLocation().search);

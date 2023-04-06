@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { getTagBySlug } from '../../services/tags';
 
-import PostsFilter from '../../components/blog/PostsFilter';
+import PostsFilter from '../../components/PostsFilter';
 
 export default function PostsByTag() {
 	// Component's variables
