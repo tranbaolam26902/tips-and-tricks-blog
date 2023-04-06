@@ -9,6 +9,7 @@ export default function PostsByTag() {
 	// Component's variables
 	const params = useParams();
 
+	// Component's states
 	const [tag, setTag] = useState({});
 
 	useEffect(() => {

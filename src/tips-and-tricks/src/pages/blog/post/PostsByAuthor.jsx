@@ -9,6 +9,7 @@ export default function PostsByAuthor() {
 	// Component's variables
 	const params = useParams();
 
+	// Component's states
 	const [author, setAuthor] = useState({});
 
 	useEffect(() => {
