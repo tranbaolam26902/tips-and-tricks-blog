@@ -8,10 +8,7 @@ export default function Layout() {
 	return (
 		<>
 			<Navigation />
-			<div
-				className='container-fluid'
-				style={{ marginTop: 67 + 'px', marginBottom: 24 + 'px' }}
-			>
+			<div className={`container-fluid py-3 ${styles.content}`}>
 				<Outlet />
 			</div>
 		</>
