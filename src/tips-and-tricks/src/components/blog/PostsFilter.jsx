@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { getPostsByQueries } from '../services/posts';
+import { getPostsByQueries } from '../../services/posts';
 
 import PostItem from './PostItem';
 import Pager from './Pager';

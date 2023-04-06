@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
 
-import { getTopAuthors } from '../../services/widgets';
+import { getTopAuthors } from '../../../services/widgets';
 
 export default function TopAuthorsWidget() {
 	// Component's states

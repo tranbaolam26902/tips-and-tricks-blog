@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
 
-import { getMonthName } from '../../utils';
-import { getArchives } from '../../services/widgets';
+import { getMonthName } from '../../../utils';
+import { getArchives } from '../../../services/widgets';
 
 export default function ArchivesWidget() {
 	// Component's states

@@ -1,10 +1,10 @@
 export { default as About } from './About';
 export { default as Contact } from './Contact';
-export { default as Home } from './Home';
-export { default as Layout } from './Layout';
+export { default as BlogHome } from './Home';
+export { default as BlogLayout } from './Layout';
 export { default as Rss } from './Rss';
-export { default as PostsByCategory } from './PostsByCategory';
-export { default as PostsByAuthor } from './PostsByAuthor';
-export { default as PostsByTag } from './PostsByTag';
-export { default as PostsByTime } from './PostsByTime';
-export { default as Post } from './Post';
+export { default as PostsByCategory } from './post/PostsByCategory';
+export { default as PostsByAuthor } from './post/PostsByAuthor';
+export { default as PostsByTag } from './post/PostsByTag';
+export { default as PostsByTime } from './post/PostsByTime';
+export { default as Post } from './post/Post';

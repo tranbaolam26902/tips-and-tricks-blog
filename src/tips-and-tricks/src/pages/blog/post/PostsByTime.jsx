@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import PostsFilter from '../../components/PostsFilter';
+import PostsFilter from '../../../components/blog/PostsFilter';
 
 export default function PostsByTime() {
 	// Component's variables

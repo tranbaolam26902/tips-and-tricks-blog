@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { sendComment } from '../services/comments';
+import { sendComment } from '../../services/comments';
 
 export default function CommentForm({ postId }) {
 	// Component's states

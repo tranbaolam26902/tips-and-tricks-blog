@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 
-export default function NotFound() {
+export default function BadRequest() {
+	// const { search } = useLocation();
+	// const params = new URLSearchParams(search);
+	// const redirectTo = params.get('redirectTo') ?? '/';
+
 	return (
 		<div className='d-flex flex-column align-items-center mt-5 pt-5'>
 			<img
@@ -9,8 +13,8 @@ export default function NotFound() {
 				className='rounded shadow'
 				style={{ width: 512 }}
 			/>
-			<h1 className='mt-4 fw-bold'>404</h1>
-			<p className='mb-3 fs-3'>Không tìm thấy trang</p>
+			<h1 className='mt-4 fw-bold'>400</h1>
+			<p className='mb-3 fs-3'>Yêu cầu không hợp lệ</p>
 			<Link to='/' className='btn btn-primary'>
 				Quay về trang chủ
 			</Link>

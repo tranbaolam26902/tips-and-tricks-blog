@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 
-import styles from '../App.module.css';
+import styles from '../../styles/layout.module.css';
 
 export default function Navigation() {
 	return (
@@ -14,7 +14,7 @@ export default function Navigation() {
 		>
 			<div className='container-fluid mx-4'>
 				<Navbar.Brand>
-					<Link to='/'>
+					<Link to='/admin'>
 						<img
 							src='/assets/images/logo-text.png'
 							alt='logo'
@@ -29,29 +29,43 @@ export default function Navigation() {
 				>
 					<Nav className='mr-auto flex-grow-1'>
 						<Nav.Item>
-							<Link to='/' className='nav-link text-dark'>
-								Trang chủ
+							<Link
+								to='/admin/categories'
+								className='nav-link text-dark'
+							>
+								Chủ đề
 							</Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Link
-								to='/blog/about'
+								to='/admin/authors'
 								className='nav-link text-dark'
 							>
-								Giới thiệu
+								Tác giả
 							</Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Link
-								to='/blog/contact'
+								to='/admin/tags'
 								className='nav-link text-dark'
 							>
-								Liên hệ
+								Thẻ
 							</Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Link to='/blog/rss' className='nav-link text-dark'>
-								RSS Feed
+							<Link
+								to='/admin/posts'
+								className='nav-link text-dark'
+							>
+								Bài viết
+							</Link>
+						</Nav.Item>
+						<Nav.Item>
+							<Link
+								to='/admin/comments'
+								className='nav-link text-dark'
+							>
+								Bình luận
 							</Link>
 						</Nav.Item>
 					</Nav>

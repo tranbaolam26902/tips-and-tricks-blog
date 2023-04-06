@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
 
-import { getFeaturedPosts } from '../../services/widgets';
+import { getRandomPosts } from '../../../services/widgets';
 
-export default function FeaturedPosts() {
+export default function RandomPostsWidget() {
 	// Component's states
 	const [posts, setPosts] = useState([]);
 
@@ -12,7 +12,7 @@ export default function FeaturedPosts() {
 		fetchPosts();
 
 		async function fetchPosts() {
-			const data = await getFeaturedPosts(3);
+			const data = await getRandomPosts(5);
 			if (data) setPosts(data);
 			else setPosts([]);
 		}
@@ -20,11 +20,10 @@ export default function FeaturedPosts() {
 
 	return (
 		<div className='mb-4'>
-			<h3 className='mb-2 text-success'>Bài viết nổi bật</h3>
+			<h3 className='mb-2 text-success'>Bài viết ngẫu nhiên</h3>
 			{posts.length > 0 && (
 				<ListGroup>
 					{posts.map((post, index) => {
-						const postedDate = new Date(post.postedDate);
 						return (
 							<ListGroup.Item key={index}>
 								<Link to={`/blog/post/${post.urlSlug}`}>
