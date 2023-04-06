@@ -11,7 +11,6 @@ export default function PostItem({ post }) {
 	const imageUrl = isEmptyOrWhitespace(post.imageUrl)
 		? process.env.PUBLIC_URL + '/assets/images/default-thumbnail.jpg'
 		: `${API_URL}/${post.imageUrl}`;
-	const postedDate = new Date(post.postedDate);
 
 	return (
 		<article className='blog-entry mb-4'>

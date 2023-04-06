@@ -24,7 +24,6 @@ export default function RandomPostsWidget() {
 			{posts.length > 0 && (
 				<ListGroup>
 					{posts.map((post, index) => {
-						const postedDate = new Date(post.postedDate);
 						return (
 							<ListGroup.Item key={index}>
 								<Link to={`/blog/post/${post.urlSlug}`}>
