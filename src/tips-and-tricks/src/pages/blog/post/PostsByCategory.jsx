@@ -9,7 +9,6 @@ export default function PostsByCategory() {
 	// Component's variables
 	const params = useParams();
 
-	// Component's states
 	const [category, setCategory] = useState({});
 
 	useEffect(() => {
