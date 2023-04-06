@@ -1,19 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import {
+	BlogLayout,
+	BlogHome,
 	About,
 	Contact,
-	Home,
-	BlogLayout,
 	Rss,
 	Subscribe,
 	NotFound,
+	Post,
 	PostsByCategory,
 	PostsByAuthor,
 	PostsByTag,
 	PostsByTime,
-	Post,
 	AdminLayout,
+	AdminHome,
 } from './pages';
 import Footer from './components/blog/Footer';
 
@@ -22,8 +23,8 @@ function App() {
 		<Router>
 			<Routes>
 				<Route path='/' element={<BlogLayout />}>
-					<Route path='/' element={<Home />} />
-					<Route path='blog' element={<Home />} />
+					<Route path='/' element={<BlogHome />} />
+					<Route path='blog' element={<BlogHome />} />
 					<Route path='blog/contact' element={<Contact />} />
 					<Route path='blog/about' element={<About />} />
 					<Route path='blog/rss' element={<Rss />} />
@@ -47,7 +48,9 @@ function App() {
 					<Route path='blog/post/:slug' element={<Post />} />
 					<Route path='*' element={<NotFound />} />
 				</Route>
-				<Route path='/admin' element={<AdminLayout />}></Route>
+				<Route path='/admin' element={<AdminLayout />}>
+					<Route path='/admin' element={<AdminHome />} />
+				</Route>
 			</Routes>
 			<Footer />
 		</Router>
