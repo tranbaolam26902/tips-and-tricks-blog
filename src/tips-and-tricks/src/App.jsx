@@ -51,7 +51,6 @@ function App() {
 						element={<PostsByTime />}
 					/>
 					<Route path='blog/post/:slug' element={<Post />} />
-					<Route path='*' element={<NotFound />} />
 				</Route>
 				<Route path='/admin' element={<AdminLayout />}>
 					<Route path='/admin' element={<AdminHome />} />
@@ -61,6 +60,7 @@ function App() {
 					<Route path='/admin/posts' element={<Posts />} />
 					<Route path='/admin/comments' element={<Comments />} />
 				</Route>
+				<Route path='*' element={<NotFound />} />
 			</Routes>
 			<Footer />
 		</Router>
