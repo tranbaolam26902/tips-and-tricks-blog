@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
 
-import { getFeaturedPosts } from '../../services/widgets';
+import { getFeaturedPosts } from '../../../services/widgets';
 
 export default function FeaturedPosts() {
 	// Component's states

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { API_URL } from '../utils/constants';
+import { API_URL } from '../../utils/constants';
 
 import TagList from './TagList';
 

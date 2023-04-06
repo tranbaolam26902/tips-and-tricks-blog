@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { getAuthorBySlug } from '../../services/authors';
 
-import PostsFilter from '../../components/PostsFilter';
+import PostsFilter from '../../components/blog/PostsFilter';
 
 export default function PostsByAuthor() {
 	// Component's variables

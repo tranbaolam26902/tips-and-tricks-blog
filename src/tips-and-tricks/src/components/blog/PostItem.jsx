@@ -1,8 +1,9 @@
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { API_URL } from '../utils/constants';
-import { isEmptyOrWhitespace } from '../utils';
+import { API_URL } from '../../utils/constants';
+import { isEmptyOrWhitespace } from '../../utils';
+
 import TagList from './TagList';
 
 export default function PostItem({ post }) {
