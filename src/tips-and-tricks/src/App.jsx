@@ -7,7 +7,6 @@ import {
 	Contact,
 	Rss,
 	Subscribe,
-	NotFound,
 	Post,
 	PostsByCategory,
 	PostsByAuthor,
@@ -20,6 +19,8 @@ import {
 	Tags,
 	Posts,
 	Comments,
+	NotFound,
+	BadRequest,
 } from './pages';
 import Footer from './components/blog/Footer';
 
@@ -61,6 +62,7 @@ function App() {
 					<Route path='/admin/comments' element={<Comments />} />
 				</Route>
 				<Route path='*' element={<NotFound />} />
+				<Route path='/400' element={<BadRequest />} />
 			</Routes>
 			<Footer />
 		</Router>
