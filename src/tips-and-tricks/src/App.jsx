@@ -15,6 +15,11 @@ import {
 	PostsByTime,
 	AdminLayout,
 	AdminHome,
+	Categories,
+	Authors,
+	Tags,
+	Posts,
+	Comments,
 } from './pages';
 import Footer from './components/blog/Footer';
 
@@ -50,6 +55,11 @@ function App() {
 				</Route>
 				<Route path='/admin' element={<AdminLayout />}>
 					<Route path='/admin' element={<AdminHome />} />
+					<Route path='/admin/categories' element={<Categories />} />
+					<Route path='/admin/authors' element={<Authors />} />
+					<Route path='/admin/tags' element={<Tags />} />
+					<Route path='/admin/posts' element={<Posts />} />
+					<Route path='/admin/comments' element={<Comments />} />
 				</Route>
 			</Routes>
 			<Footer />
