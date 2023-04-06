@@ -14,7 +14,7 @@ export default function Navigation() {
 		>
 			<div className='container-fluid mx-4'>
 				<Navbar.Brand>
-					<Link to='/admin'>
+					<Link to='/'>
 						<img
 							src='/assets/images/logo-text.png'
 							alt='logo'
