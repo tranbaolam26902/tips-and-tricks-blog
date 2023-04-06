@@ -4,7 +4,7 @@ import {
 	About,
 	Contact,
 	Home,
-	Layout,
+	BlogLayout,
 	Rss,
 	Subscribe,
 	NotFound,
@@ -13,6 +13,7 @@ import {
 	PostsByTag,
 	PostsByTime,
 	Post,
+	AdminLayout,
 } from './pages';
 import Footer from './components/blog/Footer';
 
@@ -20,7 +21,7 @@ function App() {
 	return (
 		<Router>
 			<Routes>
-				<Route path='/' element={<Layout />}>
+				<Route path='/' element={<BlogLayout />}>
 					<Route path='/' element={<Home />} />
 					<Route path='blog' element={<Home />} />
 					<Route path='blog/contact' element={<Contact />} />
@@ -46,6 +47,7 @@ function App() {
 					<Route path='blog/post/:slug' element={<Post />} />
 					<Route path='*' element={<NotFound />} />
 				</Route>
+				<Route path='/admin' element={<AdminLayout />}></Route>
 			</Routes>
 			<Footer />
 		</Router>
