@@ -6,6 +6,7 @@ import { getPostsByQueries } from '../../../services/posts';
 
 import Pager from '../../../components/blog/Pager';
 import Loading from '../../../components/Loading';
+import PostFilterPane from '../../../components/admin/PostFilterPane';
 
 export default function Posts() {
 	// Component's states
@@ -14,6 +15,10 @@ export default function Posts() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [metadata, setMetadata] = useState({});
 	const [keyword, setKeyword] = useState('');
+	const [authorId, setAuthorId] = useState();
+	const [categoryId, setCategoryId] = useState();
+	const [year, setYear] = useState();
+	const [month, setMonth] = useState();
 
 	// Component's event handlers
 	const handleChangePage = (value) => {
@@ -31,8 +36,13 @@ export default function Posts() {
 				Unpublished: false,
 				PageNumber: pageNumber || 1,
 				PageSize: 10,
-				Keyword: keyword,
 			});
+			keyword && queries.append('Keyword', keyword);
+			authorId && queries.append('AuthorId', authorId);
+			categoryId && queries.append('CategoryId', categoryId);
+			year && queries.append('PostedYear', year);
+			month && queries.append('PostedMonth', month);
+
 			const data = await getPostsByQueries(queries);
 			if (data) {
 				setPosts(data.items);
@@ -43,11 +53,18 @@ export default function Posts() {
 			}
 			setIsLoading(false);
 		}
-	}, [pageNumber]);
+	}, [pageNumber, keyword, authorId, categoryId, year, month]);
 
 	return (
 		<div className='mb-5'>
 			<h1>Danh sách bài viết</h1>
+			<PostFilterPane
+				setKeyword={setKeyword}
+				setAuthorId={setAuthorId}
+				setCategoryId={setCategoryId}
+				setYear={setYear}
+				setMonth={setMonth}
+			/>
 			{isLoading ? (
 				<Loading />
 			) : (
