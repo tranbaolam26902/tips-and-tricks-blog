@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 
-import styles from '../styles/layout.module.css';
+import styles from '../App.module.css';
 
 export default function Navigation() {
 	return (
