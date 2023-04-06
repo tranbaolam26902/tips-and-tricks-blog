@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { getPostBySlug, getPostComments } from '../../../services/posts';
+import { getPostBySlug, getPostComments } from '../../services/posts';
 
-import NotFound from '../../NotFound';
-import PostContent from '../../../components/blog/PostContent';
-import CommentForm from '../../../components/blog/CommentForm';
-import PostComments from '../../../components/blog/PostComments';
+import NotFound from '../NotFound';
+import PostContent from '../../components/blog/PostContent';
+import CommentForm from '../../components/blog/CommentForm';
+import PostComments from '../../components/blog/PostComments';
 
 export default function Post() {
 	// Component's variables
