@@ -1,9 +1,9 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function BadRequest() {
-	const { search } = useLocation();
-	const params = new URLSearchParams(search);
-	const redirectTo = params.get('redirectTo') ?? '/';
+	// const { search } = useLocation();
+	// const params = new URLSearchParams(search);
+	// const redirectTo = params.get('redirectTo') ?? '/';
 
 	return (
 		<div className='d-flex flex-column align-items-center mt-5 pt-5'>
