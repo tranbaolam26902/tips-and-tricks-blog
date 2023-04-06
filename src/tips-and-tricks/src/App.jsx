@@ -14,7 +14,7 @@ import {
 	PostsByTime,
 	Post,
 } from './pages';
-import Footer from './components/blog/Footer';
+import Footer from './components/Footer';
 
 function App() {
 	return (
