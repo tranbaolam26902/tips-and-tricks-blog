@@ -19,6 +19,7 @@ export default function Posts() {
 	const [categoryId, setCategoryId] = useState();
 	const [year, setYear] = useState();
 	const [month, setMonth] = useState();
+	const [unpublished, setUnpublished] = useState(false);
 
 	// Component's event handlers
 	const handleChangePage = (value) => {
@@ -33,7 +34,7 @@ export default function Posts() {
 		async function fetchPosts() {
 			const queries = new URLSearchParams({
 				Published: false,
-				Unpublished: false,
+				Unpublished: unpublished,
 				PageNumber: pageNumber || 1,
 				PageSize: 10,
 			});
@@ -53,7 +54,7 @@ export default function Posts() {
 			}
 			setIsLoading(false);
 		}
-	}, [pageNumber, keyword, authorId, categoryId, year, month]);
+	}, [pageNumber, keyword, authorId, categoryId, year, month, unpublished]);
 
 	return (
 		<div className='mb-5'>
@@ -64,6 +65,7 @@ export default function Posts() {
 				setCategoryId={setCategoryId}
 				setYear={setYear}
 				setMonth={setMonth}
+				setUnpublished={setUnpublished}
 			/>
 			{isLoading ? (
 				<Loading />
