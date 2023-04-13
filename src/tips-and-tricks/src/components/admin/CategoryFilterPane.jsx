@@ -9,7 +9,7 @@ export default function CategoryFilterPane({ setKeyword, setShowOnMenu }) {
 	const showOnMenuRef = useRef();
 
 	// Component's event handlers
-	const handleFilterPosts = (e) => {
+	const handleFilterCategories = (e) => {
 		e.preventDefault();
 		setKeyword(keywordRef.current.value);
 		setShowOnMenu(showOnMenuRef.current.checked);
@@ -25,7 +25,7 @@ export default function CategoryFilterPane({ setKeyword, setShowOnMenu }) {
 	return (
 		<Form
 			method='get'
-			onSubmit={handleFilterPosts}
+			onSubmit={handleFilterCategories}
 			className='row gx-3 gy-2 align-items-center py-2'
 		>
 			<Form.Group className='col-auto'>

@@ -1,13 +1,16 @@
+// Libraries
 import { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+// App's features
 import {
 	deletePostById,
 	getPostsByQueries,
 	togglePostPublishedStatus,
 } from '../../../services/posts';
 
+// App's components
 import Pager from '../../../components/blog/Pager';
 import Loading from '../../../components/Loading';
 import PostFilterPane from '../../../components/admin/PostFilterPane';

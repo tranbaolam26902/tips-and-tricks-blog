@@ -113,7 +113,11 @@ export default function Edit() {
 									urlSlug: e.target.value,
 								})
 							}
+							required
 						/>
+						<Form.Control.Feedback type='invalid'>
+							Không được bỏ trống
+						</Form.Control.Feedback>
 					</div>
 				</div>
 				<div className='row mb-3'>
@@ -124,7 +128,6 @@ export default function Edit() {
 						<Form.Control
 							as='textarea'
 							type='text'
-							required
 							name='description'
 							title='description'
 							value={decode(category.description || '')}
@@ -135,9 +138,6 @@ export default function Edit() {
 								})
 							}
 						/>
-						<Form.Control.Feedback type='invalid'>
-							Không được bỏ trống
-						</Form.Control.Feedback>
 					</div>
 				</div>
 				<div className='row mb-3'>
