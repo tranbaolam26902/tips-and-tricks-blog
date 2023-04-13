@@ -3,6 +3,7 @@ import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import {
+	deletePostById,
 	getPostsByQueries,
 	togglePostPublishedStatus,
 } from '../../../services/posts';
@@ -33,6 +34,14 @@ export default function Posts() {
 	const handleTogglePublishedStatus = async (e, id) => {
 		await togglePostPublishedStatus(id);
 		setIsChangeStatus(!isChangeStatus);
+	};
+	const handleDeletePost = async (e, id) => {
+		if (window.confirm('Bạn có chắc muốn xóa bài viết?')) {
+			const data = await deletePostById(id);
+			if (data.isSuccess) alert(data.result);
+			else alert(data.errors[0]);
+			setIsChangeStatus(!isChangeStatus);
+		}
 	};
 
 	useEffect(() => {
@@ -95,6 +104,7 @@ export default function Posts() {
 								<th>Tác giả</th>
 								<th>Chủ đề</th>
 								<th>Xuất bản</th>
+								<th>Xóa</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -140,6 +150,15 @@ export default function Posts() {
 													Không
 												</Button>
 											)}
+										</td>
+										<td>
+											<button
+												onClick={(e) =>
+													handleDeletePost(e, post.id)
+												}
+											>
+												Xóa
+											</button>
 										</td>
 									</tr>
 								))

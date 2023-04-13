@@ -75,3 +75,11 @@ export async function togglePostPublishedStatus(id) {
 
 	return data;
 }
+
+export async function deletePostById(id) {
+	const { data } = await axios.delete(
+		`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}`,
+	);
+
+	return data;
+}
