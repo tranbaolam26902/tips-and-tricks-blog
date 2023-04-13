@@ -32,7 +32,7 @@ export default function Posts() {
 
 		async function fetchPosts() {
 			const queries = new URLSearchParams({
-				Published: true,
+				Published: false,
 				Unpublished: false,
 				PageNumber: pageNumber || 1,
 				PageSize: 10,
