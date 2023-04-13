@@ -13,6 +13,7 @@ export default function PostFilterPane({
 	setCategoryId,
 	setYear,
 	setMonth,
+	setUnpublished,
 }) {
 	// Component's states
 	const [authors, setAuthors] = useState([]);
@@ -24,6 +25,7 @@ export default function PostFilterPane({
 	const categoryRef = useRef();
 	const yearRef = useRef();
 	const monthRef = useRef();
+	const unpublishedRef = useRef();
 
 	// Component's event handlers
 	const handleFilterPosts = (e) => {
@@ -33,6 +35,7 @@ export default function PostFilterPane({
 		setCategoryId(categoryRef.current.value);
 		setYear(yearRef.current.value);
 		setMonth(monthRef.current.value);
+		setUnpublished(unpublishedRef.current.checked);
 	};
 
 	const handleClearFilter = () => {
@@ -41,11 +44,13 @@ export default function PostFilterPane({
 		setCategoryId('');
 		setYear('');
 		setMonth('');
+		setUnpublished(false);
 		keywordRef.current.value = '';
 		authorRef.current.value = '';
 		categoryRef.current.value = '';
 		yearRef.current.value = '';
 		monthRef.current.value = '';
+		unpublishedRef.current.checked = false;
 	};
 
 	useEffect(() => {
@@ -115,6 +120,12 @@ export default function PostFilterPane({
 						</option>
 					))}
 				</Form.Select>
+			</Form.Group>
+			<Form.Group className='col-auto'>
+				<input id='unpublished' type='checkbox' ref={unpublishedRef} />
+				<label htmlFor='unpublished' className='ms-1'>
+					Chưa xuất bản
+				</label>
 			</Form.Group>
 			<Form.Group className='col-auto'>
 				<Button variant='primary' type='submit'>
