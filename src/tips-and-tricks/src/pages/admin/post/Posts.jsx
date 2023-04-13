@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getPostsByQueries } from '../../../services/posts';
+import {
+	getPostsByQueries,
+	togglePostPublishedStatus,
+} from '../../../services/posts';
 
 import Pager from '../../../components/blog/Pager';
 import Loading from '../../../components/Loading';
@@ -20,11 +23,16 @@ export default function Posts() {
 	const [year, setYear] = useState();
 	const [month, setMonth] = useState();
 	const [unpublished, setUnpublished] = useState(false);
+	const [isChangeStatus, setIsChangeStatus] = useState(false);
 
 	// Component's event handlers
 	const handleChangePage = (value) => {
 		setPageNumber((current) => current + value);
 		window.scroll(0, 0);
+	};
+	const handleTogglePublishedStatus = async (e, id) => {
+		await togglePostPublishedStatus(id);
+		setIsChangeStatus(!isChangeStatus);
 	};
 
 	useEffect(() => {
@@ -54,7 +62,16 @@ export default function Posts() {
 			}
 			setIsLoading(false);
 		}
-	}, [pageNumber, keyword, authorId, categoryId, year, month, unpublished]);
+	}, [
+		pageNumber,
+		keyword,
+		authorId,
+		categoryId,
+		year,
+		month,
+		unpublished,
+		isChangeStatus,
+	]);
 
 	return (
 		<div className='mb-5'>
@@ -98,7 +115,31 @@ export default function Posts() {
 										<td>{post.author.fullName}</td>
 										<td>{post.category.name}</td>
 										<td>
-											{post.published ? 'Có' : 'Không'}
+											{post.published ? (
+												<Button
+													variant='primary'
+													onClick={(e) =>
+														handleTogglePublishedStatus(
+															e,
+															post.id,
+														)
+													}
+												>
+													Có
+												</Button>
+											) : (
+												<Button
+													variant='secondary'
+													onClick={(e) =>
+														handleTogglePublishedStatus(
+															e,
+															post.id,
+														)
+													}
+												>
+													Không
+												</Button>
+											)}
 										</td>
 									</tr>
 								))

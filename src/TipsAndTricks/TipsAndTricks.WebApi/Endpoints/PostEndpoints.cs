@@ -51,6 +51,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .Accepts<IFormFile>("multipart/form-data")
                 .Produces<ApiResponse<string>>();
 
+            routeGroupBuilder.MapPost("/{id:int}/published", ChangePostPublishedStatus)
+                .WithName("ChangePostPublishedStatus")
+                .Produces<ApiResponse<string>>();
+
             routeGroupBuilder.MapDelete("/{id:int}", DeletePost)
                 .WithName("DeletePost")
                 .Produces(401)
@@ -178,6 +182,12 @@ namespace TipsAndTricks.WebApi.Endpoints {
             var comments = await commentRepository.GetPostCommentsAsync(id);
 
             return Results.Ok(ApiResponse.Success(comments));
+        }
+
+        private static async Task<IResult> ChangePostPublishedStatus(int id, IBlogRepository blogRepository) {
+            await blogRepository.ChangePostPublishedStatusAsync(id);
+
+            return Results.Ok(ApiResponse.Success("Chuyển trạng thái thành công", HttpStatusCode.NoContent));
         }
     }
 }

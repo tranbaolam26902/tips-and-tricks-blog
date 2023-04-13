@@ -67,3 +67,11 @@ export async function updatePostThumbnail(id, imageFile) {
 
 	return data;
 }
+
+export async function togglePostPublishedStatus(id) {
+	const { data } = await axios.post(
+		`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}/published`,
+	);
+
+	return data;
+}
