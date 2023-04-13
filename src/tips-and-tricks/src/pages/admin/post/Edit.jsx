@@ -59,7 +59,6 @@ export default function Edit() {
 				const data = await updatePost(id, postData);
 				if (!data.isSuccess) isSuccess = false;
 			} else {
-				console.log(post);
 				const postData = {
 					id: 0,
 					title: post.title,
@@ -349,7 +348,6 @@ export default function Edit() {
 							accept='image/*'
 							title='Image file'
 							onChange={(e) => {
-								console.log(e.target.files[0]);
 								setPost({
 									...post,
 									imageFile: e.target.files[0],

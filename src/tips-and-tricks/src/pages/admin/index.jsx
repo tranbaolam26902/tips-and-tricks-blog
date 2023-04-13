@@ -1,8 +1,11 @@
 export { default as AdminLayout } from './Layout';
 export { default as AdminHome } from './Home';
-export { default as Categories } from './Categories';
-export { default as Authors } from './Authors';
-export { default as Tags } from './Tags';
+export { default as Categories } from './category/Categories';
+export { default as EditCategory } from './category/Edit';
+export { default as Authors } from './author/Authors';
+export { default as EditAuthor } from './author/Edit';
+export { default as Tags } from './tag/Tags';
+export { default as EditTag } from './tag/Edit';
 export { default as Posts } from './post/Posts';
-export { default as Edit } from './post/Edit';
-export { default as Comments } from './Comments';
+export { default as EditPost } from './post/Edit';
+export { default as Comments } from './comment/Comments';

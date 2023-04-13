@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function getCategories() {
 	const { data } = await axios.get(
-		`${process.env.REACT_APP_API_ENDPOINT}/categories?PageSize=10&PageNumber=1`,
+		`${process.env.REACT_APP_API_ENDPOINT}/categories?ShowOnMenu=true&PageSize=10&PageNumber=1`,
 	);
 
 	if (data.isSuccess) return data.result;
