@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import { API_URL } from '../utils/constants';
-
 export async function subscribe(email) {
 	const { data } = await axios.post(
-		`${API_URL}/api/subscribers/${encodeURIComponent(email)}/subscribe`,
+		`${
+			process.env.REACT_APP_API_ENDPOINT
+		}/api/subscribers/${encodeURIComponent(email)}/subscribe`,
 	);
 
 	if (data.isSuccess) return true;

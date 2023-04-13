@@ -18,6 +18,7 @@ import {
 	Authors,
 	Tags,
 	Posts,
+	Edit,
 	Comments,
 	NotFound,
 	BadRequest,
@@ -59,6 +60,8 @@ function App() {
 					<Route path='/admin/authors' element={<Authors />} />
 					<Route path='/admin/tags' element={<Tags />} />
 					<Route path='/admin/posts' element={<Posts />} />
+					<Route path='/admin/posts/edit' element={<Edit />} />
+					<Route path='/admin/posts/edit/:id' element={<Edit />} />
 					<Route path='/admin/comments' element={<Comments />} />
 				</Route>
 				<Route path='*' element={<NotFound />} />

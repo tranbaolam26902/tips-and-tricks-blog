@@ -101,7 +101,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
         }
 
         private static async Task<IResult> GetPostById(int id, IBlogRepository blogRepository, IMapper mapper) {
-            var post = await blogRepository.GetPostByIdAsync(id);
+            var post = await blogRepository.GetPostByIdAsync(id, true);
 
             return post != null
                 ? Results.Ok(ApiResponse.Success(mapper.Map<PostDetail>(post)))

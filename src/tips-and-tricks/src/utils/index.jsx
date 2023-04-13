@@ -4,6 +4,10 @@ export function isEmptyOrWhitespace(str) {
 	);
 }
 
+export function isInteger(str) {
+	return Number.isInteger(Number(str)) && Number(str) >= 0;
+}
+
 export function getMonthName(monthNumber) {
 	const month = [
 		'January',
@@ -21,4 +25,9 @@ export function getMonthName(monthNumber) {
 	];
 
 	return month[monthNumber - 1];
+}
+
+export function decode(str) {
+	const txt = new DOMParser().parseFromString(str, 'text/html');
+	return txt.documentElement.textContent;
 }

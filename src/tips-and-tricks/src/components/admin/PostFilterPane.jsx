@@ -111,8 +111,7 @@ export default function PostFilterPane({
 					<option value=''>-- Chọn tháng --</option>
 					{months.map((month) => (
 						<option key={month} value={month}>
-							<span>Tháng </span>
-							<span>{month}</span>
+							Tháng {month}
 						</option>
 					))}
 				</Form.Select>

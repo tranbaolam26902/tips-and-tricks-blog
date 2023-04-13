@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-import { API_URL } from '../utils/constants';
-
 export async function getCategories() {
 	const { data } = await axios.get(
-		`${API_URL}/categories?PageSize=10&PageNumber=1`,
+		`${process.env.REACT_APP_API_ENDPOINT}/categories?PageSize=10&PageNumber=1`,
 	);
 
 	if (data.isSuccess) return data.result;
@@ -12,14 +10,18 @@ export async function getCategories() {
 }
 
 export async function getFeaturedPosts(limit) {
-	const { data } = await axios.get(`${API_URL}/posts/featured/${limit}`);
+	const { data } = await axios.get(
+		`${process.env.REACT_APP_API_ENDPOINT}/posts/featured/${limit}`,
+	);
 
 	if (data.isSuccess) return data.result;
 	else return null;
 }
 
 export async function getRandomPosts(limit) {
-	const { data } = await axios.get(`${API_URL}/posts/random/${limit}`);
+	const { data } = await axios.get(
+		`${process.env.REACT_APP_API_ENDPOINT}/posts/random/${limit}`,
+	);
 
 	if (data.isSuccess) return data.result;
 	else return null;
@@ -27,7 +29,7 @@ export async function getRandomPosts(limit) {
 
 export async function getTagCloud() {
 	const { data } = await axios.get(
-		`${API_URL}/tags?PageSize=100&PageNumber=1`,
+		`${process.env.REACT_APP_API_ENDPOINT}/tags?PageSize=100&PageNumber=1`,
 	);
 
 	if (data.isSuccess) return data.result;
@@ -35,14 +37,18 @@ export async function getTagCloud() {
 }
 
 export async function getTopAuthors(limit) {
-	const { data } = await axios.get(`${API_URL}/authors/best/${limit}`);
+	const { data } = await axios.get(
+		`${process.env.REACT_APP_API_ENDPOINT}/authors/best/${limit}`,
+	);
 
 	if (data.isSuccess) return data.result;
 	else return null;
 }
 
 export async function getArchives(limit) {
-	const { data } = await axios.get(`${API_URL}/posts/archive/${limit}`);
+	const { data } = await axios.get(
+		`${process.env.REACT_APP_API_ENDPOINT}/posts/archive/${limit}`,
+	);
 
 	if (data.isSuccess) return data.result;
 	else return null;

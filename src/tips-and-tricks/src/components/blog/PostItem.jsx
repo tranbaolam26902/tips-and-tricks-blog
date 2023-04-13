@@ -1,7 +1,6 @@
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { API_URL } from '../../utils/constants';
 import { isEmptyOrWhitespace } from '../../utils';
 
 import TagList from './TagList';
@@ -10,7 +9,7 @@ export default function PostItem({ post }) {
 	// Variables
 	const imageUrl = isEmptyOrWhitespace(post.imageUrl)
 		? process.env.PUBLIC_URL + '/assets/images/default-thumbnail.jpg'
-		: `${API_URL}/${post.imageUrl}`;
+		: `${process.env.REACT_APP_API_ENDPOINT}/${post.imageUrl}`;
 
 	return (
 		<article className='blog-entry mb-4'>
