@@ -1,7 +1,6 @@
 // Libraries
 import { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 // App's features
 import {
