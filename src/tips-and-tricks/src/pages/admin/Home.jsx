@@ -9,6 +9,7 @@ export default function Home() {
 	const [dashboard, setDashboard] = useState();
 
 	useEffect(() => {
+		document.title = 'Trang quản trị';
 		fetchData();
 
 		async function fetchData() {
