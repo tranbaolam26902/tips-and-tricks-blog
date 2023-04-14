@@ -83,3 +83,12 @@ export async function deletePostById(id) {
 
 	return data;
 }
+
+export async function getPosts() {
+	const { data } = await axios.get(
+		`${process.env.REACT_APP_API_ENDPOINT}/comments/posts`,
+	);
+
+	if (data.isSuccess) return data.result;
+	else return null;
+}

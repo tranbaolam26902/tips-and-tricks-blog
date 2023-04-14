@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using MapsterMapper;
+using System.Net;
 using TipsAndTricks.Core.Collections;
 using TipsAndTricks.Core.Entities;
 using TipsAndTricks.Services.Blogs;
 using TipsAndTricks.Services.FilterParams;
 using TipsAndTricks.WebApi.Models;
+using TipsAndTricks.WebApi.Models.Posts;
 
 namespace TipsAndTricks.WebApi.Endpoints {
     public static class CommentEndpoints {
@@ -13,6 +15,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
             routeGroupBuilder.MapGet("/", GetComments)
                 .WithName("GetComments")
                 .Produces<ApiResponse<PaginationResult<Comment>>>();
+
+            routeGroupBuilder.MapGet("/posts", GetPosts)
+                .WithName("GetAllPosts")
+                .Produces<ApiResponse<IList<PostDTO>>>();
 
             routeGroupBuilder.MapPost("/{id:int}", ChangeCommentApprovalStatus)
                 .WithName("ChangeCommentApprovalStatus")
@@ -55,6 +61,10 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return await commentRepository.SendCommentAsync(name, description, id)
                 ? Results.Ok(ApiResponse.Success("Gửi thành công", HttpStatusCode.NoContent))
                 : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bài viết có mã số {id}"));
+        }
+
+        private static async Task<IResult> GetPosts(IBlogRepository blogRepository, IMapper mapper) {
+            return Results.Ok(ApiResponse.Success(mapper.Map<IList<PostDTO>>(await blogRepository.GetPostsAsync())));
         }
     }
 }

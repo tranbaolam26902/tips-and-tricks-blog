@@ -167,7 +167,7 @@ export default function Posts() {
 								))
 							) : (
 								<tr>
-									<td colSpan={4}>
+									<td colSpan={5}>
 										<h4 className='text-center text-danger'>
 											Không tìm thấy bài viết
 										</h4>
