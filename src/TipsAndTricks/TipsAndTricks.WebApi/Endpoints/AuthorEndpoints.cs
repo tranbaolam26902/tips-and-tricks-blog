@@ -24,7 +24,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("GetAuthors")
                 .Produces<ApiResponse<PaginationResult<AuthorItem>>>();
 
-            routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}", GetAuthorBySlug)
+            routeGroupBuilder.MapGet("/byslug/{slug:regex(^[a-z0-9_-]+$)}", GetAuthorBySlug)
                 .WithName("GetAuthorBySlug")
                 .Produces<ApiResponse<AuthorItem>>();
 
@@ -67,8 +67,8 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return app;
         }
 
-        private static async Task<IResult> GetAuthors([AsParameters] AuthorFilterModel model, IAuthorRepository authorRepository) {
-            var authors = await authorRepository.GetPagedAuthorsAsync(model, model.Name);
+        private static async Task<IResult> GetAuthors([AsParameters] AuthorFilterModel model, IAuthorRepository authorRepository, IMapper mapper) {
+            var authors = await authorRepository.GetPagedAuthorsByQueryAsync(mapper.Map<AuthorQuery>(model), model);
             var paginationResult = new PaginationResult<AuthorItem>(authors);
 
             return Results.Ok(ApiResponse.Success(paginationResult));
@@ -89,7 +89,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
         }
 
         private static async Task<IResult> GetAuthorDetails(int id, IAuthorRepository authorRepository, IMapper mapper) {
-            var author = await authorRepository.GetCachedAuthorByIdAsync(id);
+            var author = await authorRepository.GetAuthorByIdAsync(id);
 
             return author == null
                 ? Results.NotFound(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy tác giả có mã số {id}"))

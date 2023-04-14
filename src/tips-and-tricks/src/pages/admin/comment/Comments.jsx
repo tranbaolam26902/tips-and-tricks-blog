@@ -1,32 +1,31 @@
 // Libraries
 import { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 // App's features
 import {
-	deletePostById,
-	getPostsByQueries,
-	togglePostPublishedStatus,
-} from '../../../services/posts';
+	deleteCommentById,
+	getCommentsByQueries,
+	toggleCommentApprovalStatus,
+} from '../../../services/comments';
 
 // App's components
 import Pager from '../../../components/blog/Pager';
 import Loading from '../../../components/Loading';
-import PostFilterPane from '../../../components/admin/PostFilterPane';
+import CommentFilterPane from '../../../components/admin/CommentFilterPane';
+import { getPosts } from '../../../services/posts';
 
-export default function Posts() {
+export default function Comments() {
 	// Component's states
 	const [pageNumber, setPageNumber] = useState(1);
-	const [posts, setPosts] = useState([]);
+	const [comments, setComments] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [metadata, setMetadata] = useState({});
 	const [keyword, setKeyword] = useState('');
-	const [authorId, setAuthorId] = useState();
-	const [categoryId, setCategoryId] = useState();
+	const [postId, setPostId] = useState();
 	const [year, setYear] = useState();
 	const [month, setMonth] = useState();
-	const [unpublished, setUnpublished] = useState(false);
+	const [isNotApproved, setIsNotApproved] = useState(false);
 	const [isChangeStatus, setIsChangeStatus] = useState(false);
 
 	// Component's event handlers
@@ -34,13 +33,13 @@ export default function Posts() {
 		setPageNumber((current) => current + value);
 		window.scroll(0, 0);
 	};
-	const handleTogglePublishedStatus = async (e, id) => {
-		await togglePostPublishedStatus(id);
+	const handleToggleApprovalStatus = async (e, id) => {
+		await toggleCommentApprovalStatus(id);
 		setIsChangeStatus(!isChangeStatus);
 	};
-	const handleDeletePost = async (e, id) => {
-		if (window.confirm('Bạn có chắc muốn xóa bài viết?')) {
-			const data = await deletePostById(id);
+	const handleDeleteComment = async (e, id) => {
+		if (window.confirm('Bạn có chắc muốn xóa bình luận?')) {
+			const data = await deleteCommentById(id);
 			if (data.isSuccess) alert(data.result);
 			else alert(data.errors[0]);
 			setIsChangeStatus(!isChangeStatus);
@@ -48,28 +47,32 @@ export default function Posts() {
 	};
 
 	useEffect(() => {
-		document.title = 'Danh sách bài viết';
-		fetchPosts();
+		document.title = 'Danh sách bình luận';
+		fetchComments();
 
-		async function fetchPosts() {
+		async function fetchComments() {
 			const queries = new URLSearchParams({
-				Published: false,
-				Unpublished: unpublished,
+				IsNotApproved: isNotApproved,
 				PageNumber: pageNumber || 1,
 				PageSize: 10,
 			});
 			keyword && queries.append('Keyword', keyword);
-			authorId && queries.append('AuthorId', authorId);
-			categoryId && queries.append('CategoryId', categoryId);
+			postId && queries.append('PostId', postId);
 			year && queries.append('PostedYear', year);
 			month && queries.append('PostedMonth', month);
 
-			const data = await getPostsByQueries(queries);
+			const data = await getCommentsByQueries(queries);
+			const postsData = await getPosts();
 			if (data) {
-				setPosts(data.items);
+				setComments(
+					data.items.map((comment) => ({
+						...comment,
+						post: postsData.find((p) => p.id === comment.postId),
+					})),
+				);
 				setMetadata(data.metadata);
 			} else {
-				setPosts([]);
+				setComments([]);
 				setMetadata({});
 			}
 			setIsLoading(false);
@@ -77,24 +80,22 @@ export default function Posts() {
 	}, [
 		pageNumber,
 		keyword,
-		authorId,
-		categoryId,
+		postId,
 		year,
 		month,
-		unpublished,
+		isNotApproved,
 		isChangeStatus,
 	]);
 
 	return (
 		<div className='mb-5'>
-			<h1>Danh sách bài viết</h1>
-			<PostFilterPane
+			<h1>Danh sách bình luận</h1>
+			<CommentFilterPane
 				setKeyword={setKeyword}
-				setAuthorId={setAuthorId}
-				setCategoryId={setCategoryId}
+				setPostId={setPostId}
 				setYear={setYear}
 				setMonth={setMonth}
-				setUnpublished={setUnpublished}
+				setIsNotApproved={setIsNotApproved}
 			/>
 			{isLoading ? (
 				<Loading />
@@ -103,38 +104,35 @@ export default function Posts() {
 					<Table striped responsive bordered>
 						<thead>
 							<tr>
-								<th>Tiêu đề</th>
-								<th>Tác giả</th>
-								<th>Chủ đề</th>
-								<th>Xuất bản</th>
+								<th>Tên người gửi</th>
+								<th>Nội dung</th>
+								<th>Ngày gửi</th>
+								<th>Phê duyệt</th>
+								<th>Bài viết</th>
 								<th>Xóa</th>
 							</tr>
 						</thead>
 						<tbody>
-							{posts.length > 0 ? (
-								posts.map((post) => (
-									<tr key={post.id}>
+							{comments.length > 0 ? (
+								comments.map((comment) => (
+									<tr key={comment.id}>
 										<td>
-											<Link
-												to={`/admin/posts/edit/${post.id}`}
-												className='text-bold'
-											>
-												{post.title}
-											</Link>
-											<p className='text-muted'>
-												{post.shortDescription}
-											</p>
+											<p>{comment.name}</p>
 										</td>
-										<td>{post.author.fullName}</td>
-										<td>{post.category.name}</td>
+										<td>{comment.description}</td>
 										<td>
-											{post.published ? (
+											{new Date(
+												comment.postedDate,
+											).toLocaleDateString('vi-VN')}
+										</td>
+										<td>
+											{comment.isApproved ? (
 												<Button
 													variant='primary'
 													onClick={(e) =>
-														handleTogglePublishedStatus(
+														handleToggleApprovalStatus(
 															e,
-															post.id,
+															comment.id,
 														)
 													}
 												>
@@ -144,9 +142,9 @@ export default function Posts() {
 												<Button
 													variant='secondary'
 													onClick={(e) =>
-														handleTogglePublishedStatus(
+														handleToggleApprovalStatus(
 															e,
-															post.id,
+															comment.id,
 														)
 													}
 												>
@@ -154,10 +152,14 @@ export default function Posts() {
 												</Button>
 											)}
 										</td>
+										<td>{comment.post.title}</td>
 										<td>
 											<button
 												onClick={(e) =>
-													handleDeletePost(e, post.id)
+													handleDeleteComment(
+														e,
+														comment.id,
+													)
 												}
 											>
 												Xóa
@@ -167,9 +169,9 @@ export default function Posts() {
 								))
 							) : (
 								<tr>
-									<td colSpan={5}>
+									<td colSpan={6}>
 										<h4 className='text-center text-danger'>
-											Không tìm thấy bài viết
+											Không tìm thấy bình luận
 										</h4>
 									</td>
 								</tr>

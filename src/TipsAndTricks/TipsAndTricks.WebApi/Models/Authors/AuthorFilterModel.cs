@@ -1,5 +1,7 @@
 ﻿namespace TipsAndTricks.WebApi.Models.Authors {
     public class AuthorFilterModel : PagingModel {
-        public string Name { get; set; }
+        public string Keyword { get; set; }
+        public int? JoinedMonth { get; set; }
+        public int? JoinedYear { get; set; }
     }
 }

@@ -15,10 +15,13 @@ import {
 	AdminLayout,
 	AdminHome,
 	Categories,
+	EditCategory,
 	Authors,
+	EditAuthor,
 	Tags,
+	EditTag,
 	Posts,
-	Edit,
+	EditPost,
 	Comments,
 	NotFound,
 	BadRequest,
@@ -57,11 +60,32 @@ function App() {
 				<Route path='/admin' element={<AdminLayout />}>
 					<Route path='/admin' element={<AdminHome />} />
 					<Route path='/admin/categories' element={<Categories />} />
+					<Route
+						path='/admin/categories/edit'
+						element={<EditCategory />}
+					/>
+					<Route
+						path='/admin/categories/edit/:id'
+						element={<EditCategory />}
+					/>
 					<Route path='/admin/authors' element={<Authors />} />
+					<Route
+						path='/admin/authors/edit'
+						element={<EditAuthor />}
+					/>
+					<Route
+						path='/admin/authors/edit/:id'
+						element={<EditAuthor />}
+					/>
 					<Route path='/admin/tags' element={<Tags />} />
+					<Route path='/admin/tags/edit' element={<EditTag />} />
+					<Route path='/admin/tags/edit/:id' element={<EditTag />} />
 					<Route path='/admin/posts' element={<Posts />} />
-					<Route path='/admin/posts/edit' element={<Edit />} />
-					<Route path='/admin/posts/edit/:id' element={<Edit />} />
+					<Route path='/admin/posts/edit' element={<EditPost />} />
+					<Route
+						path='/admin/posts/edit/:id'
+						element={<EditPost />}
+					/>
 					<Route path='/admin/comments' element={<Comments />} />
 				</Route>
 				<Route path='*' element={<NotFound />} />

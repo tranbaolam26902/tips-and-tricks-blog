@@ -1,14 +1,16 @@
+// Libraries
 import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
+// App's features
 import { isEmptyOrWhitespace, decode, isInteger } from '../../../utils';
-
 import { createPost, getPostById, updatePost } from '../../../services/posts';
 import { getAuthors } from '../../../services/authors';
 import { getCategories } from '../../../services/categories';
 
 export default function Edit() {
+	// Hooks
 	const navigate = useNavigate();
 
 	const initialState = {
@@ -28,6 +30,7 @@ export default function Edit() {
 		published: false,
 	};
 
+	// Component's states
 	const [authors, setAuthors] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [post, setPost] = useState(initialState);
@@ -35,6 +38,7 @@ export default function Edit() {
 
 	const { id } = useParams();
 
+	// Component's event handlers
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -59,7 +63,6 @@ export default function Edit() {
 				const data = await updatePost(id, postData);
 				if (!data.isSuccess) isSuccess = false;
 			} else {
-				console.log(post);
 				const postData = {
 					id: 0,
 					title: post.title,
@@ -163,7 +166,11 @@ export default function Edit() {
 									urlSlug: e.target.value,
 								})
 							}
+							required
 						/>
+						<Form.Control.Feedback type='invalid'>
+							Không được bỏ trống
+						</Form.Control.Feedback>
 					</div>
 				</div>
 				<div className='row mb-3'>
@@ -349,7 +356,6 @@ export default function Edit() {
 							accept='image/*'
 							title='Image file'
 							onChange={(e) => {
-								console.log(e.target.files[0]);
 								setPost({
 									...post,
 									imageFile: e.target.files[0],

@@ -25,7 +25,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("GetCategoryById")
                 .Produces<ApiResponse<CategoryItem>>();
 
-            routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}", GetCategoryBySlug)
+            routeGroupBuilder.MapGet("/byslug/{slug:regex(^[a-z0-9_-]+$)}", GetCategoryBySlug)
                 .WithName("GetCategoryBySlug")
                 .Produces<ApiResponse<CategoryItem>>();
 
@@ -53,11 +53,8 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return app;
         }
 
-        private static async Task<IResult> GetCategories([AsParameters] CategoryFilterModel model, IBlogRepository blogRepository) {
-            var categoryQuery = new CategoryQuery() {
-                Keyword = model.Name
-            };
-            var categories = await blogRepository.GetPagedCategoriesByQueryAsync(categoryQuery, model);
+        private static async Task<IResult> GetCategories([AsParameters] CategoryFilterModel model, IBlogRepository blogRepository, IMapper mapper) {
+            var categories = await blogRepository.GetPagedCategoriesByQueryAsync(mapper.Map<CategoryQuery>(model), model);
             var paginationResult = new PaginationResult<CategoryItem>(categories);
 
             return Results.Ok(ApiResponse.Success(paginationResult));

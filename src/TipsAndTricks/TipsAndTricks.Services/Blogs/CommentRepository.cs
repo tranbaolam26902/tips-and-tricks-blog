@@ -59,6 +59,9 @@ namespace TipsAndTricks.Services.Blogs {
             if (query.IsNotApproved) {
                 commentQuery = commentQuery.Where(x => !x.IsApproved);
             }
+            if (query.PostId != null) {
+                commentQuery = commentQuery.Where(x => x.PostId == query.PostId);
+            }
 
             return commentQuery;
         }
