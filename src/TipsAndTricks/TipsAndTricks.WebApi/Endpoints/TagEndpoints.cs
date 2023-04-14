@@ -25,7 +25,7 @@ namespace TipsAndTricks.WebApi.Endpoints {
                 .WithName("GetTagById")
                 .Produces<ApiResponse<TagItem>>();
 
-            routeGroupBuilder.MapGet("/{slug:regex(^[a-z0-9_-]+$)}", GetTagBySlug)
+            routeGroupBuilder.MapGet("/byslug/{slug:regex(^[a-z0-9_-]+$)}", GetTagBySlug)
                 .WithName("GetTagBySlug")
                 .Produces<ApiResponse<TagItem>>();
 
@@ -53,11 +53,8 @@ namespace TipsAndTricks.WebApi.Endpoints {
             return app;
         }
 
-        private static async Task<IResult> GetTags([AsParameters] TagFilterModel model, IBlogRepository blogRepository) {
-            var tagQuery = new TagQuery() {
-                Keyword = model.Name
-            };
-            var tags = await blogRepository.GetPagedTagsByQueryAsync(tagQuery, model);
+        private static async Task<IResult> GetTags([AsParameters] TagFilterModel model, IBlogRepository blogRepository, IMapper mapper) {
+            var tags = await blogRepository.GetPagedTagsByQueryAsync(mapper.Map<TagQuery>(model), model);
             var paginationResult = new PaginationResult<TagItem>(tags);
 
             return Results.Ok(ApiResponse.Success(paginationResult));
