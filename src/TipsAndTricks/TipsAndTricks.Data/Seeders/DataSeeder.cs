@@ -73,21 +73,21 @@ namespace TipsAndTricks.Data.Seeders {
 
         private IList<Category> AddCategories() {
             var categories = new List<Category>() {
-                new() {Name = ".NET Core", Description = ".NET Core", UrlSlug = "net-core"},
-                new() {Name = "Architecture", Description = "Architecture", UrlSlug = "architecture"},
-                new() {Name = "Messaging", Description = "Messaging", UrlSlug = "messaging"},
-                new() {Name = "OOP", Description = "Object-Oriented Program", UrlSlug = "oop"},
-                new() {Name = "Design Patterns", Description = "Design Patterns", UrlSlug = "design-patterns"},
-                new() {Name = "React", Description = "React", UrlSlug = "react"},
-                new() {Name = "Angular", Description = "Angular", UrlSlug = "angular"},
-                new() {Name = "Vue.js", Description = "Vue.js", UrlSlug = "vue-js"},
-                new() {Name = "Next.js", Description = "Next.js", UrlSlug = "next-js"},
-                new() {Name = "Node.js", Description = "Node.js", UrlSlug = "node-js"},
-                new() {Name = "Golang", Description = "Golang", UrlSlug = "golang"},
-                new() {Name = "Three.js", Description = "Three.js", UrlSlug = "three-js"},
-                new() {Name = "PHP", Description = "PHP", UrlSlug = "php"},
-                new() {Name = "Laravel", Description = "Laravel", UrlSlug = "laravel"},
-                new() {Name = "Svelte", Description = "Svelte", UrlSlug = "svelte"}
+                new() {Name = ".NET Core", Description = ".NET Core", ShowOnMenu = true, UrlSlug = "net-core"},
+                new() {Name = "Architecture", Description = "Architecture", ShowOnMenu = true, UrlSlug = "architecture"},
+                new() {Name = "Messaging", Description = "Messaging", ShowOnMenu = true, UrlSlug = "messaging"},
+                new() {Name = "OOP", Description = "Object-Oriented Program", ShowOnMenu = true, UrlSlug = "oop"},
+                new() {Name = "Design Patterns", Description = "Design Patterns", ShowOnMenu = true, UrlSlug = "design-patterns"},
+                new() {Name = "React", Description = "React", ShowOnMenu = true, UrlSlug = "react"},
+                new() {Name = "Angular", Description = "Angular", ShowOnMenu = true, UrlSlug = "angular"},
+                new() {Name = "Vue.js", Description = "Vue.js", ShowOnMenu = true, UrlSlug = "vue-js"},
+                new() {Name = "Next.js", Description = "Next.js", ShowOnMenu = true, UrlSlug = "next-js"},
+                new() {Name = "Node.js", Description = "Node.js", ShowOnMenu = true, UrlSlug = "node-js"},
+                new() {Name = "Golang", Description = "Golang", ShowOnMenu = true, UrlSlug = "golang"},
+                new() {Name = "Three.js", Description = "Three.js", ShowOnMenu = true, UrlSlug = "three-js"},
+                new() {Name = "PHP", Description = "PHP", ShowOnMenu = true, UrlSlug = "php"},
+                new() {Name = "Laravel", Description = "Laravel", ShowOnMenu = true, UrlSlug = "laravel"},
+                new() {Name = "Svelte", Description = "Svelte", ShowOnMenu = true, UrlSlug = "svelte"}
             };
 
             _dbContext.Categories.AddRange(categories);
@@ -315,6 +315,420 @@ namespace TipsAndTricks.Data.Seeders {
                         tags[10],
                         tags[15],
                         tags[14],
+                    }
+                },
+                new() {
+                    Title = "Using Reactive UI in your .NET MAUI app",
+                    ShortDescription = "Using Reactive UI in your .NET MAUI app, grabbing anything and everything they could think of they might need.",
+                    Description = "Using Reactive UI in your.NET MAUI app. We will rewrite the Hello World.NETMAUI project using ReactiveUI in this post. We will implement a property that we will bind to the button text.",
+                    Meta = "post-11",
+                    UrlSlug = "using-reactive-ui-in-your-net-maui-app",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 2, 3),
+                    ModifiedDate = null,
+                    ViewCount = 12,
+                    Author = authors[4],
+                    Category = categories[6],
+                    Tags = new List<Tag>()
+                    {
+                        tags[5],
+                        tags[6],
+                        tags[9],
+                        tags[12],
+                        tags[14],
+                    }
+                },
+                new() {
+                    Title = "Daily bit(e) of C++ | Learn Modern C++ 3/N",
+                    ShortDescription = "Daily bit(e) of C++ | Learn Modern C++ 3/N",
+                    Description = "Today we will take a crash course in types. If you missed the previous lesson, check it out here: Learn Modern C++ 2/N Daily bit(e) of C++ #90. A Modern-only C++ course (including C++23) is part 2 of N itnext.",
+                    Meta = "post-12",
+                    UrlSlug = "daily-bit-e-of-c-or-learn-modern-c-3-n",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 1, 23),
+                    ModifiedDate = null,
+                    ViewCount = 30,
+                    Author = authors[2],
+                    Category = categories[8],
+                    Tags = new List<Tag>()
+                    {
+                        tags[3],
+                        tags[6],
+                        tags[10],
+                        tags[17],
+                        tags[16],
+                    }
+                },
+                new() {
+                    Title = "Retrying a bash command",
+                    ShortDescription = "Retrying a bash command",
+                    Description = "To retry a command in Bash, you can use a loop to execute a command. The loop will execute the command and if the command returns a non-zero exit code, the loop will try again. If the command succeeds, theloop will exit.",
+                    Meta = "post-13",
+                    UrlSlug = "retrying-a-bash-command",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 2, 16),
+                    ModifiedDate = null,
+                    ViewCount = 25,
+                    Author = authors[3],
+                    Category = categories[1],
+                    Tags = new List<Tag>()
+                    {
+                        tags[1],
+                        tags[6],
+                        tags[8],
+                        tags[17],
+                        tags[16],
+                    }
+                },
+                new() {
+                    Title = "Open Closed Principle in SOLID",
+                    ShortDescription = "Open Closed Principle in SOLID",
+                    Description = "The Open Closed Principle is an essential principle of object-oriented design that states that software entities should be. We all are using OCP principle in DTO's / POCO's without even knowing that we are using it. When designing software, it is essential to consider the possibility of future changes.",
+                    Meta = "post-14",
+                    UrlSlug = "open-closed-principle-in-solid",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 3, 14),
+                    ModifiedDate = null,
+                    ViewCount = 100,
+                    Author = authors[1],
+                    Category = categories[7],
+                    Tags = new List<Tag>()
+                    {
+                        tags[2],
+                        tags[7],
+                        tags[12],
+                        tags[13],
+                        tags[15],
+                    }
+                },
+                new() {
+                    Title = "UI/UX Design Trends 2023",
+                    ShortDescription = "UI/UX Design Trends 2023",
+                    Description = "UI/UX Design Trends 2023. Yet another year is coming to a close. We are taking a more careful look at both UI and UX trends that continue to evolve. We highlight some of the trends we think will persist and perhaps gain even more traction in the next year.",
+                    Meta = "post-15",
+                    UrlSlug = "ui-ux-design-trends-2023",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 1, 20),
+                    ModifiedDate = null,
+                    ViewCount = 27,
+                    Author = authors[4],
+                    Category = categories[8],
+                    Tags = new List<Tag>()
+                    {
+                        tags[1],
+                        tags[2],
+                        tags[15],
+                        tags[11],
+                        tags[12],
+                    }
+                },
+                new() {
+                    Title = "The Definitive TypeScript 5.0 Guide",
+                    ShortDescription = "The Definitive TypeScript 5.0 Guide",
+                    Description = "The Definitive TypeScript 5.0 Guide - SitePen was first published October 2018. TypeScript is a superset of JavaScript, but with optional types, interfaces, generics, and more. The Definitive Guide provides one of the best overviews of the key features of TypeScript.",
+                    Meta = "post-16",
+                    UrlSlug = "the-definitive-typescript-5-0-guide",
+                    Published = true,
+                    PostedDate = new DateTime(2022, 12, 31),
+                    ModifiedDate = null,
+                    ViewCount = 27,
+                    Author = authors[2],
+                    Category = categories[3],
+                    Tags = new List<Tag>()
+                    {
+                        tags[10],
+                        tags[11],
+                        tags[12],
+                        tags[13],
+                        tags[14],
+                    }
+                },
+                new() {
+                    Title = "7 Tools for Faster Development in React",
+                    ShortDescription = "7 Tools for Faster Development in React",
+                    Description = "Gatsby allows developers to build websites that are fast, secure, and easy to maintain. NextJs NextJS is a tool for generating React applications and server code. Preact is not React. It is based on the same API as React and shares many of its features, such as components, state management, and a virtual DOM.",
+                    Meta = "post-17",
+                    UrlSlug = "7-tools-for-faster-development-in-react",
+                    Published = true,
+                    PostedDate = new DateTime(2022, 12, 26),
+                    ModifiedDate = null,
+                    ViewCount = 13,
+                    Author = authors[4],
+                    Category = categories[7],
+                    Tags = new List<Tag>()
+                    {
+                        tags[1],
+                        tags[11],
+                        tags[12],
+                        tags[13],
+                        tags[14],
+                    }
+                },
+                new() {
+                    Title = "My VS Code setup",
+                    ShortDescription = "My VS Code setup",
+                    Description = "extension adds language support for C/C++ to Visual Studio Code, including editing (IntelliSense) and debugging features. Auto Rename Tag Automatically rename paired HTML/XML tag, same as Visual Studio IDE does. Error Lens ErrorLens turbo-charges language diagnostic features by making diagnostics stand out more prominently.",
+                    Meta = "post-18",
+                    UrlSlug = "my-vs-code-setup",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 1, 26),
+                    ModifiedDate = null,
+                    ViewCount = 30,
+                    Author = authors[2],
+                    Category = categories[8],
+                    Tags = new List<Tag>()
+                    {
+                        tags[12],
+                        tags[13],
+                        tags[15],
+                        tags[17],
+                        tags[18],
+                    }
+                },
+                new() {
+                    Title = "EP56: System Design Blueprint: The Ultimate Guide",
+                    ShortDescription = "EP56: System Design Blueprint: The Ultimate Guide",
+                    Description = "Amazon has created a unique build system, known as Brazil, to enhance productivity and empower Amazon’s micro-repo driven collaboration. McDonald's standardizes events using the following components: an event registry to define a standardized schema. An event gateway that performs identity authentication and authorization.",
+                    Meta = "post-19",
+                    UrlSlug = "ep56-system-design-blueprint-the-ultimate-guide",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 4, 23),
+                    ModifiedDate = null,
+                    ViewCount = 75,
+                    Author = authors[4],
+                    Category = categories[2],
+                    Tags = new List<Tag>()
+                    {
+                        tags[7],
+                        tags[8],
+                        tags[13],
+                        tags[15],
+                        tags[18],
+                    }
+                },
+                new() {
+                    Title = "SOLID Principles in JavaScript",
+                    ShortDescription = "SOLID Principles in JavaScript",
+                    Description = "SOLID principles are a set of software designs introduced by Robert C. Martin. These principles guide developers in building robust, maintainable applications while minimizing the cost of changes. In this article, we will discuss how to use these principles in JavaScript and demonstrate them with code examples.",
+                    Meta = "post-20",
+                    UrlSlug = "solid-principles-in-javascript",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 4, 12),
+                    ModifiedDate = null,
+                    ViewCount = 36,
+                    Author = authors[1],
+                    Category = categories[6],
+                    Tags = new List<Tag>()
+                    {
+                        tags[1],
+                        tags[6],
+                        tags[7],
+                        tags[14],
+                        tags[16],
+                    }
+                },
+                new() {
+                    Title = "Password, Session, Cookie, Token, JWT, SSO, OAuth - Authentication Explained - Part 1",
+                    ShortDescription = "Password, Session, Cookie, Token, JWT, SSO, OAuth - Authentication Explained - Part 1",
+                    Description = "Password, Session, Cookie, Token, JWT, SSO, OAuth - Authentication Explained - Part 1. We discuss the problems each method solves and how to choose the right authentication method for our needs. The diagram below shows where these methods apply in a typical website architecture and their meanings.",
+                    Meta = "post-21",
+                    UrlSlug = "password-session-cookie-token-jwt-sso-oauth-authentication-explained-part-1",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 4, 18),
+                    ModifiedDate = null,
+                    ViewCount = 72,
+                    Author = authors[3],
+                    Category = categories[7],
+                    Tags = new List<Tag>()
+                    {
+                        tags[12],
+                        tags[16],
+                        tags[17],
+                        tags[18],
+                        tags[19],
+                    }
+                },
+                new() {
+                    Title = "Advanced JavaScript Concepts To Write High-Quality Code That Scales",
+                    ShortDescription = "Advanced JavaScript Concepts To Write High-Quality Code That Scales",
+                    Description = "JavaScript is a powerful programming language extensively used for web development, server-side scripting, and more. While it has an easy learning curve for beginners, JavaScript is also used to build complex applications and systems that require many advanced programming concepts. The tutorial",
+                    Meta = "post-22",
+                    UrlSlug = "advanced-javascript-concepts-to-write-high-quality-code-that-scales",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 4, 23),
+                    ModifiedDate = null,
+                    ViewCount = 16,
+                    Author = authors[4],
+                    Category = categories[8],
+                    Tags = new List<Tag>()
+                    {
+                        tags[2],
+                        tags[6],
+                        tags[7],
+                        tags[8],
+                        tags[9],
+                    }
+                },
+                new() {
+                    Title = "JavaScript One-Liners to Use in Every Project",
+                    ShortDescription = "JavaScript One-Liners to Use in Every Project",
+                    Description = "JavaScript is a powerful language that can do a lot with very little code. In some cases, the amount of code you need to write doesn't exceed more than a single line. Let's go through 10 essential one liners worth using in virtually every project you create.",
+                    Meta = "post-23",
+                    UrlSlug = "javascript-one-liners-to-use-in-every-project",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 1, 30),
+                    ModifiedDate = null,
+                    ViewCount = 29,
+                    Author = authors[2],
+                    Category = categories[1],
+                    Tags = new List<Tag>()
+                    {
+                        tags[12],
+                        tags[16],
+                        tags[17],
+                    }
+                },
+                new() {
+                    Title = "Tools For Remote Developers",
+                    ShortDescription = "Tools For Remote Developers",
+                    Description = "At the top of our list of tools for work at home developers are project management tools that offer several features in one place. For instance, the right project management tool could have collaborative features like chat and messaging. Floobits is an open-source tool that allows remote developers",
+                    Meta = "post-24",
+                    UrlSlug = "tools-for-remote-developers",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 2, 16),
+                    ModifiedDate = null,
+                    ViewCount = 31,
+                    Author = authors[4],
+                    Category = categories[5],
+                    Tags = new List<Tag>()
+                    {
+                        tags[2],
+                        tags[5],
+                        tags[16],
+                        tags[17],
+                    }
+                },
+                new() {
+                    Title = "Angular 16 is huge",
+                    ShortDescription = "Angular 16 is huge",
+                    Description = "angular 16 is just the first release candidate version of v16. There are a lot of features/changes coming with this version. It is still experimental and some more performance related improvements and optimisations are to be made. It already enables a much faster startup time (at least 2 times) than webpack implementation.",
+                    Meta = "post-25",
+                    UrlSlug = "angular-16-is-huge",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 1, 31),
+                    ModifiedDate = null,
+                    ViewCount = 65,
+                    Author = authors[3],
+                    Category = categories[2],
+                    Tags = new List<Tag>()
+                    {
+                        tags[2],
+                        tags[5],
+                        tags[7],
+                        tags[16],
+                        tags[17],
+                    }
+                },
+                new() {
+                    Title = "You can now try Microsoft Loop, a Notion competitor with futuristic Office documents",
+                    ShortDescription = "You can now try Microsoft Loop, a Notion competitor with futuristic Office documents",
+                    Description = "Microsoft is now letting anyone preview Microsoft Loop, a collaborative hub offering a new way of working across Office apps and managing tasks and projects. The main interface looks a lot like Notion, a workspace app that is used by Adobe, Figma, Amazon, and many other businesses. Loop pages are",
+                    Meta = "post-26",
+                    UrlSlug = "you-can-now-try-microsoft-loop-a-notion-competitor-with-futuristic-office-documents",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 1, 15),
+                    ModifiedDate = null,
+                    ViewCount = 52,
+                    Author = authors[2],
+                    Category = categories[2],
+                    Tags = new List<Tag>()
+                    {
+                        tags[1],
+                        tags[5],
+                        tags[13],
+                        tags[16],
+                        tags[17],
+                    }
+                },
+                new() {
+                    Title = "10 Trending Node.js Libraries and Frameworks to Boost Your Web Development",
+                    ShortDescription = "10 Trending Node.js Libraries and Frameworks to Boost Your Web Development",
+                    Description = "Node.js libraries and frameworks can help you streamline your development process and improve the performance of your applications. We have compiled a list of the top 10 trending Node.JS libraries and Frameworks to boost your development experience. Here's a sample code snippet to create a simple HTTP server using Express.js.",
+                    Meta = "post-27",
+                    UrlSlug = "10-trending-node-js-libraries-and-frameworks-to-boost-your-web-development",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 1, 1),
+                    ModifiedDate = null,
+                    ViewCount = 30,
+                    Author = authors[4],
+                    Category = categories[7],
+                    Tags = new List<Tag>()
+                    {
+                        tags[5],
+                        tags[11],
+                        tags[13],
+                        tags[16],
+                        tags[17],
+                    }
+                },
+                new() {
+                    Title = "Dew Drop – April 24, 2023 (#3928) – Morning Dew by Alvin Ashcraft",
+                    ShortDescription = "Dew Drop – April 24, 2023 (#3928) – Morning Dew by Alvin Ashcraft",
+                    Description = "How to create a mobile app with.NET MAUI in 10 easy steps (Luis Matos) Building an Apple I from Parts with SmartyKit.io (Scott Hanselman) Deep dive – Uno Platform Template Wizard – Projects, Testing and Features (Nick Randolph) Improving the Syntax Highlighting of JavaScript in Visual Studio.",
+                    Meta = "post-28",
+                    UrlSlug = "dew-drop-april-24-2023-3928-morning-dew-by-alvin-ashcraft",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 3, 1),
+                    ModifiedDate = null,
+                    ViewCount = 37,
+                    Author = authors[2],
+                    Category = categories[8],
+                    Tags = new List<Tag>()
+                    {
+                        tags[5],
+                        tags[11],
+                        tags[16],
+                        tags[17],
+                    }
+                },
+                new() {
+                    Title = "SEGA workers are forming a union",
+                    ShortDescription = "SEGA workers are forming a union",
+                    Description = "A group of 144 workers are forming a union at SEGA’s American headquarters in Irvine, California. SEGA follows in the footsteps of other gaming companies like Microsoft-owned ZeniMax and Activision Blizzard, which both unionized last year. If SEGA does not recognize the union, the eligible workers can conduct an election.",
+                    Meta = "post-29",
+                    UrlSlug = "sega-workers-are-forming-a-union",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 1, 12),
+                    ModifiedDate = null,
+                    ViewCount = 64,
+                    Author = authors[4],
+                    Category = categories[1],
+                    Tags = new List<Tag>()
+                    {
+                        tags[1],
+                        tags[3],
+                        tags[5],
+                        tags[17],
+                    }
+                },
+                new() {
+                    Title = "API Gateway Pattern: Features and the AWS Implementation",
+                    ShortDescription = "API Gateway Pattern: Features and the AWS Implementation",
+                    Description = "API Gateway Pattern is an architectural pattern to create a façade that exposes the internal system’s data to external clients. This pattern is widely spread in the computing field being used in business applications and integration solutions for small, medium, and large enterprises. The value of",
+                    Meta = "post-30",
+                    UrlSlug = "api-gateway-pattern-features-and-the-aws-implementation",
+                    Published = true,
+                    PostedDate = new DateTime(2023, 4, 12),
+                    ModifiedDate = null,
+                    ViewCount = 42,
+                    Author = authors[1],
+                    Category = categories[1],
+                    Tags = new List<Tag>()
+                    {
+                        tags[1],
+                        tags[13],
+                        tags[15],
+                        tags[17],
                     }
                 }
             };
